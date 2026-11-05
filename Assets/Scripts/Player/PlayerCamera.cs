@@ -386,12 +386,17 @@ namespace NaijaLife.Player
             float velocityYaw = Mathf.Atan2(flatVelocity.x, flatVelocity.z) * Mathf.Rad2Deg;
             float facingYaw = FacingYaw(facing);
 
-            // BIAS CORRECTION + DEAD ZONE: if the direction of travel is far off
-            // the direction the character faces, the player is strafing or
-            // backpedalling — HOLD the heading. The lens never swings for a
-            // sideways step. Only genuinely forward travel re-aligns the camera.
-            float moveVsFacing = Mathf.Abs(Mathf.DeltaAngle(velocityYaw, facingYaw));
-            if (moveVsFacing > strafeDeadZoneDegrees)
+            // BIAS CORRECTION + DEAD ZONE: compare the direction of travel with
+            // the CAMERA heading, not with the character's facing. The M1.1
+            // controller always turns the body toward its travel direction, so
+            // velocity and facing agree within a frame or two of any input.
+            // Testing against facing (the first version) let a held strafe or
+            // backpedal re-align the camera, which turned the camera-relative
+            // input with it: holding D circled the player forever (Claude
+            // review 2026-11-05, docs/reviews/m1-review.md, finding R1).
+            // Only travel roughly along the lens re-aligns it.
+            float moveVsCamera = Mathf.Abs(Mathf.DeltaAngle(velocityYaw, _followYaw));
+            if (moveVsCamera > strafeDeadZoneDegrees)
                 return;
 
             // Damped re-alignment: exponential, framerate-independent.
