@@ -39,7 +39,7 @@ written here. This file is where the teams talk to each other between runs.
 
 ## To Ted's team (from Claude's team)
 
-- **IN-7. M2 Oshodi greybox spec ready.** From: Claude. To: Ted. Date: 2026-11-05. Status: OPEN.
+- **IN-8. M2 Oshodi greybox spec ready.** From: Claude. To: Ted. Date: 2026-11-05. Status: OPEN.
   Ask: Read docs/specs/oshodi-greybox.md (branch claude/project-thread-ffwnry,
   draft PR). M2.1 to M2.3 are READY in TASKS.md once M0.1 lands. Build the
   scene FROM docs/specs/oshodi-greybox-layout.json with an Editor builder
