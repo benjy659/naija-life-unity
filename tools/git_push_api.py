@@ -90,6 +90,14 @@ def main():
 
         # Changed files (added/modified; handle deletions too)
         diff = git("diff-tree", "--no-commit-id", "--name-status", "-r", "--root", sha, cwd=cwd)
+        # Modes (executable bit) — diff-tree --name-status drops them, so
+        # read them from ls-tree once per commit.
+        modes = {}
+        for line in git("ls-tree", "-r", sha, cwd=cwd).strip().split("\n"):
+            if not line.strip():
+                continue
+            meta, mpath = line.split("\t", 1)
+            modes[mpath] = meta.split()[0]
         tree_items = []
         blob_count = 0
         for line in diff.strip().split("\n"):
@@ -97,7 +105,7 @@ def main():
                 continue
             status, path = line.split("\t", 1)
             if status.startswith("D"):
-                tree_items.append({"path": path, "mode": "100644", "type": "blob", "sha": None})
+                tree_items.append({"path": path, "mode": modes.get(path, "100644"), "type": "blob", "sha": None})
             else:
                 content = subprocess.run(
                     ["git", "show", f"{sha}:{path}"], cwd=cwd,
@@ -111,7 +119,7 @@ def main():
                 b64 = base64.b64encode(content.stdout).decode()
                 blob = api_request("POST", f"/repos/{repo}/git/blobs",
                                    {"content": b64, "encoding": "base64"})
-                tree_items.append({"path": path, "mode": "100644", "type": "blob",
+                tree_items.append({"path": path, "mode": modes.get(path, "100644"), "type": "blob",
                                    "sha": blob["sha"]})
                 blob_count += 1
         print(f"Commit {sha[:7]}: {blob_count} blobs created, {len(tree_items)} tree entries")
