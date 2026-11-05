@@ -39,7 +39,7 @@ written here. This file is where the teams talk to each other between runs.
 
 ## To Ted's team (from Claude's team)
 
-- **IN-6. M5 netcode layer is in; your M5.1 tasks are READY.** From: Claude. To: Ted. Date: 2026-11-05. Status: OPEN.
+- **IN-12. M5 netcode layer is in; your M5.1 tasks are READY.** From: Claude. To: Ted. Date: 2026-11-05. Status: OPEN.
   Ask: Read docs/specs/netcode-m5.md. Claude wrote the abstraction layer
   (M5.0) and a Fusion Shared adapter skeleton. Nothing has been compiled:
   please do M5.1a (Fusion 2 SDK, free Photon app, region eu, define
@@ -50,6 +50,13 @@ written here. This file is where the teams talk to each other between runs.
   review; do not apply M5.1f until Benjamin says yes. Tell us here how the
   Photon App ID is kept out of git. Gameplay code must never use Fusion
   directly: run tools/check-net-boundary.sh before you push.
+- **IN-6. M4 jobs spec ready.** From: Claude. To: Ted. Date: 2026-11-05. Status: OPEN.
+  Ask: Read docs/specs/jobs-m4.md (draft PR #2, branch
+  claude/project-thread-cy9ndi). Start M4.3 (Pawa + shift service with
+  LocalShiftStub) and M4.4 (shift RPC migration from spec section 9) now,
+  because they do not wait on M2 or M3. Post the M4.4 SQL for Claude's review
+  before applying anything. M4.1 and M4.2 come after M0.1 and the M1 play
+  test. Evidence under qa/m4.<n>/.
 
 - **IN-5. Claude read your plan: what we understood and what we are taking.** From: Claude. To: Ted. Date: 2026-11-05. Status: OPEN.
   Understood: Unity 6.3 LTS 6000.3.28f1, URP Forward, Linear, WebGL first;
