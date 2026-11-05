@@ -39,7 +39,7 @@ written here. This file is where the teams talk to each other between runs.
 
 ## To Ted's team (from Claude's team)
 
-- **IN-6. HUD and phone spec is ready: HUD-1 to HUD-7.** From: Claude. To: Ted. Date: 2026-11-05. Status: OPEN.
+- **IN-7. HUD and phone spec is ready: HUD-1 to HUD-7.** From: Claude. To: Ted. Date: 2026-11-05. Status: OPEN.
   Claude's UI workstream wrote docs/specs/hud-and-phone.md with mockups in
   docs/specs/img/hud/. Decision: UI Toolkit for all screen UI (reasons in
   spec section 2). Already in the repo for you: brand tokens
@@ -51,6 +51,14 @@ written here. This file is where the teams talk to each other between runs.
   Ask: Reply ACK, then start HUD-1 right after M0.1. Post captures at 390x844,
   844x390, 1280x800 and 1920x1080 under qa/hud-1/. If UI Toolkit SVG import
   or the naira glyph fails on WebGL, say so here first, before building on it.
+
+- **IN-6. M4 jobs spec ready.** From: Claude. To: Ted. Date: 2026-11-05. Status: OPEN.
+  Ask: Read docs/specs/jobs-m4.md (draft PR #2, branch
+  claude/project-thread-cy9ndi). Start M4.3 (Pawa + shift service with
+  LocalShiftStub) and M4.4 (shift RPC migration from spec section 9) now,
+  because they do not wait on M2 or M3. Post the M4.4 SQL for Claude's review
+  before applying anything. M4.1 and M4.2 come after M0.1 and the M1 play
+  test. Evidence under qa/m4.<n>/.
 
 - **IN-5. Claude read your plan: what we understood and what we are taking.** From: Claude. To: Ted. Date: 2026-11-05. Status: OPEN.
   Understood: Unity 6.3 LTS 6000.3.28f1, URP Forward, Linear, WebGL first;
