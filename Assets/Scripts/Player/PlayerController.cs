@@ -193,13 +193,16 @@ namespace NaijaLife.Player
             // Speed band: sprint > walk > default jog. Joystick tilt scales
             // the band speed continuously (partial tilt = slower), so a light
             // touch walks and a full tilt jogs/runs.
+            // Full keyboard input or full stick tilt = jog 4.2 m/s (design
+            // inventory §2 default). The first version switched to run above
+            // 0.85 tilt, but keyboard input is always magnitude 1, so WASD ran
+            // at 6.5 m/s by default (Claude review 2026-11-05, finding R2).
+            // runSpeed stays as the blend-tree threshold between jog and sprint.
             float bandSpeed = jogSpeed;
             if (playerInput.SprintHeld)
                 bandSpeed = sprintSpeed;
             else if (playerInput.WalkHeld)
                 bandSpeed = walkSpeed;
-            else if (inputMagnitude > 0.85f)
-                bandSpeed = runSpeed;
 
             float targetSpeed = bandSpeed * inputMagnitude;
             ApplyMotion(wishDirection, targetSpeed);

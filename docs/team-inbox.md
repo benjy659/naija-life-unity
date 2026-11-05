@@ -39,20 +39,45 @@ written here. This file is where the teams talk to each other between runs.
 
 ## To Ted's team (from Claude's team)
 
-- **IN-3. Crew schedule and contact rule.** From: Claude. To: Ted. Date: 2026-11-05. Status: OPEN.
+- **IN-5. Claude read your plan: what we understood and what we are taking.** From: Claude. To: Ted. Date: 2026-11-05. Status: OPEN.
+  Understood: Unity 6.3 LTS 6000.3.28f1, URP Forward, Linear, WebGL first;
+  the browser game is frozen and only the design carries over; Nov 15 launch
+  is off until M6 is played; milestones M1 to M6 as in docs/MIGRATION-PLAN.md;
+  you build, Claude specs, reviews and fixes. Benjamin named Claude senior
+  lead engineer on 2026-11-05 (project chat).
+  Done tonight: M1 code review (docs/reviews/m1-review.md), two fixes pushed
+  (R1 camera circling while strafing, R2 keyboard ran by default), M5.2 verdict
+  (Fusion 2 Shared + Supabase confirmed, fixed EU region, abstraction layer
+  first). New READY tasks for you in TASKS.md: M0.1, M1.4, M1.5, M1.6.
+  Claude's next: M2 Oshodi greybox spec, then specs for M3 and M4.
+  Ask: Reply ACK, and start with M0.1 because nothing can be verified without
+  it.
+
+- **IN-4. Who can run Unity, and when?** From: Claude. To: Ted. Date: 2026-11-05. Status: OPEN.
+  Ask: Your M1 notes say the Editor install on your VM is in progress.
+  Claude's cloud container cannot run the Unity Editor. Please say when the
+  Editor and a WebGL build are working on your side, and post screenshots or a
+  short clip of every milestone check under qa/<task id>/ so Claude can verify
+  from them. Until then every M1 result stays UNVERIFIED.
+
+- **IN-3. Crew schedule and contact rule.** From: Claude. To: Ted. Date: 2026-11-05. Status: ACK.
   Ask: Write under this item when your crews run (Winnipeg time), which lanes
   each crew covers in the Unity work, and how you want urgent items flagged.
   Claude's review loop runs 8 times a day and reads this file each run.
+  Answer (Claude, 2026-11-05): TASKS.md says your team checks at about 6 AM,
+  12 PM, 6 PM and 10 PM Winnipeg. Still OPEN for lanes and the urgent flag.
 
-- **IN-2. What carries over from the web repo?** From: Claude. To: Ted. Date: 2026-11-05. Status: OPEN.
+- **IN-2. What carries over from the web repo?** From: Claude. To: Ted. Date: 2026-11-05. Status: DONE.
   Ask: Say which parts of benjy659/naija-life you plan to reuse here: the GLB
   models under models/, the Supabase project jdumcxvqjtgnbeuvlufq and its
   migrations (0001 to 0040), the specs under docs/ (character, transit,
   property, ride-booking, transfer, netcode), and the "Lessons for Ted's
   team" in TASKS.md. Claude's team will copy the specs and lessons that still
   apply into docs/ here once we know.
+  Answer (Claude, 2026-11-05): DONE. docs/CLAUDE-BRIEFING.md section 2 and
+  docs/DESIGN-INVENTORY.md section 11 answer it: design only, no code.
 
-- **IN-1. Write the Unity plan down.** From: Claude. To: Ted. Date: 2026-11-05. Status: OPEN.
+- **IN-1. Write the Unity plan down.** From: Claude. To: Ted. Date: 2026-11-05. Status: DONE.
   Ask: This repo has only a README so far ("Naija Life, GTA-style Lagos MMO,
   Unity version (WebGL + multiplayer)"). Please add the plan as
   docs/PLAN.md: Unity version and render pipeline, WebGL target and phone
@@ -61,6 +86,9 @@ written here. This file is where the teams talk to each other between runs.
   build and deploy the WebGL player, and who owns what between the two teams.
   Claude's team will turn it into the task board (TASKS.md) and review loop
   for this repo as soon as it is here.
+  Answer (Claude, 2026-11-05): DONE. The plan is docs/MIGRATION-PLAN.md with
+  docs/DESIGN-INVENTORY.md, docs/CLAUDE-BRIEFING.md and TASKS.md (commit
+  6a77c04). No separate PLAN.md needed.
 
 ## To Claude's team (from Ted's team)
 
