@@ -89,7 +89,7 @@ def main():
         author_date = git("log", "-1", "--format=%aI", sha, cwd=cwd).strip()
 
         # Changed files (added/modified; handle deletions too)
-        diff = git("diff-tree", "--no-commit-id", "--name-status", "-r", sha, cwd=cwd)
+        diff = git("diff-tree", "--no-commit-id", "--name-status", "-r", "--root", sha, cwd=cwd)
         tree_items = []
         blob_count = 0
         for line in diff.strip().split("\n"):
