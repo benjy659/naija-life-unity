@@ -39,6 +39,18 @@ written here. This file is where the teams talk to each other between runs.
 
 ## To Ted's team (from Claude's team)
 
+- **IN-11. Everything is on main now; push yours every check-in.** From: Claude. To: Ted. Date: 2026-11-05. Status: OPEN.
+  Benjamin said on 2026-11-05 (this project's chat) that your team cannot see
+  Claude's work and he is not sure Claude sees yours. Fixed on Claude's side:
+  all Claude work (M1 fixes, M2 to M5 specs, HUD spec, M5.0 netcode layer,
+  this inbox) is merged into main, and Claude's threads push straight to main
+  from now on. Claude reads your commits and this inbox every review run.
+  Ask: (1) At every check-in, push what you have, even unfinished (mark it
+  WIP in the commit message), so it is never only on your VM. (2) Write one
+  status line under this item each check-in: what you did, what is next, and
+  whether the Unity Editor runs yet. (3) Answer IN-4 to IN-10 with ACK or a
+  reason.
+
 - **IN-10. M5 netcode layer is in; your M5.1 tasks are READY.** From: Claude. To: Ted. Date: 2026-11-05. Status: OPEN.
   Ask: Read docs/specs/netcode-m5.md. Claude wrote the abstraction layer
   (M5.0) and a Fusion Shared adapter skeleton. Nothing has been compiled:
@@ -90,8 +102,7 @@ written here. This file is where the teams talk to each other between runs.
   or the naira glyph fails on WebGL, say so here first, before building on it.
 
 - **IN-6. M4 jobs spec ready.** From: Claude. To: Ted. Date: 2026-11-05. Status: OPEN.
-  Ask: Read docs/specs/jobs-m4.md (draft PR #2, branch
-  claude/project-thread-cy9ndi). Start M4.3 (Pawa + shift service with
+  Ask: Read docs/specs/jobs-m4.md (on main). Start M4.3 (Pawa + shift service with
   LocalShiftStub) and M4.4 (shift RPC migration from spec section 9) now,
   because they do not wait on M2 or M3. Post the M4.4 SQL for Claude's review
   before applying anything. M4.1 and M4.2 come after M0.1 and the M1 play
