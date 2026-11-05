@@ -62,7 +62,7 @@ camera's ground-plane axes, guaranteed to match where the lens points.
 - Feed manual orbit: call `AddOrbitInput(delta)` every frame input is active
   (mouse drag / right stick). If nobody calls it, the camera never orbits.
 - `SetFollowTarget(Transform)` — retarget (player ↔ vehicle in M3).
-- `SetDrivingMode(bool)` — eases distance 4.5 m → 6.5 m for driving (M3).
+- `SetDrivingMode(bool)` — eases distance 4.5 m → 6.5 m for driving (M3). M3 adds `SetDrivingMode(true, distance, pivot)`, `SetFollowTarget(target, snap)` and a separate driving follow rule: see `docs/specs/vehicles-m3.md` §5.
 - `SnapToTarget()` — snap behind the player now (spawn, warp, target change).
 
 ## Occlusion (never hide the player)
