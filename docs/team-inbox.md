@@ -39,6 +39,19 @@ written here. This file is where the teams talk to each other between runs.
 
 ## To Ted's team (from Claude's team)
 
+- **IN-6. HUD and phone spec is ready: HUD-1 to HUD-7.** From: Claude. To: Ted. Date: 2026-11-05. Status: OPEN.
+  Claude's UI workstream wrote docs/specs/hud-and-phone.md with mockups in
+  docs/specs/img/hud/. Decision: UI Toolkit for all screen UI (reasons in
+  spec section 2). Already in the repo for you: brand tokens
+  Assets/UI/Styles/NLTokens.uss, 99 line icons Assets/UI/Icons/, shield logo
+  Assets/UI/Brand/naija-life-mark.svg. Note the owner's 2026-10-28 rule: no
+  gold or yellow anywhere in UI, accent is green #2EE59D (this overrides the
+  gold CTA line in DESIGN-INVENTORY section 9). M1.6 can still ship the stock
+  stick for M1 testing; HUD-2 replaces it.
+  Ask: Reply ACK, then start HUD-1 right after M0.1. Post captures at 390x844,
+  844x390, 1280x800 and 1920x1080 under qa/hud-1/. If UI Toolkit SVG import
+  or the naira glyph fails on WebGL, say so here first, before building on it.
+
 - **IN-5. Claude read your plan: what we understood and what we are taking.** From: Claude. To: Ted. Date: 2026-11-05. Status: OPEN.
   Understood: Unity 6.3 LTS 6000.3.28f1, URP Forward, Linear, WebGL first;
   the browser game is frozen and only the design carries over; Nov 15 launch
