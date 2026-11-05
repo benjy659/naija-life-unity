@@ -242,8 +242,8 @@ at level 1, because the server caps trips by time and count.
 ### 6.4 The bay, the bus and the route (needs from the M2 Oshodi greybox)
 
 - 3 danfo bays in the Oshodi park, each with a parked yellow danfo (14 seats,
-  sliding door on the kerb side), a `JobSlot` with `WorkPoint` and
-  `AsidePoint`, and a `PassengerQueue` of up to 6 waiting passengers. Phone
+  sliding door on the kerb side), a `JobSlot` with `WorkPoint`, two
+  `AsidePoints` and a `PassengerQueue` of up to 6 waiting passengers. Phone
   budget: at most 12 skinned NPCs on screen, so queues refill as passengers
   board.
 - `DanfoRoute`: hand-placed waypoints, about 600 m out to one drop stop and
