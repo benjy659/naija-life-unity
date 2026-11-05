@@ -62,3 +62,6 @@ crashlytics-build.properties
 .DS_Store
 Thumbs.db
 Desktop.ini
+
+# Local Unity license activation material (machine-specific, never commit)
+.unity-license/
