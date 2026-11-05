@@ -159,12 +159,59 @@ Evidence for every M2 task goes under `qa/M2.<n>/` (spec section 11).
 
 ## M3 — Driving
 
-- **M3.1. Vehicle controller (Ted's team).** Status: TODO.
-  WheelCollider arcade controller (danfo + one car, per-vehicle
-  ScriptableObject), enter/exit any parked drivable, chase camera under the
-  same rules as on foot, damage model stub. Spec source: design inventory
-  §4 and migration plan §6 M3. *Acceptance:* drive the Oshodi loop,
-  enter/exit cleanly, no camera swing, no regressions to walking.
+Spec: [docs/specs/vehicles-m3.md](docs/specs/vehicles-m3.md) (Claude,
+2026-11-05). Build in the order below; each task has its own `qa/<task id>/`
+folder with screenshots or a clip, a WebGL check and a `REPORT.md`. M3 does
+not wait for M2: build in a new `Greybox_M3.unity` (spec §2) and repeat the
+acceptance on Oshodi when M2 lands. Start after M0.1 (URP, ugui).
+
+- **M3.C. Driving camera rule (Claude).** Status: CODE DONE 2026-11-05,
+  UNVERIFIED (branch `claude/project-thread-o554bj`). The walking dead zone
+  left the lens stuck 120 deg sideways after a U-turn
+  (`node tools/camsim.js`). `PlayerCamera` now has `UpdateDrivingYaw`
+  (re-align only rolling forward, hold when reversing, stopped, airborne or
+  sliding), `SetDrivingMode(true, distance, pivot)` and
+  `SetFollowTarget(target, snap: false)`. Spec §5.
+- **M3.1. Vehicle definitions + controller (Ted's team).** Status: READY
+  after M0.1. `VehicleDefinition` ScriptableObject, `DriveInput` struct,
+  `VehicleController` (WheelCollider arcade, implements
+  `IPlayerCameraTarget`), `Danfo.asset` and `TokunboSaloon.asset` with the
+  spec §4 numbers, greybox meshes with separate wheels, layers `Vehicle`,
+  `DrivenVehicle`, `Pedestrian`, `Road`, fixed timestep 0.02. Drive it from a
+  temporary debug script feeding `DriveInput` from the keyboard.
+  *Acceptance:* spec §11 lines 2, 3 (handling only), 5 (no falling through),
+  8; danfo never rolls on the flat loop.
+- **M3.2. Greybox_M3 test scene (Ted's team).** Status: READY (can run in
+  parallel with M3.1). Road loop, crossing, bridge with piers outside the
+  lanes, narrow gate, two parked drivables, half-parked obstacle car,
+  pedestrians, per spec §2. *Acceptance:* top-down and street-level
+  screenshots in `qa/m3.2/`.
+- **M3.3. Enter and exit (Ted's team).** Status: READY after M3.1.
+  `VehicleSeat`, `DriveSession`, `VehiclePlayerDriver`, `Driving` action map
+  (keyboard + gamepad), walked entry, exit-point checks, layer swap and camera
+  calls exactly as spec §5.2, §5.3 and §7. *Acceptance:* spec §11 lines 1, 6,
+  7.
+- **M3.4. Touch driving controls (Ted's team).** Status: READY after M1.6
+  and M3.3. Steer slider, gas, brake, handbrake, exit, speedo, per spec §12.
+  *Acceptance:* spec §11 line 11 at 390x844 in WebGL; screenshot proving no
+  control crosses the centre third.
+- **M3.5. Damage stub + contact events (Ted's team).** Status: READY after
+  M3.1. `VehicleDamage`, `VehicleContactReporter` (collision events only,
+  never a radius), debug overlay. Spec §10. *Acceptance:* clip of hitting a
+  wall at 20 and 60 km/h and a pedestrian capsule at 10 and 30 km/h with the
+  overlay showing the events.
+- **M3.6. Lane graph + TrafficSense + bot drivers (Ted's team).** Status:
+  READY after M3.1 and M3.2. `LaneGraph`, `LaneNode`, `TrafficSense`,
+  `TrafficDriver`, `TrafficSpawner`, per spec §8 (box-cast sensing at the
+  vehicle's own height, dynamic near / kinematic far, crossings, steer round
+  parked things, never pass through). *Acceptance:* spec §11 line 9 as a
+  3-minute clip with 12 bots, plus frame times in `qa/m3.6/REPORT.md`.
+- **M3.7. Lane validator (Ted's team).** Status: READY after M3.6. Editor
+  menu Naija > Validate Lanes and a PlayMode test, spec §8.7. *Acceptance:*
+  0 hits on Greybox_M3, and the test fails when a cube is dropped in a lane.
+- **M3.8. M3 review and play check (Claude).** Status: WAITING on M3.1 to
+  M3.7. Claude reviews each commit as it lands and checks every `qa/m3.*`
+  folder against spec §11.
 
 ## M4 — Jobs loop
 

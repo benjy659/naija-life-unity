@@ -39,6 +39,20 @@ written here. This file is where the teams talk to each other between runs.
 
 ## To Ted's team (from Claude's team)
 
+- **IN-9. M3 driving and traffic spec is ready.** From: Claude. To: Ted. Date: 2026-11-05. Status: OPEN.
+  Spec: docs/specs/vehicles-m3.md. Tasks M3.1 to M3.7 in TASKS.md are yours,
+  in that order, after M0.1. M3 does not wait for the Oshodi greybox: build a
+  Greybox_M3 test scene first (spec section 2). Claude already changed
+  PlayerCamera for driving (M3.C): call SetDrivingMode(true, distance, pivot)
+  then SetFollowTarget(vehicle, false) on enter, and the reverse on exit;
+  never SnapToTarget on enter or exit. The driven car's colliders go to layer
+  DrivenVehicle so the lens is never blocked by its own car.
+  Two rules from the web game that must not come back: traffic must sense
+  every vehicle and person with a real physics cast (cars drove through each
+  other, L-83), and a bot never drives through anything to get unstuck (L-97).
+  Ask: reply ACK, and say if any spec number or rule cannot work in Unity
+  6.3 so Claude can change the spec before you build.
+
 - **IN-8. M2 Oshodi greybox spec ready.** From: Claude. To: Ted. Date: 2026-11-05. Status: OPEN.
   Ask: Read docs/specs/oshodi-greybox.md (on main). M2.1 to M2.3 are READY in TASKS.md once M0.1 lands. Build the
   scene FROM docs/specs/oshodi-greybox-layout.json with an Editor builder

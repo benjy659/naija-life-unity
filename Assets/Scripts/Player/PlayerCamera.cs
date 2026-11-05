@@ -136,6 +136,33 @@ namespace NaijaLife.Player
         public Vector2 orbitPitchClamp = new Vector2(-5f, 35f);
 
         // ------------------------------------------------------------------
+        // Driving follow rule (M3, docs/specs/vehicles-m3.md section 5)
+        // The walking dead zone must NOT be used for a vehicle: a car turning
+        // faster than the lens leaves the 35 deg cone and the walking rule then
+        // freezes the camera sideways (tools/camsim.js "drive" cases). Steering
+        // is vehicle-relative, so the R1 feedback loop cannot happen here.
+        // ------------------------------------------------------------------
+
+        [Header("Driving follow rule (M3)")]
+        [Tooltip("While driving, the camera only re-aligns behind the vehicle " +
+                 "when it moves FORWARD faster than this (m/s). Reversing or " +
+                 "stopped holds the heading, so the lens never flips round.")]
+        public float drivingMinForwardSpeed = 1.5f;
+
+        [Tooltip("While driving, how fast the heading eases behind the vehicle (1/s).")]
+        public float drivingRecenterRate = 2.4f;
+
+        [Tooltip("While driving, if travel is more than this far off the " +
+                 "vehicle's nose (a slide or spin), the heading is HELD until " +
+                 "the vehicle straightens up (deg).")]
+        [Range(20f, 90f)]
+        public float drivingSlideHoldDegrees = 50f;
+
+        [Tooltip("Default pivot height above the vehicle root while driving (m). " +
+                 "Per-vehicle values come from SetDrivingMode(true, distance, pivot).")]
+        public float drivingPivotHeight = 1.9f;
+
+        // ------------------------------------------------------------------
         // Cinemachine rig tuning
         // ------------------------------------------------------------------
 
@@ -206,6 +233,9 @@ namespace NaijaLife.Player
         private float _followYaw;                  // THE camera heading (deg)
         private float _pitch;                      // current pitch (deg), orbit-adjustable
         private float _currentDistance;            // damped walk <-> drive distance
+        private float _currentPivotHeight;         // damped walk <-> drive pivot height
+        private float _activeDrivingDistance;      // per-vehicle (SetDrivingMode)
+        private float _activeDrivingPivot;         // per-vehicle (SetDrivingMode)
         private float _lastOrbitInputTime = -100f; // for orbitRecenterDelay
         private float _lastPortraitFov = -1f;      // aspect-bucket change detection
         private Vector3 _prevTargetPosition;       // fallback velocity source
@@ -223,6 +253,9 @@ namespace NaijaLife.Player
         {
             _pitch = pitchDegrees;
             _currentDistance = walkDistance;
+            _currentPivotHeight = pivotHeight;
+            _activeDrivingDistance = drivingDistance;
+            _activeDrivingPivot = drivingPivotHeight;
             _followYaw = 0f;
             BuildRig();
         }
@@ -267,11 +300,13 @@ namespace NaijaLife.Player
 
             // 3. Place + rotate the pivot. CM reads it in LateUpdate (Brain),
             //    so setting it here guarantees the Brain sees the fresh pose.
-            _pivot.position = followTarget.position + Vector3.up * pivotHeight;
+            float targetPivot = _driving ? _activeDrivingPivot : pivotHeight;
+            _currentPivotHeight = Damp(_currentPivotHeight, targetPivot, distanceDampRate, dt);
+            _pivot.position = followTarget.position + Vector3.up * _currentPivotHeight;
             _pivot.rotation = Quaternion.Euler(_pitch, _followYaw, 0f);
 
             // 4. Ease the follow distance (walk <-> drive) and push it to CM.
-            float targetDistance = _driving ? drivingDistance : walkDistance;
+            float targetDistance = _driving ? _activeDrivingDistance : walkDistance;
             _currentDistance = Damp(_currentDistance, targetDistance, distanceDampRate, dt);
             if (_thirdPersonFollow != null)
                 _thirdPersonFollow.CameraDistance = _currentDistance;
@@ -308,11 +343,23 @@ namespace NaijaLife.Player
         /// </summary>
         public void SetFollowTarget(Transform target)
         {
+            SetFollowTarget(target, true);
+        }
+
+        /// <summary>
+        /// Retarget with a choice. snap = false (M3 enter/exit vehicle) keeps
+        /// the current heading and lets distance and pivot ease to the new
+        /// target, so getting in or out never cuts or swings the lens; the
+        /// driving rule then eases behind the vehicle once it rolls forward.
+        /// snap = true is for spawn, scene load and travel arrival.
+        /// </summary>
+        public void SetFollowTarget(Transform target, bool snap)
+        {
             followTarget = target;
             _hasPrevTargetPosition = false;
             _warnedNoTarget = false;
             CacheTargetComponents();
-            if (target != null)
+            if (target != null && snap)
                 SnapToTarget();
         }
 
@@ -322,8 +369,30 @@ namespace NaijaLife.Player
         /// </summary>
         public void SetDrivingMode(bool driving)
         {
-            _driving = driving;
+            SetDrivingMode(driving, drivingDistance, drivingPivotHeight);
         }
+
+        /// <summary>
+        /// M3 driving with per-vehicle framing (VehicleDefinition.cameraDistance
+        /// and cameraPivotHeight). On enter: SetDrivingMode(true, d, p) then
+        /// SetFollowTarget(vehicle, false). On exit: SetDrivingMode(false) then
+        /// SetFollowTarget(player, false). Distance and pivot ease
+        /// over about a second (no jump). While driving the follow-yaw rule is
+        /// UpdateDrivingYaw: re-align only when rolling forward, hold when
+        /// reversing, stopped, airborne or sliding.
+        /// </summary>
+        public void SetDrivingMode(bool driving, float distance, float pivot)
+        {
+            _driving = driving;
+            if (driving)
+            {
+                _activeDrivingDistance = Mathf.Max(2f, distance);
+                _activeDrivingPivot = Mathf.Max(0.5f, pivot);
+            }
+        }
+
+        /// <summary>True while SetDrivingMode(true) is in effect.</summary>
+        public bool IsDriving => _driving;
 
         /// <summary>
         /// Snap the lens behind the player RIGHT NOW: heading = facing, pivot
@@ -342,7 +411,8 @@ namespace NaijaLife.Player
             _followYaw = facingYaw;
             _pitch = pitchDegrees;
 
-            _pivot.position = followTarget.position + Vector3.up * pivotHeight;
+            _currentPivotHeight = _driving ? _activeDrivingPivot : pivotHeight;
+            _pivot.position = followTarget.position + Vector3.up * _currentPivotHeight;
             _pivot.rotation = Quaternion.Euler(_pitch, _followYaw, 0f);
 
             if (_vcam != null)
@@ -374,6 +444,12 @@ namespace NaijaLife.Player
             if (Time.time - _lastOrbitInputTime < orbitRecenterDelay)
                 return;
 
+            if (_driving)
+            {
+                UpdateDrivingYaw(velocity, grounded, facing, dt);
+                return;
+            }
+
             // No re-alignment unless the player is actually travelling forward.
             if (!grounded || horizontalSpeed < minMoveSpeed)
                 return;
@@ -404,6 +480,40 @@ namespace NaijaLife.Player
             // never a snap, and never an orbit — the heading only ever chases
             // the player's facing, and only while moving forward.
             _followYaw = DampAngle(_followYaw, facingYaw, recenterRate, dt);
+        }
+
+        /// <summary>
+        /// Driving rule (docs/specs/vehicles-m3.md section 5). The target is the
+        /// vehicle; Facing is its nose. Re-align behind the nose only while it
+        /// rolls forward on the ground and travel agrees with the nose. Reversing
+        /// (forward speed below drivingMinForwardSpeed, including negative),
+        /// stopped, airborne, or sliding past drivingSlideHoldDegrees all HOLD
+        /// the heading: the lens never flips to the front and never whips round
+        /// with a spin.
+        /// </summary>
+        private void UpdateDrivingYaw(Vector3 velocity, bool grounded, Vector3 facing, float dt)
+        {
+            if (!grounded)
+                return;
+
+            Vector3 flatVelocity = velocity;
+            flatVelocity.y = 0f;
+            Vector3 flatFacing = facing;
+            flatFacing.y = 0f;
+            if (flatFacing.sqrMagnitude < 0.0001f)
+                return;
+            flatFacing.Normalize();
+
+            float forwardSpeed = Vector3.Dot(flatVelocity, flatFacing);
+            if (forwardSpeed < drivingMinForwardSpeed)
+                return;
+
+            float velocityYaw = Mathf.Atan2(flatVelocity.x, flatVelocity.z) * Mathf.Rad2Deg;
+            float facingYaw = FacingYaw(flatFacing);
+            if (Mathf.Abs(Mathf.DeltaAngle(velocityYaw, facingYaw)) > drivingSlideHoldDegrees)
+                return;
+
+            _followYaw = DampAngle(_followYaw, facingYaw, drivingRecenterRate, dt);
         }
 
         // ------------------------------------------------------------------
