@@ -1,5 +1,8 @@
 # Naija Streets (Unity) — TASKS (the assignment board)
 
+> **TEAM INBOX:** both teams read [docs/team-inbox.md](docs/team-inbox.md)
+> first, every run, and answer OPEN items addressed to them the same run.
+
 > **CLAUDE — START HERE:** read [docs/CLAUDE-BRIEFING.md](docs/CLAUDE-BRIEFING.md)
 > first — it is your onboarding for this repo (owner decision, frozen browser
 > state, migration plan summary, your first tasks). Then read
@@ -74,10 +77,48 @@ force-push.
   inventory §2 (camera) and migration plan §6 M1.
   *Acceptance:* camera never swings, drifts, or hides the player, walking;
   verified at phone width and desktop, in Editor play AND WebGL build.
-- **M1.3. M1 review (Claude).** Status: TODO (Claude). Review the M1
-  controller + camera against the design inventory §2 and the owner camera
-  rule; play it at phone + desktop widths; send fixes back on this board.
-  Nothing counts as done on code review alone — it must be seen running.
+- **M1.3. M1 review (Claude).** Status: CODE REVIEW DONE 2026-11-05,
+  PLAY TEST WAITING on a Unity Editor. Full review:
+  [docs/reviews/m1-review.md](docs/reviews/m1-review.md). Claude fixed two
+  findings on branch `claude/project-thread-op75cq`: R1 the camera circled
+  the player while strafing or backpedalling (dead zone compared travel with
+  the body's facing; now compares with the camera heading, maths check in
+  `tools/camsim.js`), and R2 the keyboard ran at 6.5 m/s by default instead
+  of the 4.2 m/s jog. Both UNVERIFIED until played. Ted's fixes: M0.1,
+  M1.4 to M1.6 below.
+- **M0.1. Commit the locked project settings (Ted's team).** Status: READY.
+  From review R4/R5. Open the project once in 6000.3.28f1 and commit
+  `ProjectSettings/` with: a URP 17.3 asset + Forward renderer in
+  `Assets/Settings/` assigned in Graphics and every Quality level; three
+  quality levels Low / Medium / High (WebGL default Medium); Colour Space
+  Linear; WebGL compression Brotli; `Greybox_M1.unity` in the build scene
+  list. Add `com.unity.ugui` to `Packages/manifest.json` (the On-Screen
+  Stick needs it) and drop `com.unity.textmeshpro` if Unity 6 reports it as
+  merged into uGUI. *Acceptance:* a fresh clone opens with URP active and no
+  pink materials; screenshot of Project Settings > Graphics and Player >
+  Other (colour space) in `qa/m0.1/`.
+- **M1.4. Wire camera orbit input (Ted's team).** Status: READY. From review
+  R3: `PlayerInput.LookInput` is never passed to `PlayerCamera.AddOrbitInput`,
+  so the player cannot turn the camera. Rules: desktop orbits only while the
+  right mouse button is held (a free-moving mouse must never move the lens);
+  phone orbits by dragging on the right half of the screen outside the
+  joystick and buttons; gamepad right stick orbits. Scale pointer deltas as
+  degrees per pixel (start 0.15) and the stick as degrees per second (start
+  120), so the two do not share `orbitSensitivity`. Keep the 2 s
+  `orbitRecenterDelay`. *Acceptance:* in Editor and WebGL, RMB-drag turns
+  the camera, plain mouse movement does not, and releasing and walking
+  forward eases the lens back behind the player within about 2 s.
+- **M1.5. Tighten the grounded check (Ted's team).** Status: READY. From
+  review R6: in `PlayerController.UpdateGrounded` count the probe as grounded
+  only when the ground is within about 0.05 m of the capsule bottom.
+  *Acceptance:* stepping off `Wall_Low` falls with gravity (no slow float);
+  walking down `Ramp_20deg` never flickers airborne.
+- **M1.6. Touch joystick (Ted's team).** Status: READY after M0.1. Add an
+  On-Screen Stick (bottom-left, 140 px base, thumb returns to centre) bound
+  to `<Gamepad>/leftStick` so it feeds the existing Move action, plus a
+  sprint button bottom-right. Nothing else on screen in M1. *Acceptance:*
+  phone width 390x844 in WebGL: light tilt walks, full tilt jogs, the stick
+  never covers the player.
 
 ## M2 — One Lagos street scene (Oshodi greybox)
 
@@ -138,13 +179,30 @@ backend.
   Requires the netcode abstraction layer first (migration plan §4).
   *Acceptance:* two clients in one room, movement syncs, chat works, no
   fake players.
-- **M5.2. Multiplayer architecture review (Claude).** Status: TODO
-  (Claude). Review the Photon Fusion 2 Shared Mode + Supabase decision
+- **M5.2. Multiplayer architecture review (Claude).** Status: DONE
+  (Claude, verdict below). Review the Photon Fusion 2 Shared Mode + Supabase decision
   against the design inventory §8 (cells, 200 m, send rates, interpolation,
   identity rules) and the migration plan §4 (district sharding, transport
   swap, anti-cheat). Confirm or replace with a better option — with
   reasons, on this board. Supabase Realtime as movement is rejected;
   defend or overturn that with maths.
+  **Verdict (Claude, 2026-11-05): CONFIRMED, with three additions.**
+  Fusion 2 Shared Mode + Supabase stays. Reasons: it runs over WebSocket
+  in WebGL, launch cost is $0 (100 CCU free), and Shared Mode becomes Server
+  Mode in the same code. Mirror needs us to run and pay for servers from day
+  one; NGO + Relay caps at 100 per session. Supabase Realtime for movement
+  stays rejected: 50 players in one district sending 2 to 4 updates a second
+  is 100 to 200 messages in and, fanned out to the other 49, about 5,000 to
+  10,000 deliveries a second, which is far above what Realtime is sold for,
+  and it has no tick, prediction or authority (inferred from the browser
+  netcode spec maths; re-check against Supabase's live quota page).
+  Additions: (1) every player connects to ONE fixed Photon region (EU,
+  nearest to Lagos and Abuja) so Nigerian players never land in different
+  regions and miss each other; (2) the netcode abstraction layer
+  (`INetSession`, `IPlayerReplicator`, `IWorldEvents` in
+  `Assets/Scripts/Network/`) is the first M5 task, before any Fusion call;
+  (3) Fusion never carries money, NIN, email or date of birth: identity comes
+  from the street-card RPC, money only from Supabase RPCs.
 
 ## M6 — First playable slice (definition of done)
 
@@ -184,6 +242,8 @@ the browser repo.
   `insufficient`, `not_found`, `limit`, `self`, `same_device`,
   `too_small`, `too_much`, `too_new`). Do NOT assume B-38 is approved
   for apply.
+  The "at least 3 shifts or sales" rule must count the new `job_shift`
+  ledger source from M4 (docs/specs/jobs-m4.md).
 - **B-32. Crew chat (migration 0038).** Status: TODO (Unity design).
   Browser migration 0038 was written, never applied. Carry the chat
   design (crew channels, moderation, ephemeral pair DMs, device-local
