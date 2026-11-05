@@ -1,0 +1,4678 @@
+{
+ "version": 1,
+ "generatedBy": "tools/oshodi/oshodi-layout.js",
+ "spec": "docs/specs/oshodi-greybox.md",
+ "units": "metres",
+ "axes": "X east, Z north, Y up; rect = {x0,z0,x1,z1}; ry = yaw degrees clockwise from +Z (Unity Y rotation)",
+ "levels": {
+  "road": 0,
+  "pavement": 0.12,
+  "kerbHeight": 0.12
+ },
+ "tile": {
+  "x0": -120,
+  "z0": -150,
+  "x1": 120,
+  "z1": 150
+ },
+ "roads": [
+  {
+   "id": "ROAD-A",
+   "name": "Agege Motor Road",
+   "axis": "z",
+   "centre": 0,
+   "from": -150,
+   "to": 150,
+   "lanesEachWay": 2,
+   "laneWidth": 3.25,
+   "median": {
+    "width": 2.1,
+    "kerbHeight": 0.12,
+    "guardRail": true
+   },
+   "kerb": {
+    "width": 0.15,
+    "height": 0.12
+   },
+   "pavement": {
+    "gutter": 0.6,
+    "furnishing": 0.9,
+    "clear": 2,
+    "width": 3.5,
+    "order": "kerb | gutter slabs | furnishing (poles, lamps, signs) | clear zone | building line"
+   }
+  },
+  {
+   "id": "ROAD-B",
+   "name": "Side street (OSM name to confirm)",
+   "axis": "x",
+   "centre": -70,
+   "from": -120,
+   "to": 120,
+   "lanesEachWay": 1,
+   "laneWidth": 3.25,
+   "median": null,
+   "kerb": {
+    "width": 0.15,
+    "height": 0.12
+   },
+   "pavement": {
+    "gutter": 0.6,
+    "furnishing": 0.9,
+    "clear": 2,
+    "width": 3.5,
+    "order": "kerb | gutter slabs | furnishing | clear zone | building line"
+   }
+  }
+ ],
+ "lanes": [
+  {
+   "id": "A-west-sb",
+   "road": "ROAD-A",
+   "dir": "southbound",
+   "r": {
+    "x0": -7.55,
+    "z0": -150,
+    "x1": -1.05,
+    "z1": 150
+   }
+  },
+  {
+   "id": "A-east-nb",
+   "road": "ROAD-A",
+   "dir": "northbound",
+   "r": {
+    "x0": 1.05,
+    "z0": -150,
+    "x1": 7.55,
+    "z1": 150
+   }
+  },
+  {
+   "id": "B-south-wb",
+   "road": "ROAD-B",
+   "dir": "westbound",
+   "r": {
+    "x0": -120,
+    "z0": -73.25,
+    "x1": 120,
+    "z1": -70
+   }
+  },
+  {
+   "id": "B-north-eb",
+   "road": "ROAD-B",
+   "dir": "eastbound",
+   "r": {
+    "x0": -120,
+    "z0": -70,
+    "x1": 120,
+    "z1": -66.75
+   }
+  },
+  {
+   "id": "junction",
+   "road": "ROAD-A x ROAD-B",
+   "dir": "all",
+   "r": {
+    "x0": -7.55,
+    "z0": -73.25,
+    "x1": 7.55,
+    "z1": -66.75
+   }
+  }
+ ],
+ "medians": [
+  {
+   "id": "median-north",
+   "r": {
+    "x0": -1.05,
+    "z0": -59.5,
+    "x1": 1.05,
+    "z1": 150
+   }
+  },
+  {
+   "id": "median-south",
+   "r": {
+    "x0": -1.05,
+    "z0": -150,
+    "x1": 1.05,
+    "z1": -80.5
+   }
+  }
+ ],
+ "crossings": [
+  {
+   "id": "zebra-A-north",
+   "r": {
+    "x0": -7.55,
+    "z0": -62.5,
+    "x1": 7.55,
+    "z1": -59.5
+   },
+   "width": 3
+  },
+  {
+   "id": "zebra-A-south",
+   "r": {
+    "x0": -7.55,
+    "z0": -80.5,
+    "x1": 7.55,
+    "z1": -77.5
+   },
+   "width": 3
+  },
+  {
+   "id": "zebra-B-west",
+   "r": {
+    "x0": -14.7,
+    "z0": -73.25,
+    "x1": -11.7,
+    "z1": -66.75
+   },
+   "width": 3
+  },
+  {
+   "id": "zebra-B-east",
+   "r": {
+    "x0": 11.7,
+    "z0": -73.25,
+    "x1": 14.7,
+    "z1": -66.75
+   },
+   "width": 3
+  }
+ ],
+ "pavements": [
+  {
+   "id": "A-west-north",
+   "road": "ROAD-A",
+   "gutter": {
+    "x0": -8.3,
+    "z0": -66.6,
+    "x1": -7.7,
+    "z1": 150
+   },
+   "furnishing": {
+    "x0": -9.2,
+    "z0": -66.6,
+    "x1": -8.3,
+    "z1": 150
+   },
+   "clear": {
+    "x0": -11.2,
+    "z0": -66.6,
+    "x1": -9.2,
+    "z1": 150
+   }
+  },
+  {
+   "id": "A-west-south",
+   "road": "ROAD-A",
+   "gutter": {
+    "x0": -8.3,
+    "z0": -150,
+    "x1": -7.7,
+    "z1": -73.4
+   },
+   "furnishing": {
+    "x0": -9.2,
+    "z0": -150,
+    "x1": -8.3,
+    "z1": -73.4
+   },
+   "clear": {
+    "x0": -11.2,
+    "z0": -150,
+    "x1": -9.2,
+    "z1": -73.4
+   }
+  },
+  {
+   "id": "A-east-north",
+   "road": "ROAD-A",
+   "gutter": {
+    "x0": 7.7,
+    "z0": -66.6,
+    "x1": 8.3,
+    "z1": 150
+   },
+   "furnishing": {
+    "x0": 8.3,
+    "z0": -66.6,
+    "x1": 9.2,
+    "z1": 150
+   },
+   "clear": {
+    "x0": 9.2,
+    "z0": -66.6,
+    "x1": 11.2,
+    "z1": 150
+   }
+  },
+  {
+   "id": "A-east-south",
+   "road": "ROAD-A",
+   "gutter": {
+    "x0": 7.7,
+    "z0": -150,
+    "x1": 8.3,
+    "z1": -73.4
+   },
+   "furnishing": {
+    "x0": 8.3,
+    "z0": -150,
+    "x1": 9.2,
+    "z1": -73.4
+   },
+   "clear": {
+    "x0": 9.2,
+    "z0": -150,
+    "x1": 11.2,
+    "z1": -73.4
+   }
+  },
+  {
+   "id": "B-south-west",
+   "road": "ROAD-B",
+   "gutter": {
+    "x0": -120,
+    "z0": -74,
+    "x1": -7.7,
+    "z1": -73.4
+   },
+   "furnishing": {
+    "x0": -120,
+    "z0": -74.9,
+    "x1": -7.7,
+    "z1": -74
+   },
+   "clear": {
+    "x0": -120,
+    "z0": -76.9,
+    "x1": -7.7,
+    "z1": -74.9
+   }
+  },
+  {
+   "id": "B-south-east",
+   "road": "ROAD-B",
+   "gutter": {
+    "x0": 7.7,
+    "z0": -74,
+    "x1": 120,
+    "z1": -73.4
+   },
+   "furnishing": {
+    "x0": 7.7,
+    "z0": -74.9,
+    "x1": 120,
+    "z1": -74
+   },
+   "clear": {
+    "x0": 7.7,
+    "z0": -76.9,
+    "x1": 120,
+    "z1": -74.9
+   }
+  },
+  {
+   "id": "B-north-west",
+   "road": "ROAD-B",
+   "gutter": {
+    "x0": -120,
+    "z0": -66.6,
+    "x1": -7.7,
+    "z1": -66
+   },
+   "furnishing": {
+    "x0": -120,
+    "z0": -66,
+    "x1": -7.7,
+    "z1": -65.1
+   },
+   "clear": {
+    "x0": -120,
+    "z0": -65.1,
+    "x1": -7.7,
+    "z1": -63.1
+   }
+  },
+  {
+   "id": "B-north-east",
+   "road": "ROAD-B",
+   "gutter": {
+    "x0": 7.7,
+    "z0": -66.6,
+    "x1": 120,
+    "z1": -66
+   },
+   "furnishing": {
+    "x0": 7.7,
+    "z0": -66,
+    "x1": 120,
+    "z1": -65.1
+   },
+   "clear": {
+    "x0": 7.7,
+    "z0": -65.1,
+    "x1": 120,
+    "z1": -63.1
+   }
+  }
+ ],
+ "corners": [
+  {
+   "id": "corner-NW",
+   "r": {
+    "x0": -11.2,
+    "z0": -66.6,
+    "x1": -7.7,
+    "z1": -63.1
+   }
+  },
+  {
+   "id": "corner-NE",
+   "r": {
+    "x0": 7.7,
+    "z0": -66.6,
+    "x1": 11.2,
+    "z1": -63.1
+   }
+  },
+  {
+   "id": "corner-SW",
+   "r": {
+    "x0": -11.2,
+    "z0": -76.9,
+    "x1": -7.7,
+    "z1": -73.4
+   }
+  },
+  {
+   "id": "corner-SE",
+   "r": {
+    "x0": 7.7,
+    "z0": -76.9,
+    "x1": 11.2,
+    "z1": -73.4
+   }
+  }
+ ],
+ "driveways": [
+  {
+   "id": "drive-danfo-exit",
+   "note": "danfo park head aisle -> ROAD-A southbound",
+   "r": {
+    "x0": -14,
+    "z0": -52,
+    "x1": -7.55,
+    "z1": -45
+   }
+  },
+  {
+   "id": "drive-danfo-entry",
+   "note": "ROAD-B eastbound -> danfo park tail aisle",
+   "r": {
+    "x0": -48,
+    "z0": -66.75,
+    "x1": -41,
+    "z1": -62.5
+   }
+  },
+  {
+   "id": "drive-okada",
+   "note": "okada park <-> ROAD-A northbound",
+   "r": {
+    "x0": 7.55,
+    "z0": -1,
+    "x1": 13,
+    "z1": 5.5
+   }
+  }
+ ],
+ "flyover": {
+  "id": "flyover-oshodi-apapa",
+  "name": "Oshodi-Apapa Expressway (elevated)",
+  "deck": {
+   "x0": -120,
+   "z0": 34,
+   "x1": 120,
+   "z1": 56
+  },
+  "undersideY": 6,
+  "deckTopY": 7.2,
+  "parapetHeight": 1,
+  "lanesEachWay": 3,
+  "reachable": false,
+  "note": "Backdrop deck in M2. Deck runs past both tile edges into the skyline. Ramps and driving on it come with M3+.",
+  "piers": [
+   {
+    "id": "fly-pier-W14-38",
+    "x": -14,
+    "z": 38,
+    "diameter": 1.2,
+    "height": 6,
+    "posters": 2
+   },
+   {
+    "id": "fly-pier-E14-38",
+    "x": 14,
+    "z": 38,
+    "diameter": 1.2,
+    "height": 6,
+    "posters": 2
+   },
+   {
+    "id": "fly-pier-W40-38",
+    "x": -40,
+    "z": 38,
+    "diameter": 1.2,
+    "height": 6,
+    "posters": 0
+   },
+   {
+    "id": "fly-pier-E40-38",
+    "x": 40,
+    "z": 38,
+    "diameter": 1.2,
+    "height": 6,
+    "posters": 0
+   },
+   {
+    "id": "fly-pier-W66-38",
+    "x": -66,
+    "z": 38,
+    "diameter": 1.2,
+    "height": 6,
+    "posters": 0
+   },
+   {
+    "id": "fly-pier-E66-38",
+    "x": 66,
+    "z": 38,
+    "diameter": 1.2,
+    "height": 6,
+    "posters": 0
+   },
+   {
+    "id": "fly-pier-W92-38",
+    "x": -92,
+    "z": 38,
+    "diameter": 1.2,
+    "height": 6,
+    "posters": 0
+   },
+   {
+    "id": "fly-pier-E92-38",
+    "x": 92,
+    "z": 38,
+    "diameter": 1.2,
+    "height": 6,
+    "posters": 0
+   },
+   {
+    "id": "fly-pier-W118-38",
+    "x": -118,
+    "z": 38,
+    "diameter": 1.2,
+    "height": 6,
+    "posters": 0
+   },
+   {
+    "id": "fly-pier-E118-38",
+    "x": 118,
+    "z": 38,
+    "diameter": 1.2,
+    "height": 6,
+    "posters": 0
+   },
+   {
+    "id": "fly-pier-W14-52",
+    "x": -14,
+    "z": 52,
+    "diameter": 1.2,
+    "height": 6,
+    "posters": 2
+   },
+   {
+    "id": "fly-pier-E14-52",
+    "x": 14,
+    "z": 52,
+    "diameter": 1.2,
+    "height": 6,
+    "posters": 2
+   },
+   {
+    "id": "fly-pier-W40-52",
+    "x": -40,
+    "z": 52,
+    "diameter": 1.2,
+    "height": 6,
+    "posters": 0
+   },
+   {
+    "id": "fly-pier-E40-52",
+    "x": 40,
+    "z": 52,
+    "diameter": 1.2,
+    "height": 6,
+    "posters": 0
+   },
+   {
+    "id": "fly-pier-W66-52",
+    "x": -66,
+    "z": 52,
+    "diameter": 1.2,
+    "height": 6,
+    "posters": 0
+   },
+   {
+    "id": "fly-pier-E66-52",
+    "x": 66,
+    "z": 52,
+    "diameter": 1.2,
+    "height": 6,
+    "posters": 0
+   },
+   {
+    "id": "fly-pier-W92-52",
+    "x": -92,
+    "z": 52,
+    "diameter": 1.2,
+    "height": 6,
+    "posters": 0
+   },
+   {
+    "id": "fly-pier-E92-52",
+    "x": 92,
+    "z": 52,
+    "diameter": 1.2,
+    "height": 6,
+    "posters": 0
+   },
+   {
+    "id": "fly-pier-W118-52",
+    "x": -118,
+    "z": 52,
+    "diameter": 1.2,
+    "height": 6,
+    "posters": 0
+   },
+   {
+    "id": "fly-pier-E118-52",
+    "x": 118,
+    "z": 52,
+    "diameter": 1.2,
+    "height": 6,
+    "posters": 0
+   }
+  ]
+ },
+ "footbridge": {
+  "id": "footbridge-T3-T2",
+  "name": "Oshodi footbridge (Terminal 3 to Terminal 2)",
+  "deck": {
+   "x0": -16,
+   "z0": -31.5,
+   "x1": 16,
+   "z1": -28.5
+  },
+  "deckTopY": 6.12,
+  "undersideY": 5.72,
+  "width": 3,
+  "parapetHeight": 1.1,
+  "riser": 0.16666999999999998,
+  "tread": 0.28,
+  "stairs": [
+   {
+    "id": "footbridge-stair-west",
+    "topLanding": {
+     "r": {
+      "x0": -18,
+      "z0": -31.5,
+      "x1": -16,
+      "z1": -28.5
+     },
+     "y": 6.12
+    },
+    "flight1": {
+     "r": {
+      "x0": -22.76,
+      "z0": -31.5,
+      "x1": -18,
+      "z1": -28.5
+     },
+     "yTop": 6.12,
+     "yBottom": 3.12,
+     "risers": 18
+    },
+    "midLanding": {
+     "r": {
+      "x0": -24.76,
+      "z0": -31.5,
+      "x1": -22.76,
+      "z1": -28.5
+     },
+     "y": 3.12
+    },
+    "flight2": {
+     "r": {
+      "x0": -29.52,
+      "z0": -31.5,
+      "x1": -24.76,
+      "z1": -28.5
+     },
+     "yTop": 3.12,
+     "yBottom": 0.12,
+     "risers": 18
+    },
+    "closedUnder": {
+     "x0": -29.52,
+     "z0": -31.5,
+     "x1": -22.76,
+     "z1": -28.5
+    },
+    "footClear": {
+     "x0": -32.52,
+     "z0": -32,
+     "x1": -29.52,
+     "z1": -28
+    },
+    "walkCollider": "one smooth sloped BoxCollider per flight (ramp) on layer Ground, steps are visual only (stops CharacterController jitter)",
+    "footprint": {
+     "x0": -29.52,
+     "z0": -31.5,
+     "x1": -16,
+     "z1": -28.5
+    }
+   },
+   {
+    "id": "footbridge-stair-east",
+    "topLanding": {
+     "r": {
+      "x0": 16,
+      "z0": -31.5,
+      "x1": 18,
+      "z1": -28.5
+     },
+     "y": 6.12
+    },
+    "flight1": {
+     "r": {
+      "x0": 18,
+      "z0": -31.5,
+      "x1": 22.76,
+      "z1": -28.5
+     },
+     "yTop": 6.12,
+     "yBottom": 3.12,
+     "risers": 18
+    },
+    "midLanding": {
+     "r": {
+      "x0": 22.76,
+      "z0": -31.5,
+      "x1": 24.76,
+      "z1": -28.5
+     },
+     "y": 3.12
+    },
+    "flight2": {
+     "r": {
+      "x0": 24.76,
+      "z0": -31.5,
+      "x1": 29.52,
+      "z1": -28.5
+     },
+     "yTop": 3.12,
+     "yBottom": 0.12,
+     "risers": 18
+    },
+    "closedUnder": {
+     "x0": 22.76,
+     "z0": -31.5,
+     "x1": 29.52,
+     "z1": -28.5
+    },
+    "footClear": {
+     "x0": 29.52,
+     "z0": -32,
+     "x1": 32.52,
+     "z1": -28
+    },
+    "walkCollider": "one smooth sloped BoxCollider per flight (ramp) on layer Ground, steps are visual only (stops CharacterController jitter)",
+    "footprint": {
+     "x0": 16,
+     "z0": -31.5,
+     "x1": 29.52,
+     "z1": -28.5
+    }
+   }
+  ],
+  "piers": [
+   {
+    "id": "fb-pier--17--31.2",
+    "x": -17,
+    "z": -31.2,
+    "size": 0.4,
+    "height": 5.72,
+    "posters": 1
+   },
+   {
+    "id": "fb-pier--17--28.8",
+    "x": -17,
+    "z": -28.8,
+    "size": 0.4,
+    "height": 5.72,
+    "posters": 1
+   },
+   {
+    "id": "fb-pier-17--31.2",
+    "x": 17,
+    "z": -31.2,
+    "size": 0.4,
+    "height": 5.72,
+    "posters": 1
+   },
+   {
+    "id": "fb-pier-17--28.8",
+    "x": 17,
+    "z": -28.8,
+    "size": 0.4,
+    "height": 5.72,
+    "posters": 1
+   }
+  ],
+  "note": "Single span over ROAD-A and both pavements: no pier on a pavement or the median."
+ },
+ "buildings": [
+  {
+   "id": "T1",
+   "kind": "terminal",
+   "r": {
+    "x0": -52,
+    "z0": 4,
+    "x1": -14,
+    "z1": 28
+   },
+   "h": 12,
+   "name": "Oshodi Transport Interchange Terminal 1",
+   "front": "east",
+   "frontStyle": "curved glass, 3 bays"
+  },
+  {
+   "id": "T2",
+   "kind": "terminal",
+   "r": {
+    "x0": 34,
+    "z0": -44,
+    "x1": 94,
+    "z1": -4
+   },
+   "h": 16,
+   "name": "Oshodi Transport Interchange Terminal 2",
+   "front": "west",
+   "frontStyle": "curved glass, largest of the three"
+  },
+  {
+   "id": "T3",
+   "kind": "terminal",
+   "r": {
+    "x0": -92,
+    "z0": -62.5,
+    "x1": -52,
+    "z1": -24
+   },
+   "h": 10,
+   "name": "Oshodi Transport Interchange Terminal 3",
+   "front": "east",
+   "frontStyle": "curved glass, faces the danfo park"
+  },
+  {
+   "id": "shop-NW-1",
+   "kind": "shophouse",
+   "r": {
+    "x0": -24,
+    "z0": 60,
+    "x1": -12.2,
+    "z1": 72
+   },
+   "h": 7,
+   "front": "east"
+  },
+  {
+   "id": "shop-NE-1",
+   "kind": "shophouse",
+   "r": {
+    "x0": 12.2,
+    "z0": 60,
+    "x1": 24,
+    "z1": 72
+   },
+   "h": 13,
+   "front": "west"
+  },
+  {
+   "id": "shop-NW-2",
+   "kind": "shophouse",
+   "r": {
+    "x0": -24,
+    "z0": 72.5,
+    "x1": -12.2,
+    "z1": 84.5
+   },
+   "h": 10,
+   "front": "east"
+  },
+  {
+   "id": "shop-NE-2",
+   "kind": "shophouse",
+   "r": {
+    "x0": 12.2,
+    "z0": 72.5,
+    "x1": 24,
+    "z1": 84.5
+   },
+   "h": 10,
+   "front": "west"
+  },
+  {
+   "id": "shop-NW-3",
+   "kind": "shophouse",
+   "r": {
+    "x0": -24,
+    "z0": 85,
+    "x1": -12.2,
+    "z1": 97
+   },
+   "h": 7,
+   "front": "east"
+  },
+  {
+   "id": "shop-NE-3",
+   "kind": "shophouse",
+   "r": {
+    "x0": 12.2,
+    "z0": 85,
+    "x1": 24,
+    "z1": 97
+   },
+   "h": 7,
+   "front": "west"
+  },
+  {
+   "id": "shop-NW-4",
+   "kind": "shophouse",
+   "r": {
+    "x0": -24,
+    "z0": 97.5,
+    "x1": -12.2,
+    "z1": 109.5
+   },
+   "h": 13,
+   "front": "east"
+  },
+  {
+   "id": "shop-NE-4",
+   "kind": "shophouse",
+   "r": {
+    "x0": 12.2,
+    "z0": 97.5,
+    "x1": 24,
+    "z1": 109.5
+   },
+   "h": 10,
+   "front": "west"
+  },
+  {
+   "id": "shop-NW-5",
+   "kind": "shophouse",
+   "r": {
+    "x0": -24,
+    "z0": 110,
+    "x1": -12.2,
+    "z1": 122
+   },
+   "h": 10,
+   "front": "east"
+  },
+  {
+   "id": "shop-NE-5",
+   "kind": "shophouse",
+   "r": {
+    "x0": 12.2,
+    "z0": 110,
+    "x1": 24,
+    "z1": 122
+   },
+   "h": 7,
+   "front": "west"
+  },
+  {
+   "id": "shop-NW-6",
+   "kind": "shophouse",
+   "r": {
+    "x0": -24,
+    "z0": 122.5,
+    "x1": -12.2,
+    "z1": 134.5
+   },
+   "h": 7,
+   "front": "east"
+  },
+  {
+   "id": "shop-NE-6",
+   "kind": "shophouse",
+   "r": {
+    "x0": 12.2,
+    "z0": 122.5,
+    "x1": 24,
+    "z1": 134.5
+   },
+   "h": 10,
+   "front": "west"
+  },
+  {
+   "id": "shop-NW-7",
+   "kind": "shophouse",
+   "r": {
+    "x0": -24,
+    "z0": 135,
+    "x1": -12.2,
+    "z1": 147
+   },
+   "h": 10,
+   "front": "east"
+  },
+  {
+   "id": "shop-NE-7",
+   "kind": "shophouse",
+   "r": {
+    "x0": 12.2,
+    "z0": 135,
+    "x1": 24,
+    "z1": 147
+   },
+   "h": 7,
+   "front": "west"
+  },
+  {
+   "id": "shop-SW-1",
+   "kind": "shophouse",
+   "r": {
+    "x0": -24,
+    "z0": -92,
+    "x1": -12.2,
+    "z1": -80
+   },
+   "h": 10,
+   "front": "east"
+  },
+  {
+   "id": "shop-SE-1",
+   "kind": "shophouse",
+   "r": {
+    "x0": 12.2,
+    "z0": -92,
+    "x1": 24,
+    "z1": -80
+   },
+   "h": 10,
+   "front": "west"
+  },
+  {
+   "id": "shop-SW-2",
+   "kind": "shophouse",
+   "r": {
+    "x0": -24,
+    "z0": -104.5,
+    "x1": -12.2,
+    "z1": -92.5
+   },
+   "h": 7,
+   "front": "east"
+  },
+  {
+   "id": "shop-SE-2",
+   "kind": "shophouse",
+   "r": {
+    "x0": 12.2,
+    "z0": -104.5,
+    "x1": 24,
+    "z1": -92.5
+   },
+   "h": 7,
+   "front": "west"
+  },
+  {
+   "id": "shop-SW-3",
+   "kind": "shophouse",
+   "r": {
+    "x0": -24,
+    "z0": -117,
+    "x1": -12.2,
+    "z1": -105
+   },
+   "h": 13,
+   "front": "east"
+  },
+  {
+   "id": "shop-SE-3",
+   "kind": "shophouse",
+   "r": {
+    "x0": 12.2,
+    "z0": -117,
+    "x1": 24,
+    "z1": -105
+   },
+   "h": 10,
+   "front": "west"
+  },
+  {
+   "id": "shop-SW-4",
+   "kind": "shophouse",
+   "r": {
+    "x0": -24,
+    "z0": -129.5,
+    "x1": -12.2,
+    "z1": -117.5
+   },
+   "h": 10,
+   "front": "east"
+  },
+  {
+   "id": "shop-SE-4",
+   "kind": "shophouse",
+   "r": {
+    "x0": 12.2,
+    "z0": -129.5,
+    "x1": 24,
+    "z1": -117.5
+   },
+   "h": 7,
+   "front": "west"
+  },
+  {
+   "id": "shop-SW-5",
+   "kind": "shophouse",
+   "r": {
+    "x0": -24,
+    "z0": -142,
+    "x1": -12.2,
+    "z1": -130
+   },
+   "h": 7,
+   "front": "east"
+  },
+  {
+   "id": "shop-SE-5",
+   "kind": "shophouse",
+   "r": {
+    "x0": 12.2,
+    "z0": -142,
+    "x1": 24,
+    "z1": -130
+   },
+   "h": 10,
+   "front": "west"
+  },
+  {
+   "id": "shop-W-mid-1",
+   "kind": "shophouse",
+   "r": {
+    "x0": -24,
+    "z0": -22,
+    "x1": -12.2,
+    "z1": -10
+   },
+   "h": 7,
+   "front": "east"
+  },
+  {
+   "id": "shop-W-mid-2",
+   "kind": "shophouse",
+   "r": {
+    "x0": -24,
+    "z0": -9.5,
+    "x1": -12.2,
+    "z1": 2
+   },
+   "h": 10,
+   "front": "east"
+  },
+  {
+   "id": "shop-E-mid-1",
+   "kind": "shophouse",
+   "r": {
+    "x0": 24,
+    "z0": 0,
+    "x1": 36,
+    "z1": 12
+   },
+   "h": 7,
+   "front": "west"
+  },
+  {
+   "id": "shop-E-mid-2",
+   "kind": "shophouse",
+   "r": {
+    "x0": 24,
+    "z0": 12.5,
+    "x1": 36,
+    "z1": 24.5
+   },
+   "h": 10,
+   "front": "west"
+  },
+  {
+   "id": "shop-SE-T2",
+   "kind": "shophouse",
+   "r": {
+    "x0": 12.2,
+    "z0": -62,
+    "x1": 24,
+    "z1": -50
+   },
+   "h": 10,
+   "front": "west"
+  },
+  {
+   "id": "back-NW-1",
+   "kind": "filler",
+   "r": {
+    "x0": -48,
+    "z0": 60,
+    "x1": -28,
+    "z1": 84
+   },
+   "h": 7
+  },
+  {
+   "id": "back-NE-1",
+   "kind": "filler",
+   "r": {
+    "x0": 28,
+    "z0": 60,
+    "x1": 48,
+    "z1": 84
+   },
+   "h": 7
+  },
+  {
+   "id": "back-NW-2",
+   "kind": "filler",
+   "r": {
+    "x0": -48,
+    "z0": 86,
+    "x1": -28,
+    "z1": 110
+   },
+   "h": 10
+  },
+  {
+   "id": "back-NE-2",
+   "kind": "filler",
+   "r": {
+    "x0": 28,
+    "z0": 86,
+    "x1": 48,
+    "z1": 110
+   },
+   "h": 10
+  },
+  {
+   "id": "back-NW-3",
+   "kind": "filler",
+   "r": {
+    "x0": -48,
+    "z0": 112,
+    "x1": -28,
+    "z1": 146
+   },
+   "h": 13
+  },
+  {
+   "id": "back-NE-3",
+   "kind": "filler",
+   "r": {
+    "x0": 28,
+    "z0": 112,
+    "x1": 48,
+    "z1": 146
+   },
+   "h": 13
+  },
+  {
+   "id": "filler-W-1",
+   "kind": "filler",
+   "r": {
+    "x0": -80,
+    "z0": 4,
+    "x1": -56,
+    "z1": 28
+   },
+   "h": 10
+  },
+  {
+   "id": "filler-W-2",
+   "kind": "filler",
+   "r": {
+    "x0": -118,
+    "z0": -62,
+    "x1": -96,
+    "z1": -40
+   },
+   "h": 7
+  },
+  {
+   "id": "filler-E-1",
+   "kind": "filler",
+   "r": {
+    "x0": 98,
+    "z0": -62,
+    "x1": 118,
+    "z1": -4
+   },
+   "h": 10
+  },
+  {
+   "id": "back-SW-1",
+   "kind": "filler",
+   "r": {
+    "x0": -48,
+    "z0": -104,
+    "x1": -28,
+    "z1": -80
+   },
+   "h": 7
+  },
+  {
+   "id": "back-SE-1",
+   "kind": "filler",
+   "r": {
+    "x0": 28,
+    "z0": -104,
+    "x1": 48,
+    "z1": -80
+   },
+   "h": 10
+  },
+  {
+   "id": "back-SW-2",
+   "kind": "filler",
+   "r": {
+    "x0": -48,
+    "z0": -146,
+    "x1": -28,
+    "z1": -108
+   },
+   "h": 7
+  },
+  {
+   "id": "back-SE-2",
+   "kind": "filler",
+   "r": {
+    "x0": 28,
+    "z0": -146,
+    "x1": 48,
+    "z1": -108
+   },
+   "h": 10
+  }
+ ],
+ "areas": [
+  {
+   "id": "plaza-T3",
+   "name": "Terminal 3 plaza (footbridge west foot)",
+   "r": {
+    "x0": -52,
+    "z0": -34.25,
+    "x1": -11.2,
+    "z1": -24
+   }
+  },
+  {
+   "id": "walk-T3",
+   "name": "Terminal 3 walkway (to the danfo islands)",
+   "r": {
+    "x0": -52,
+    "z0": -62.5,
+    "x1": -48,
+    "z1": -34.25
+   }
+  },
+  {
+   "id": "walk-park-head",
+   "name": "Park head walkway (pavement side of the head aisle)",
+   "r": {
+    "x0": -14,
+    "z0": -62.5,
+    "x1": -11.2,
+    "z1": -34.25
+   }
+  },
+  {
+   "id": "forecourt-T2",
+   "name": "Terminal 2 forecourt (footbridge east foot)",
+   "r": {
+    "x0": 11.2,
+    "z0": -44,
+    "x1": 34,
+    "z1": -4
+   }
+  },
+  {
+   "id": "plaza-east",
+   "name": "East plaza (okada park, POS kiosk)",
+   "r": {
+    "x0": 11.2,
+    "z0": -4,
+    "x1": 24,
+    "z1": 30
+   }
+  },
+  {
+   "id": "yard-mechanic",
+   "name": "Mechanic yard",
+   "r": {
+    "x0": -52,
+    "z0": -22,
+    "x1": -26,
+    "z1": 2
+   }
+  },
+  {
+   "id": "under-bridge-W",
+   "name": "Under-bridge market west",
+   "r": {
+    "x0": -70,
+    "z0": 34,
+    "x1": -11.2,
+    "z1": 56
+   }
+  },
+  {
+   "id": "under-bridge-E",
+   "name": "Under-bridge market east",
+   "r": {
+    "x0": 11.2,
+    "z0": 34,
+    "x1": 70,
+    "z1": 56
+   }
+  }
+ ],
+ "danfoPark": {
+  "id": "danfo-park-T3",
+  "pad": {
+   "x0": -48,
+   "z0": -62.5,
+   "x1": -14,
+   "z1": -34.25
+  },
+  "tailAisle": {
+   "x0": -48,
+   "z0": -62.5,
+   "x1": -41,
+   "z1": -34.25
+  },
+  "headAisle": {
+   "x0": -21.5,
+   "z0": -62.5,
+   "x1": -14,
+   "z1": -34.25
+  },
+  "islands": [
+   {
+    "id": "island-0",
+    "r": {
+     "x0": -41,
+     "z0": -62.5,
+     "x1": -21.5,
+     "z1": -60.5
+    },
+    "y": 0.12
+   },
+   {
+    "id": "island-1",
+    "r": {
+     "x0": -41,
+     "z0": -57.25,
+     "x1": -21.5,
+     "z1": -55.25
+    },
+    "y": 0.12
+   },
+   {
+    "id": "island-2",
+    "r": {
+     "x0": -41,
+     "z0": -52,
+     "x1": -21.5,
+     "z1": -50
+    },
+    "y": 0.12
+   },
+   {
+    "id": "island-3",
+    "r": {
+     "x0": -41,
+     "z0": -46.75,
+     "x1": -21.5,
+     "z1": -44.75
+    },
+    "y": 0.12
+   },
+   {
+    "id": "island-4",
+    "r": {
+     "x0": -41,
+     "z0": -41.5,
+     "x1": -21.5,
+     "z1": -39.5
+    },
+    "y": 0.12
+   },
+   {
+    "id": "island-5",
+    "r": {
+     "x0": -41,
+     "z0": -36.25,
+     "x1": -21.5,
+     "z1": -34.25
+    },
+    "y": 0.12
+   }
+  ],
+  "loadingLanes": [
+   {
+    "id": "load-lane-1",
+    "r": {
+     "x0": -41,
+     "z0": -60.5,
+     "x1": -21.5,
+     "z1": -57.25
+    },
+    "route": "UNILAG GATE"
+   },
+   {
+    "id": "load-lane-2",
+    "r": {
+     "x0": -41,
+     "z0": -55.25,
+     "x1": -21.5,
+     "z1": -52
+    },
+    "route": "IKEJA ALONG"
+   },
+   {
+    "id": "load-lane-3",
+    "r": {
+     "x0": -41,
+     "z0": -50,
+     "x1": -21.5,
+     "z1": -46.75
+    },
+    "route": "MILE 2"
+   },
+   {
+    "id": "load-lane-4",
+    "r": {
+     "x0": -41,
+     "z0": -44.75,
+     "x1": -21.5,
+     "z1": -41.5
+    },
+    "route": "OBALENDE"
+   },
+   {
+    "id": "load-lane-5",
+    "r": {
+     "x0": -41,
+     "z0": -39.5,
+     "x1": -21.5,
+     "z1": -36.25
+    },
+    "route": "IKOTUN"
+   }
+  ],
+  "danfos": [
+   {
+    "id": "danfo-1-1",
+    "x": -24.75,
+    "z": -58.87,
+    "ry": 90,
+    "size": {
+     "L": 5.9,
+     "W": 2,
+     "H": 2.6
+    },
+    "parked": true
+   },
+   {
+    "id": "danfo-1-2",
+    "x": -31.25,
+    "z": -58.87,
+    "ry": 90,
+    "size": {
+     "L": 5.9,
+     "W": 2,
+     "H": 2.6
+    },
+    "parked": true
+   },
+   {
+    "id": "danfo-1-3",
+    "x": -37.75,
+    "z": -58.87,
+    "ry": 90,
+    "size": {
+     "L": 5.9,
+     "W": 2,
+     "H": 2.6
+    },
+    "parked": true
+   },
+   {
+    "id": "danfo-2-1",
+    "x": -24.75,
+    "z": -53.62,
+    "ry": 90,
+    "size": {
+     "L": 5.9,
+     "W": 2,
+     "H": 2.6
+    },
+    "parked": true
+   },
+   {
+    "id": "danfo-2-2",
+    "x": -31.25,
+    "z": -53.62,
+    "ry": 90,
+    "size": {
+     "L": 5.9,
+     "W": 2,
+     "H": 2.6
+    },
+    "parked": true
+   },
+   {
+    "id": "danfo-2-3",
+    "x": -37.75,
+    "z": -53.62,
+    "ry": 90,
+    "size": {
+     "L": 5.9,
+     "W": 2,
+     "H": 2.6
+    },
+    "parked": true
+   },
+   {
+    "id": "danfo-3-1",
+    "x": -24.75,
+    "z": -48.37,
+    "ry": 90,
+    "size": {
+     "L": 5.9,
+     "W": 2,
+     "H": 2.6
+    },
+    "parked": true
+   },
+   {
+    "id": "danfo-3-2",
+    "x": -31.25,
+    "z": -48.37,
+    "ry": 90,
+    "size": {
+     "L": 5.9,
+     "W": 2,
+     "H": 2.6
+    },
+    "parked": true
+   },
+   {
+    "id": "danfo-3-3",
+    "x": -37.75,
+    "z": -48.37,
+    "ry": 90,
+    "size": {
+     "L": 5.9,
+     "W": 2,
+     "H": 2.6
+    },
+    "parked": true
+   },
+   {
+    "id": "danfo-4-1",
+    "x": -24.75,
+    "z": -43.12,
+    "ry": 90,
+    "size": {
+     "L": 5.9,
+     "W": 2,
+     "H": 2.6
+    },
+    "parked": true
+   },
+   {
+    "id": "danfo-4-2",
+    "x": -31.25,
+    "z": -43.12,
+    "ry": 90,
+    "size": {
+     "L": 5.9,
+     "W": 2,
+     "H": 2.6
+    },
+    "parked": true
+   },
+   {
+    "id": "danfo-4-3",
+    "x": -37.75,
+    "z": -43.12,
+    "ry": 90,
+    "size": {
+     "L": 5.9,
+     "W": 2,
+     "H": 2.6
+    },
+    "parked": true
+   },
+   {
+    "id": "danfo-5-1",
+    "x": -24.75,
+    "z": -37.87,
+    "ry": 90,
+    "size": {
+     "L": 5.9,
+     "W": 2,
+     "H": 2.6
+    },
+    "parked": true
+   },
+   {
+    "id": "danfo-5-2",
+    "x": -31.25,
+    "z": -37.87,
+    "ry": 90,
+    "size": {
+     "L": 5.9,
+     "W": 2,
+     "H": 2.6
+    },
+    "parked": true
+   },
+   {
+    "id": "danfo-5-3",
+    "x": -37.75,
+    "z": -37.87,
+    "ry": 90,
+    "size": {
+     "L": 5.9,
+     "W": 2,
+     "H": 2.6
+    },
+    "parked": true
+   }
+  ],
+  "conductorSlots": [
+   {
+    "id": "slot-conductor-1",
+    "x": -24,
+    "z": -61.1,
+    "ry": 0,
+    "lane": "load-lane-1",
+    "note": "M4 job slot marker = WorkPoint (bot conductor stands here)"
+   },
+   {
+    "id": "slot-conductor-2",
+    "x": -24,
+    "z": -55.85,
+    "ry": 0,
+    "lane": "load-lane-2",
+    "note": "M4 job slot marker = WorkPoint (bot conductor stands here)"
+   },
+   {
+    "id": "slot-conductor-3",
+    "x": -24,
+    "z": -50.6,
+    "ry": 0,
+    "lane": "load-lane-3",
+    "note": "M4 job slot marker = WorkPoint (bot conductor stands here)"
+   },
+   {
+    "id": "slot-conductor-4",
+    "x": -24,
+    "z": -45.35,
+    "ry": 0,
+    "lane": "load-lane-4",
+    "note": "M4 job slot marker = WorkPoint (bot conductor stands here)"
+   },
+   {
+    "id": "slot-conductor-5",
+    "x": -24,
+    "z": -40.1,
+    "ry": 0,
+    "lane": "load-lane-5",
+    "note": "M4 job slot marker = WorkPoint (bot conductor stands here)"
+   }
+  ],
+  "routeBoards": [
+   {
+    "id": "route-board-1",
+    "x": -22,
+    "z": -61.5,
+    "ry": 90,
+    "text": "OSHODI - UNILAG GATE",
+    "height": 2.6,
+    "readFrom": "the island tip and the head aisle"
+   },
+   {
+    "id": "route-board-2",
+    "x": -22,
+    "z": -56.25,
+    "ry": 90,
+    "text": "OSHODI - IKEJA ALONG",
+    "height": 2.6,
+    "readFrom": "the island tip and the head aisle"
+   },
+   {
+    "id": "route-board-3",
+    "x": -22,
+    "z": -51,
+    "ry": 90,
+    "text": "OSHODI - MILE 2",
+    "height": 2.6,
+    "readFrom": "the island tip and the head aisle"
+   },
+   {
+    "id": "route-board-4",
+    "x": -22,
+    "z": -45.75,
+    "ry": 90,
+    "text": "OSHODI - OBALENDE",
+    "height": 2.6,
+    "readFrom": "the island tip and the head aisle"
+   },
+   {
+    "id": "route-board-5",
+    "x": -22,
+    "z": -40.5,
+    "ry": 90,
+    "text": "OSHODI - IKOTUN",
+    "height": 2.6,
+    "readFrom": "the island tip and the head aisle"
+   }
+  ],
+  "fence": {
+   "id": "park-rail",
+   "x": -14,
+   "z0": -62.5,
+   "z1": -34.25,
+   "height": 1.1,
+   "gaps": [
+    [
+     -52,
+     -45
+    ],
+    [
+     -62.5,
+     -60.5
+    ],
+    [
+     -57.25,
+     -55.25
+    ],
+    [
+     -52,
+     -50
+    ],
+    [
+     -46.75,
+     -44.75
+    ],
+    [
+     -41.5,
+     -39.5
+    ]
+   ],
+   "note": "rail on the head-aisle edge; open at the exit driveway and at each island crossing"
+  },
+  "walkCrossings": [
+   {
+    "id": "park-zebra-tail-0",
+    "r": {
+     "x0": -48,
+     "z0": -62.5,
+     "x1": -41,
+     "z1": -60.5
+    },
+    "note": "painted walk across the tail aisle from the Terminal 3 walkway to the island"
+   },
+   {
+    "id": "park-zebra-head-0",
+    "r": {
+     "x0": -21.5,
+     "z0": -62.5,
+     "x1": -14,
+     "z1": -60.5
+    },
+    "note": "painted walk across the head aisle from the pavement side to the island"
+   },
+   {
+    "id": "park-zebra-tail-1",
+    "r": {
+     "x0": -48,
+     "z0": -57.25,
+     "x1": -41,
+     "z1": -55.25
+    },
+    "note": "painted walk across the tail aisle from the Terminal 3 walkway to the island"
+   },
+   {
+    "id": "park-zebra-head-1",
+    "r": {
+     "x0": -21.5,
+     "z0": -57.25,
+     "x1": -14,
+     "z1": -55.25
+    },
+    "note": "painted walk across the head aisle from the pavement side to the island"
+   },
+   {
+    "id": "park-zebra-tail-2",
+    "r": {
+     "x0": -48,
+     "z0": -52,
+     "x1": -41,
+     "z1": -50
+    },
+    "note": "painted walk across the tail aisle from the Terminal 3 walkway to the island"
+   },
+   {
+    "id": "park-zebra-head-2",
+    "r": {
+     "x0": -21.5,
+     "z0": -52,
+     "x1": -14,
+     "z1": -50
+    },
+    "note": "painted walk across the head aisle from the pavement side to the island"
+   },
+   {
+    "id": "park-zebra-tail-3",
+    "r": {
+     "x0": -48,
+     "z0": -46.75,
+     "x1": -41,
+     "z1": -44.75
+    },
+    "note": "painted walk across the tail aisle from the Terminal 3 walkway to the island"
+   },
+   {
+    "id": "park-zebra-head-3",
+    "r": {
+     "x0": -21.5,
+     "z0": -46.75,
+     "x1": -14,
+     "z1": -44.75
+    },
+    "note": "painted walk across the head aisle from the pavement side to the island"
+   },
+   {
+    "id": "park-zebra-tail-4",
+    "r": {
+     "x0": -48,
+     "z0": -41.5,
+     "x1": -41,
+     "z1": -39.5
+    },
+    "note": "painted walk across the tail aisle from the Terminal 3 walkway to the island"
+   },
+   {
+    "id": "park-zebra-head-4",
+    "r": {
+     "x0": -21.5,
+     "z0": -41.5,
+     "x1": -14,
+     "z1": -39.5
+    },
+    "note": "painted walk across the head aisle from the pavement side to the island"
+   },
+   {
+    "id": "park-zebra-tail-5",
+    "r": {
+     "x0": -48,
+     "z0": -36.25,
+     "x1": -41,
+     "z1": -34.25
+    },
+    "note": "painted walk across the tail aisle from the Terminal 3 walkway to the island"
+   },
+   {
+    "id": "park-zebra-head-5",
+    "r": {
+     "x0": -21.5,
+     "z0": -36.25,
+     "x1": -14,
+     "z1": -34.25
+    },
+    "note": "painted walk across the head aisle from the pavement side to the island"
+   }
+  ],
+  "bays": [
+   {
+    "id": "bay-1",
+    "lane": "load-lane-1",
+    "island": "island-0",
+    "route": "UNILAG GATE",
+    "m4": true,
+    "danfo": "danfo-1-1",
+    "doorSide": "south (right-hand side, facing the island)",
+    "door": {
+     "x": -24,
+     "z": -60.5
+    },
+    "workPoint": {
+     "x": -24,
+     "z": -61.1,
+     "ry": 0,
+     "note": "conductor at the open sliding door, facing it"
+    },
+    "asidePoints": [
+     {
+      "id": "aside-west",
+      "x": -26.5,
+      "z": -61.5,
+      "note": "use when the player comes from the head aisle (east)"
+     },
+     {
+      "id": "aside-east",
+      "x": -21.7,
+      "z": -61.5,
+      "note": "use when the player comes from the tail aisle (west)"
+     }
+    ],
+    "asideRule": "pick the aside point farther from where the player stepped onto the island, so the bot never stands between the player and the door",
+    "queue": [
+     {
+      "x": -27.6,
+      "z": -61.5
+     },
+     {
+      "x": -28.4,
+      "z": -61.5
+     },
+     {
+      "x": -29.2,
+      "z": -61.5
+     },
+     {
+      "x": -30,
+      "z": -61.5
+     },
+     {
+      "x": -30.8,
+      "z": -61.5
+     },
+     {
+      "x": -31.6,
+      "z": -61.5
+     }
+    ],
+    "queueNote": "6 waiting passengers in a line along the island, 0.8 m apart, behind the west aside point"
+   },
+   {
+    "id": "bay-2",
+    "lane": "load-lane-2",
+    "island": "island-1",
+    "route": "IKEJA ALONG",
+    "m4": true,
+    "danfo": "danfo-2-1",
+    "doorSide": "south (right-hand side, facing the island)",
+    "door": {
+     "x": -24,
+     "z": -55.25
+    },
+    "workPoint": {
+     "x": -24,
+     "z": -55.85,
+     "ry": 0,
+     "note": "conductor at the open sliding door, facing it"
+    },
+    "asidePoints": [
+     {
+      "id": "aside-west",
+      "x": -26.5,
+      "z": -56.25,
+      "note": "use when the player comes from the head aisle (east)"
+     },
+     {
+      "id": "aside-east",
+      "x": -21.7,
+      "z": -56.25,
+      "note": "use when the player comes from the tail aisle (west)"
+     }
+    ],
+    "asideRule": "pick the aside point farther from where the player stepped onto the island, so the bot never stands between the player and the door",
+    "queue": [
+     {
+      "x": -27.6,
+      "z": -56.25
+     },
+     {
+      "x": -28.4,
+      "z": -56.25
+     },
+     {
+      "x": -29.2,
+      "z": -56.25
+     },
+     {
+      "x": -30,
+      "z": -56.25
+     },
+     {
+      "x": -30.8,
+      "z": -56.25
+     },
+     {
+      "x": -31.6,
+      "z": -56.25
+     }
+    ],
+    "queueNote": "6 waiting passengers in a line along the island, 0.8 m apart, behind the west aside point"
+   },
+   {
+    "id": "bay-3",
+    "lane": "load-lane-3",
+    "island": "island-2",
+    "route": "MILE 2",
+    "m4": true,
+    "danfo": "danfo-3-1",
+    "doorSide": "south (right-hand side, facing the island)",
+    "door": {
+     "x": -24,
+     "z": -50
+    },
+    "workPoint": {
+     "x": -24,
+     "z": -50.6,
+     "ry": 0,
+     "note": "conductor at the open sliding door, facing it"
+    },
+    "asidePoints": [
+     {
+      "id": "aside-west",
+      "x": -26.5,
+      "z": -51,
+      "note": "use when the player comes from the head aisle (east)"
+     },
+     {
+      "id": "aside-east",
+      "x": -21.7,
+      "z": -51,
+      "note": "use when the player comes from the tail aisle (west)"
+     }
+    ],
+    "asideRule": "pick the aside point farther from where the player stepped onto the island, so the bot never stands between the player and the door",
+    "queue": [
+     {
+      "x": -27.6,
+      "z": -51
+     },
+     {
+      "x": -28.4,
+      "z": -51
+     },
+     {
+      "x": -29.2,
+      "z": -51
+     },
+     {
+      "x": -30,
+      "z": -51
+     },
+     {
+      "x": -30.8,
+      "z": -51
+     },
+     {
+      "x": -31.6,
+      "z": -51
+     }
+    ],
+    "queueNote": "6 waiting passengers in a line along the island, 0.8 m apart, behind the west aside point"
+   },
+   {
+    "id": "bay-4",
+    "lane": "load-lane-4",
+    "island": "island-3",
+    "route": "OBALENDE",
+    "m4": false,
+    "danfo": "danfo-4-1",
+    "doorSide": "south (right-hand side, facing the island)",
+    "door": {
+     "x": -24,
+     "z": -44.75
+    },
+    "workPoint": {
+     "x": -24,
+     "z": -45.35,
+     "ry": 0,
+     "note": "conductor at the open sliding door, facing it"
+    },
+    "asidePoints": [
+     {
+      "id": "aside-west",
+      "x": -26.5,
+      "z": -45.75,
+      "note": "use when the player comes from the head aisle (east)"
+     },
+     {
+      "id": "aside-east",
+      "x": -21.7,
+      "z": -45.75,
+      "note": "use when the player comes from the tail aisle (west)"
+     }
+    ],
+    "asideRule": "pick the aside point farther from where the player stepped onto the island, so the bot never stands between the player and the door",
+    "queue": [
+     {
+      "x": -27.6,
+      "z": -45.75
+     },
+     {
+      "x": -28.4,
+      "z": -45.75
+     },
+     {
+      "x": -29.2,
+      "z": -45.75
+     },
+     {
+      "x": -30,
+      "z": -45.75
+     },
+     {
+      "x": -30.8,
+      "z": -45.75
+     },
+     {
+      "x": -31.6,
+      "z": -45.75
+     }
+    ],
+    "queueNote": "6 waiting passengers in a line along the island, 0.8 m apart, behind the west aside point"
+   },
+   {
+    "id": "bay-5",
+    "lane": "load-lane-5",
+    "island": "island-4",
+    "route": "IKOTUN",
+    "m4": false,
+    "danfo": "danfo-5-1",
+    "doorSide": "south (right-hand side, facing the island)",
+    "door": {
+     "x": -24,
+     "z": -39.5
+    },
+    "workPoint": {
+     "x": -24,
+     "z": -40.1,
+     "ry": 0,
+     "note": "conductor at the open sliding door, facing it"
+    },
+    "asidePoints": [
+     {
+      "id": "aside-west",
+      "x": -26.5,
+      "z": -40.5,
+      "note": "use when the player comes from the head aisle (east)"
+     },
+     {
+      "id": "aside-east",
+      "x": -21.7,
+      "z": -40.5,
+      "note": "use when the player comes from the tail aisle (west)"
+     }
+    ],
+    "asideRule": "pick the aside point farther from where the player stepped onto the island, so the bot never stands between the player and the door",
+    "queue": [
+     {
+      "x": -27.6,
+      "z": -40.5
+     },
+     {
+      "x": -28.4,
+      "z": -40.5
+     },
+     {
+      "x": -29.2,
+      "z": -40.5
+     },
+     {
+      "x": -30,
+      "z": -40.5
+     },
+     {
+      "x": -30.8,
+      "z": -40.5
+     },
+     {
+      "x": -31.6,
+      "z": -40.5
+     }
+    ],
+    "queueNote": "6 waiting passengers in a line along the island, 0.8 m apart, behind the west aside point"
+   }
+  ]
+ },
+ "okadaPark": {
+  "id": "okada-park",
+  "bikes": [
+   {
+    "id": "okada-1",
+    "x": 14,
+    "z": 0,
+    "ry": 45,
+    "size": {
+     "L": 2,
+     "W": 0.7,
+     "H": 1.1
+    }
+   },
+   {
+    "id": "okada-2",
+    "x": 14,
+    "z": 1.4,
+    "ry": 45,
+    "size": {
+     "L": 2,
+     "W": 0.7,
+     "H": 1.1
+    }
+   },
+   {
+    "id": "okada-3",
+    "x": 14,
+    "z": 2.8,
+    "ry": 45,
+    "size": {
+     "L": 2,
+     "W": 0.7,
+     "H": 1.1
+    }
+   },
+   {
+    "id": "okada-4",
+    "x": 14,
+    "z": 4.2,
+    "ry": 45,
+    "size": {
+     "L": 2,
+     "W": 0.7,
+     "H": 1.1
+    }
+   }
+  ],
+  "riderSlots": [
+   {
+    "id": "slot-okada-1",
+    "x": 15.8,
+    "z": 0,
+    "ry": 270,
+    "note": "M4 job slot marker"
+   },
+   {
+    "id": "slot-okada-2",
+    "x": 15.8,
+    "z": 1.4,
+    "ry": 270,
+    "note": "M4 job slot marker"
+   },
+   {
+    "id": "slot-okada-3",
+    "x": 15.8,
+    "z": 2.8,
+    "ry": 270,
+    "note": "M4 job slot marker"
+   },
+   {
+    "id": "slot-okada-4",
+    "x": 15.8,
+    "z": 4.2,
+    "ry": 270,
+    "note": "M4 job slot marker"
+   }
+  ]
+ },
+ "approach": {
+  "id": "approach-south",
+  "scene": "Approach_South",
+  "road": "ROAD-A (continued)",
+  "from": -150,
+  "to": -800,
+  "crossSection": "same as ROAD-A in the tile: 2 lanes each way, 2.1 m median with guard rail, kerbs 0.12, 3.5 m pavements both sides",
+  "lanes": [
+   {
+    "id": "app-west-sb",
+    "dir": "southbound",
+    "r": {
+     "x0": -7.55,
+     "z0": -700,
+     "x1": -1.05,
+     "z1": -150
+    }
+   },
+   {
+    "id": "app-east-nb",
+    "dir": "northbound",
+    "r": {
+     "x0": 1.05,
+     "z0": -700,
+     "x1": 7.55,
+     "z1": -150
+    }
+   }
+  ],
+  "dropStop": {
+   "id": "drop-stop-south",
+   "name": "Drop stop (use the real next stop name south of Oshodi on Agege Motor Road, from OSM)",
+   "layBy": {
+    "x0": -10.55,
+    "z0": -655,
+    "x1": -7.55,
+    "z1": -637
+   },
+   "stopPoint": {
+    "x": -9.05,
+    "z": -646,
+    "ry": 180,
+    "note": "danfo stops here, sliding door (right side) faces the west pavement"
+   },
+   "alightPoint": {
+    "x": -11.9,
+    "z": -646,
+    "note": "passengers step down onto the pavement here"
+   },
+   "shelter": {
+    "x": -15.2,
+    "z": -646,
+    "size": [
+     1.6,
+     4
+    ],
+    "note": "behind the pavement, never on it"
+   },
+   "routeDistanceFromPark": 597.5,
+   "note": "Lay-by is cut into the west verge so a stopped danfo never blocks the through lane; the pavement steps out around it and keeps 3.5 m."
+  },
+  "roundabout": {
+   "id": "turn-roundabout-south",
+   "centre": [
+    0,
+    -720
+   ],
+   "islandRadius": 9,
+   "ringOuterRadius": 16,
+   "kerbHeight": 0.12,
+   "note": "Turning point for the out-and-back. Drivable round the ring, never through the island. Island collider: cross plus centre square or a cylinder, never one square box (lesson L-125)."
+  },
+  "stubSouth": {
+   "x0": -7.55,
+   "z0": -800,
+   "x1": 7.55,
+   "z1": -736
+  },
+  "endBarrier": {
+   "z": -799,
+   "note": "solid barrier and fence across the road end; skyline continues beyond"
+  },
+  "streamingTestStart": {
+   "x": -10.25,
+   "y": 0.12,
+   "z": -790,
+   "ry": 0,
+   "note": "640 m from the tile edge, just outside the 600 m wake ring"
+  }
+ },
+ "propTypes": {
+  "nepa_pole": {
+   "w": 0.3,
+   "d": 0.3,
+   "h": 9,
+   "collider": "capsule",
+   "layer": "Prop",
+   "instanced": true
+  },
+  "street_lamp": {
+   "w": 0.3,
+   "d": 0.3,
+   "h": 9,
+   "collider": "capsule",
+   "layer": "Prop",
+   "instanced": true,
+   "armOverRoad": 2.5,
+   "light": true
+  },
+  "soffit_lamp": {
+   "w": 0.6,
+   "d": 0.6,
+   "h": 0.3,
+   "mountY": 5.7,
+   "collider": "none",
+   "layer": "CameraIgnore",
+   "instanced": true,
+   "light": true,
+   "overhead": true
+  },
+  "guard_rail": {
+   "collider": "box",
+   "layer": "Prop",
+   "h": 1.2
+  },
+  "stall": {
+   "w": 2,
+   "d": 2,
+   "h": 2.4,
+   "collider": "box",
+   "layer": "Prop",
+   "instanced": true,
+   "note": "table + awning at 2.2 m"
+  },
+  "umbrella": {
+   "w": 2.2,
+   "d": 2.2,
+   "h": 2.3,
+   "collider": "capsule-pole-only",
+   "layer": "CameraIgnore",
+   "instanced": true,
+   "note": "collider is the pole only, canopy ignored by the camera"
+  },
+  "bus_shelter": {
+   "w": 1.6,
+   "d": 4,
+   "h": 2.6,
+   "collider": "box",
+   "layer": "Prop"
+  },
+  "bus_stop_pole": {
+   "w": 0.15,
+   "d": 0.15,
+   "h": 2.8,
+   "collider": "capsule",
+   "layer": "Prop",
+   "instanced": true
+  },
+  "street_sign": {
+   "w": 0.15,
+   "d": 0.15,
+   "h": 3,
+   "collider": "capsule",
+   "layer": "Prop",
+   "instanced": true
+  },
+  "generator": {
+   "w": 1.2,
+   "d": 0.8,
+   "h": 1,
+   "collider": "box",
+   "layer": "Prop",
+   "instanced": true,
+   "noise": true
+  },
+  "pos_kiosk": {
+   "w": 2,
+   "d": 2,
+   "h": 2.5,
+   "collider": "box",
+   "layer": "Prop"
+  },
+  "tree_almond": {
+   "w": 0.5,
+   "d": 0.5,
+   "h": 7,
+   "canopy": 5,
+   "collider": "capsule-trunk",
+   "layer": "Prop",
+   "instanced": true
+  },
+  "tyre_stack": {
+   "w": 0.8,
+   "d": 0.8,
+   "h": 1,
+   "collider": "capsule",
+   "layer": "Prop",
+   "instanced": true
+  },
+  "car_shell": {
+   "w": 1.8,
+   "d": 4.5,
+   "h": 1.45,
+   "collider": "box",
+   "layer": "Prop",
+   "instanced": true
+  },
+  "hoarding": {
+   "w": 8,
+   "d": 0.4,
+   "h": 4,
+   "collider": "none",
+   "layer": "CameraIgnore",
+   "note": "billboard, mounted high"
+  },
+  "poster": {
+   "collider": "none",
+   "layer": "CameraIgnore",
+   "note": "quad on a pier, 0.02 off the face"
+  },
+  "warden_marker": {
+   "w": 0.8,
+   "d": 0.8,
+   "h": 0,
+   "collider": "none",
+   "layer": "Marker"
+  },
+  "hawker_marker": {
+   "w": 0.8,
+   "d": 0.8,
+   "h": 0,
+   "collider": "none",
+   "layer": "Marker"
+  }
+ },
+ "props": [
+  {
+   "id": "nepa-AW-1",
+   "type": "nepa_pole",
+   "x": -8.75,
+   "z": -145,
+   "ry": 0
+  },
+  {
+   "id": "nepa-AW-2",
+   "type": "nepa_pole",
+   "x": -8.75,
+   "z": -115,
+   "ry": 0
+  },
+  {
+   "id": "nepa-AW-3",
+   "type": "nepa_pole",
+   "x": -8.75,
+   "z": -85,
+   "ry": 0
+  },
+  {
+   "id": "nepa-AW-4",
+   "type": "nepa_pole",
+   "x": -8.75,
+   "z": -55,
+   "ry": 0
+  },
+  {
+   "id": "nepa-AW-5",
+   "type": "nepa_pole",
+   "x": -8.75,
+   "z": -25,
+   "ry": 0
+  },
+  {
+   "id": "nepa-AW-6",
+   "type": "nepa_pole",
+   "x": -8.75,
+   "z": 5,
+   "ry": 0
+  },
+  {
+   "id": "nepa-AW-7",
+   "type": "nepa_pole",
+   "x": -8.75,
+   "z": 65,
+   "ry": 0
+  },
+  {
+   "id": "nepa-AW-8",
+   "type": "nepa_pole",
+   "x": -8.75,
+   "z": 95,
+   "ry": 0
+  },
+  {
+   "id": "nepa-AW-9",
+   "type": "nepa_pole",
+   "x": -8.75,
+   "z": 125,
+   "ry": 0
+  },
+  {
+   "id": "nepa-AE-1",
+   "type": "nepa_pole",
+   "x": 8.75,
+   "z": -145,
+   "ry": 0
+  },
+  {
+   "id": "nepa-AE-2",
+   "type": "nepa_pole",
+   "x": 8.75,
+   "z": -115,
+   "ry": 0
+  },
+  {
+   "id": "nepa-AE-3",
+   "type": "nepa_pole",
+   "x": 8.75,
+   "z": -85,
+   "ry": 0
+  },
+  {
+   "id": "nepa-AE-4",
+   "type": "nepa_pole",
+   "x": 8.75,
+   "z": -55,
+   "ry": 0
+  },
+  {
+   "id": "nepa-AE-5",
+   "type": "nepa_pole",
+   "x": 8.75,
+   "z": -25,
+   "ry": 0
+  },
+  {
+   "id": "nepa-AE-6",
+   "type": "nepa_pole",
+   "x": 8.75,
+   "z": 8,
+   "ry": 0
+  },
+  {
+   "id": "nepa-AE-7",
+   "type": "nepa_pole",
+   "x": 8.75,
+   "z": 65,
+   "ry": 0
+  },
+  {
+   "id": "nepa-AE-8",
+   "type": "nepa_pole",
+   "x": 8.75,
+   "z": 95,
+   "ry": 0
+  },
+  {
+   "id": "nepa-AE-9",
+   "type": "nepa_pole",
+   "x": 8.75,
+   "z": 125,
+   "ry": 0
+  },
+  {
+   "id": "nepa-BN-1",
+   "type": "nepa_pole",
+   "x": -110,
+   "z": -65.55,
+   "ry": 0
+  },
+  {
+   "id": "nepa-BN-2",
+   "type": "nepa_pole",
+   "x": -80,
+   "z": -65.55,
+   "ry": 0
+  },
+  {
+   "id": "nepa-BN-3",
+   "type": "nepa_pole",
+   "x": -50,
+   "z": -65.55,
+   "ry": 0
+  },
+  {
+   "id": "nepa-BN-4",
+   "type": "nepa_pole",
+   "x": -20,
+   "z": -65.55,
+   "ry": 0
+  },
+  {
+   "id": "nepa-BN-5",
+   "type": "nepa_pole",
+   "x": 20,
+   "z": -65.55,
+   "ry": 0
+  },
+  {
+   "id": "nepa-BN-6",
+   "type": "nepa_pole",
+   "x": 50,
+   "z": -65.55,
+   "ry": 0
+  },
+  {
+   "id": "nepa-BN-7",
+   "type": "nepa_pole",
+   "x": 80,
+   "z": -65.55,
+   "ry": 0
+  },
+  {
+   "id": "nepa-BN-8",
+   "type": "nepa_pole",
+   "x": 110,
+   "z": -65.55,
+   "ry": 0
+  },
+  {
+   "id": "nepa-BS-1",
+   "type": "nepa_pole",
+   "x": -110,
+   "z": -74.45,
+   "ry": 0
+  },
+  {
+   "id": "nepa-BS-2",
+   "type": "nepa_pole",
+   "x": -80,
+   "z": -74.45,
+   "ry": 0
+  },
+  {
+   "id": "nepa-BS-3",
+   "type": "nepa_pole",
+   "x": -50,
+   "z": -74.45,
+   "ry": 0
+  },
+  {
+   "id": "nepa-BS-4",
+   "type": "nepa_pole",
+   "x": -20,
+   "z": -74.45,
+   "ry": 0
+  },
+  {
+   "id": "nepa-BS-5",
+   "type": "nepa_pole",
+   "x": 20,
+   "z": -74.45,
+   "ry": 0
+  },
+  {
+   "id": "nepa-BS-6",
+   "type": "nepa_pole",
+   "x": 50,
+   "z": -74.45,
+   "ry": 0
+  },
+  {
+   "id": "nepa-BS-7",
+   "type": "nepa_pole",
+   "x": 80,
+   "z": -74.45,
+   "ry": 0
+  },
+  {
+   "id": "nepa-BS-8",
+   "type": "nepa_pole",
+   "x": 110,
+   "z": -74.45,
+   "ry": 0
+  },
+  {
+   "id": "lamp-AW-1",
+   "type": "street_lamp",
+   "x": -8.75,
+   "z": -130,
+   "ry": 0
+  },
+  {
+   "id": "lamp-AW-2",
+   "type": "street_lamp",
+   "x": -8.75,
+   "z": -100,
+   "ry": 0
+  },
+  {
+   "id": "lamp-AW-3",
+   "type": "street_lamp",
+   "x": -8.75,
+   "z": -61,
+   "ry": 0
+  },
+  {
+   "id": "lamp-AW-4",
+   "type": "street_lamp",
+   "x": -8.75,
+   "z": -40,
+   "ry": 0
+  },
+  {
+   "id": "lamp-AW-5",
+   "type": "street_lamp",
+   "x": -8.75,
+   "z": -10,
+   "ry": 0
+  },
+  {
+   "id": "lamp-AW-6",
+   "type": "street_lamp",
+   "x": -8.75,
+   "z": 20,
+   "ry": 0
+  },
+  {
+   "id": "lamp-AW-7",
+   "type": "street_lamp",
+   "x": -8.75,
+   "z": 80,
+   "ry": 0
+  },
+  {
+   "id": "lamp-AW-8",
+   "type": "street_lamp",
+   "x": -8.75,
+   "z": 110,
+   "ry": 0
+  },
+  {
+   "id": "lamp-AW-9",
+   "type": "street_lamp",
+   "x": -8.75,
+   "z": 140,
+   "ry": 0
+  },
+  {
+   "id": "lamp-AE-1",
+   "type": "street_lamp",
+   "x": 8.75,
+   "z": -130,
+   "ry": 0
+  },
+  {
+   "id": "lamp-AE-2",
+   "type": "street_lamp",
+   "x": 8.75,
+   "z": -100,
+   "ry": 0
+  },
+  {
+   "id": "lamp-AE-3",
+   "type": "street_lamp",
+   "x": 8.75,
+   "z": -61,
+   "ry": 0
+  },
+  {
+   "id": "lamp-AE-4",
+   "type": "street_lamp",
+   "x": 8.75,
+   "z": -40,
+   "ry": 0
+  },
+  {
+   "id": "lamp-AE-5",
+   "type": "street_lamp",
+   "x": 8.75,
+   "z": -10,
+   "ry": 0
+  },
+  {
+   "id": "lamp-AE-6",
+   "type": "street_lamp",
+   "x": 8.75,
+   "z": 20,
+   "ry": 0
+  },
+  {
+   "id": "lamp-AE-7",
+   "type": "street_lamp",
+   "x": 8.75,
+   "z": 80,
+   "ry": 0
+  },
+  {
+   "id": "lamp-AE-8",
+   "type": "street_lamp",
+   "x": 8.75,
+   "z": 110,
+   "ry": 0
+  },
+  {
+   "id": "lamp-AE-9",
+   "type": "street_lamp",
+   "x": 8.75,
+   "z": 140,
+   "ry": 0
+  },
+  {
+   "id": "lamp-BN-1",
+   "type": "street_lamp",
+   "x": -95,
+   "z": -65.55,
+   "ry": 0
+  },
+  {
+   "id": "lamp-BN-2",
+   "type": "street_lamp",
+   "x": -65,
+   "z": -65.55,
+   "ry": 0
+  },
+  {
+   "id": "lamp-BN-3",
+   "type": "street_lamp",
+   "x": -35,
+   "z": -65.55,
+   "ry": 0
+  },
+  {
+   "id": "lamp-BN-4",
+   "type": "street_lamp",
+   "x": 35,
+   "z": -65.55,
+   "ry": 0
+  },
+  {
+   "id": "lamp-BN-5",
+   "type": "street_lamp",
+   "x": 65,
+   "z": -65.55,
+   "ry": 0
+  },
+  {
+   "id": "lamp-BN-6",
+   "type": "street_lamp",
+   "x": 95,
+   "z": -65.55,
+   "ry": 0
+  },
+  {
+   "id": "lamp-BS-1",
+   "type": "street_lamp",
+   "x": -95,
+   "z": -74.45,
+   "ry": 0
+  },
+  {
+   "id": "lamp-BS-2",
+   "type": "street_lamp",
+   "x": -65,
+   "z": -74.45,
+   "ry": 0
+  },
+  {
+   "id": "lamp-BS-3",
+   "type": "street_lamp",
+   "x": -35,
+   "z": -74.45,
+   "ry": 0
+  },
+  {
+   "id": "lamp-BS-4",
+   "type": "street_lamp",
+   "x": 35,
+   "z": -74.45,
+   "ry": 0
+  },
+  {
+   "id": "lamp-BS-5",
+   "type": "street_lamp",
+   "x": 65,
+   "z": -74.45,
+   "ry": 0
+  },
+  {
+   "id": "lamp-BS-6",
+   "type": "street_lamp",
+   "x": 95,
+   "z": -74.45,
+   "ry": 0
+  },
+  {
+   "id": "soffit-1",
+   "type": "soffit_lamp",
+   "x": -60,
+   "z": 45,
+   "ry": 0,
+   "y": 5.7
+  },
+  {
+   "id": "soffit-2",
+   "type": "soffit_lamp",
+   "x": -45,
+   "z": 45,
+   "ry": 0,
+   "y": 5.7
+  },
+  {
+   "id": "soffit-3",
+   "type": "soffit_lamp",
+   "x": -30,
+   "z": 45,
+   "ry": 0,
+   "y": 5.7
+  },
+  {
+   "id": "soffit-4",
+   "type": "soffit_lamp",
+   "x": -5,
+   "z": 45,
+   "ry": 0,
+   "y": 5.7
+  },
+  {
+   "id": "soffit-5",
+   "type": "soffit_lamp",
+   "x": 5,
+   "z": 45,
+   "ry": 0,
+   "y": 5.7
+  },
+  {
+   "id": "soffit-6",
+   "type": "soffit_lamp",
+   "x": 30,
+   "z": 45,
+   "ry": 0,
+   "y": 5.7
+  },
+  {
+   "id": "soffit-7",
+   "type": "soffit_lamp",
+   "x": 45,
+   "z": 45,
+   "ry": 0,
+   "y": 5.7
+  },
+  {
+   "id": "soffit-8",
+   "type": "soffit_lamp",
+   "x": 60,
+   "z": 45,
+   "ry": 0,
+   "y": 5.7
+  },
+  {
+   "id": "rail-median-north",
+   "type": "guard_rail",
+   "x": 0,
+   "z": 45.25,
+   "ry": 0,
+   "from": [
+    0,
+    -59.5
+   ],
+   "to": [
+    0,
+    150
+   ]
+  },
+  {
+   "id": "rail-median-south",
+   "type": "guard_rail",
+   "x": 0,
+   "z": -115.25,
+   "ry": 0,
+   "from": [
+    0,
+    -150
+   ],
+   "to": [
+    0,
+    -80.5
+   ]
+  },
+  {
+   "id": "stall-W-r1-s1-1",
+   "type": "stall",
+   "x": -18,
+   "z": 41,
+   "ry": 90
+  },
+  {
+   "id": "stall-W-r1-s1-2",
+   "type": "stall",
+   "x": -20,
+   "z": 41,
+   "ry": 90
+  },
+  {
+   "id": "stall-W-r1-s1-3",
+   "type": "stall",
+   "x": -22,
+   "z": 41,
+   "ry": 90
+  },
+  {
+   "id": "stall-W-r1-s1-4",
+   "type": "stall",
+   "x": -24,
+   "z": 41,
+   "ry": 90
+  },
+  {
+   "id": "stall-W-r1-s1-5",
+   "type": "stall",
+   "x": -26,
+   "z": 41,
+   "ry": 90
+  },
+  {
+   "id": "stall-W-r1-s1-6",
+   "type": "stall",
+   "x": -28,
+   "z": 41,
+   "ry": 90
+  },
+  {
+   "id": "stall-W-r1-s1-7",
+   "type": "stall",
+   "x": -30,
+   "z": 41,
+   "ry": 90
+  },
+  {
+   "id": "stall-W-r1-s1-8",
+   "type": "stall",
+   "x": -32,
+   "z": 41,
+   "ry": 90
+  },
+  {
+   "id": "stall-W-r1-s2-1",
+   "type": "stall",
+   "x": -44,
+   "z": 41,
+   "ry": 90
+  },
+  {
+   "id": "stall-W-r1-s2-2",
+   "type": "stall",
+   "x": -46,
+   "z": 41,
+   "ry": 90
+  },
+  {
+   "id": "stall-W-r1-s2-3",
+   "type": "stall",
+   "x": -48,
+   "z": 41,
+   "ry": 90
+  },
+  {
+   "id": "stall-W-r1-s2-4",
+   "type": "stall",
+   "x": -50,
+   "z": 41,
+   "ry": 90
+  },
+  {
+   "id": "stall-W-r1-s2-5",
+   "type": "stall",
+   "x": -52,
+   "z": 41,
+   "ry": 90
+  },
+  {
+   "id": "stall-W-r1-s2-6",
+   "type": "stall",
+   "x": -54,
+   "z": 41,
+   "ry": 90
+  },
+  {
+   "id": "stall-W-r1-s2-7",
+   "type": "stall",
+   "x": -56,
+   "z": 41,
+   "ry": 90
+  },
+  {
+   "id": "stall-W-r1-s2-8",
+   "type": "stall",
+   "x": -58,
+   "z": 41,
+   "ry": 90
+  },
+  {
+   "id": "stall-W-r2-s1-1",
+   "type": "stall",
+   "x": -18,
+   "z": 45.6,
+   "ry": 90
+  },
+  {
+   "id": "stall-W-r2-s1-2",
+   "type": "stall",
+   "x": -20,
+   "z": 45.6,
+   "ry": 90
+  },
+  {
+   "id": "stall-W-r2-s1-3",
+   "type": "stall",
+   "x": -22,
+   "z": 45.6,
+   "ry": 90
+  },
+  {
+   "id": "stall-W-r2-s1-4",
+   "type": "stall",
+   "x": -24,
+   "z": 45.6,
+   "ry": 90
+  },
+  {
+   "id": "stall-W-r2-s1-5",
+   "type": "stall",
+   "x": -26,
+   "z": 45.6,
+   "ry": 90
+  },
+  {
+   "id": "stall-W-r2-s1-6",
+   "type": "stall",
+   "x": -28,
+   "z": 45.6,
+   "ry": 90
+  },
+  {
+   "id": "stall-W-r2-s1-7",
+   "type": "stall",
+   "x": -30,
+   "z": 45.6,
+   "ry": 90
+  },
+  {
+   "id": "stall-W-r2-s1-8",
+   "type": "stall",
+   "x": -32,
+   "z": 45.6,
+   "ry": 90
+  },
+  {
+   "id": "stall-W-r2-s2-1",
+   "type": "stall",
+   "x": -44,
+   "z": 45.6,
+   "ry": 90
+  },
+  {
+   "id": "stall-W-r2-s2-2",
+   "type": "stall",
+   "x": -46,
+   "z": 45.6,
+   "ry": 90
+  },
+  {
+   "id": "stall-W-r2-s2-3",
+   "type": "stall",
+   "x": -48,
+   "z": 45.6,
+   "ry": 90
+  },
+  {
+   "id": "stall-W-r2-s2-4",
+   "type": "stall",
+   "x": -50,
+   "z": 45.6,
+   "ry": 90
+  },
+  {
+   "id": "stall-W-r2-s2-5",
+   "type": "stall",
+   "x": -52,
+   "z": 45.6,
+   "ry": 90
+  },
+  {
+   "id": "stall-W-r2-s2-6",
+   "type": "stall",
+   "x": -54,
+   "z": 45.6,
+   "ry": 90
+  },
+  {
+   "id": "stall-W-r2-s2-7",
+   "type": "stall",
+   "x": -56,
+   "z": 45.6,
+   "ry": 90
+  },
+  {
+   "id": "stall-W-r2-s2-8",
+   "type": "stall",
+   "x": -58,
+   "z": 45.6,
+   "ry": 90
+  },
+  {
+   "id": "stall-W-r3-s1-1",
+   "type": "stall",
+   "x": -18,
+   "z": 50.2,
+   "ry": 90
+  },
+  {
+   "id": "stall-W-r3-s1-2",
+   "type": "stall",
+   "x": -20,
+   "z": 50.2,
+   "ry": 90
+  },
+  {
+   "id": "stall-W-r3-s1-3",
+   "type": "stall",
+   "x": -22,
+   "z": 50.2,
+   "ry": 90
+  },
+  {
+   "id": "stall-W-r3-s1-4",
+   "type": "stall",
+   "x": -24,
+   "z": 50.2,
+   "ry": 90
+  },
+  {
+   "id": "stall-W-r3-s1-5",
+   "type": "stall",
+   "x": -26,
+   "z": 50.2,
+   "ry": 90
+  },
+  {
+   "id": "stall-W-r3-s1-6",
+   "type": "stall",
+   "x": -28,
+   "z": 50.2,
+   "ry": 90
+  },
+  {
+   "id": "stall-W-r3-s1-7",
+   "type": "stall",
+   "x": -30,
+   "z": 50.2,
+   "ry": 90
+  },
+  {
+   "id": "stall-W-r3-s1-8",
+   "type": "stall",
+   "x": -32,
+   "z": 50.2,
+   "ry": 90
+  },
+  {
+   "id": "stall-W-r3-s2-1",
+   "type": "stall",
+   "x": -44,
+   "z": 50.2,
+   "ry": 90
+  },
+  {
+   "id": "stall-W-r3-s2-2",
+   "type": "stall",
+   "x": -46,
+   "z": 50.2,
+   "ry": 90
+  },
+  {
+   "id": "stall-W-r3-s2-3",
+   "type": "stall",
+   "x": -48,
+   "z": 50.2,
+   "ry": 90
+  },
+  {
+   "id": "stall-W-r3-s2-4",
+   "type": "stall",
+   "x": -50,
+   "z": 50.2,
+   "ry": 90
+  },
+  {
+   "id": "stall-W-r3-s2-5",
+   "type": "stall",
+   "x": -52,
+   "z": 50.2,
+   "ry": 90
+  },
+  {
+   "id": "stall-W-r3-s2-6",
+   "type": "stall",
+   "x": -54,
+   "z": 50.2,
+   "ry": 90
+  },
+  {
+   "id": "stall-W-r3-s2-7",
+   "type": "stall",
+   "x": -56,
+   "z": 50.2,
+   "ry": 90
+  },
+  {
+   "id": "stall-W-r3-s2-8",
+   "type": "stall",
+   "x": -58,
+   "z": 50.2,
+   "ry": 90
+  },
+  {
+   "id": "stall-E-r1-s1-1",
+   "type": "stall",
+   "x": 18,
+   "z": 41,
+   "ry": 270
+  },
+  {
+   "id": "stall-E-r1-s1-2",
+   "type": "stall",
+   "x": 20,
+   "z": 41,
+   "ry": 270
+  },
+  {
+   "id": "stall-E-r1-s1-3",
+   "type": "stall",
+   "x": 22,
+   "z": 41,
+   "ry": 270
+  },
+  {
+   "id": "stall-E-r1-s1-4",
+   "type": "stall",
+   "x": 24,
+   "z": 41,
+   "ry": 270
+  },
+  {
+   "id": "stall-E-r1-s1-5",
+   "type": "stall",
+   "x": 26,
+   "z": 41,
+   "ry": 270
+  },
+  {
+   "id": "stall-E-r1-s1-6",
+   "type": "stall",
+   "x": 28,
+   "z": 41,
+   "ry": 270
+  },
+  {
+   "id": "stall-E-r1-s1-7",
+   "type": "stall",
+   "x": 30,
+   "z": 41,
+   "ry": 270
+  },
+  {
+   "id": "stall-E-r1-s1-8",
+   "type": "stall",
+   "x": 32,
+   "z": 41,
+   "ry": 270
+  },
+  {
+   "id": "stall-E-r1-s2-1",
+   "type": "stall",
+   "x": 44,
+   "z": 41,
+   "ry": 270
+  },
+  {
+   "id": "stall-E-r1-s2-2",
+   "type": "stall",
+   "x": 46,
+   "z": 41,
+   "ry": 270
+  },
+  {
+   "id": "stall-E-r1-s2-3",
+   "type": "stall",
+   "x": 48,
+   "z": 41,
+   "ry": 270
+  },
+  {
+   "id": "stall-E-r1-s2-4",
+   "type": "stall",
+   "x": 50,
+   "z": 41,
+   "ry": 270
+  },
+  {
+   "id": "stall-E-r1-s2-5",
+   "type": "stall",
+   "x": 52,
+   "z": 41,
+   "ry": 270
+  },
+  {
+   "id": "stall-E-r1-s2-6",
+   "type": "stall",
+   "x": 54,
+   "z": 41,
+   "ry": 270
+  },
+  {
+   "id": "stall-E-r1-s2-7",
+   "type": "stall",
+   "x": 56,
+   "z": 41,
+   "ry": 270
+  },
+  {
+   "id": "stall-E-r1-s2-8",
+   "type": "stall",
+   "x": 58,
+   "z": 41,
+   "ry": 270
+  },
+  {
+   "id": "stall-E-r2-s1-1",
+   "type": "stall",
+   "x": 18,
+   "z": 45.6,
+   "ry": 270
+  },
+  {
+   "id": "stall-E-r2-s1-2",
+   "type": "stall",
+   "x": 20,
+   "z": 45.6,
+   "ry": 270
+  },
+  {
+   "id": "stall-E-r2-s1-3",
+   "type": "stall",
+   "x": 22,
+   "z": 45.6,
+   "ry": 270
+  },
+  {
+   "id": "stall-E-r2-s1-4",
+   "type": "stall",
+   "x": 24,
+   "z": 45.6,
+   "ry": 270
+  },
+  {
+   "id": "stall-E-r2-s1-5",
+   "type": "stall",
+   "x": 26,
+   "z": 45.6,
+   "ry": 270
+  },
+  {
+   "id": "stall-E-r2-s1-6",
+   "type": "stall",
+   "x": 28,
+   "z": 45.6,
+   "ry": 270
+  },
+  {
+   "id": "stall-E-r2-s1-7",
+   "type": "stall",
+   "x": 30,
+   "z": 45.6,
+   "ry": 270
+  },
+  {
+   "id": "stall-E-r2-s1-8",
+   "type": "stall",
+   "x": 32,
+   "z": 45.6,
+   "ry": 270
+  },
+  {
+   "id": "stall-E-r2-s2-1",
+   "type": "stall",
+   "x": 44,
+   "z": 45.6,
+   "ry": 270
+  },
+  {
+   "id": "stall-E-r2-s2-2",
+   "type": "stall",
+   "x": 46,
+   "z": 45.6,
+   "ry": 270
+  },
+  {
+   "id": "stall-E-r2-s2-3",
+   "type": "stall",
+   "x": 48,
+   "z": 45.6,
+   "ry": 270
+  },
+  {
+   "id": "stall-E-r2-s2-4",
+   "type": "stall",
+   "x": 50,
+   "z": 45.6,
+   "ry": 270
+  },
+  {
+   "id": "stall-E-r2-s2-5",
+   "type": "stall",
+   "x": 52,
+   "z": 45.6,
+   "ry": 270
+  },
+  {
+   "id": "stall-E-r2-s2-6",
+   "type": "stall",
+   "x": 54,
+   "z": 45.6,
+   "ry": 270
+  },
+  {
+   "id": "stall-E-r2-s2-7",
+   "type": "stall",
+   "x": 56,
+   "z": 45.6,
+   "ry": 270
+  },
+  {
+   "id": "stall-E-r2-s2-8",
+   "type": "stall",
+   "x": 58,
+   "z": 45.6,
+   "ry": 270
+  },
+  {
+   "id": "stall-E-r3-s1-1",
+   "type": "stall",
+   "x": 18,
+   "z": 50.2,
+   "ry": 270
+  },
+  {
+   "id": "stall-E-r3-s1-2",
+   "type": "stall",
+   "x": 20,
+   "z": 50.2,
+   "ry": 270
+  },
+  {
+   "id": "stall-E-r3-s1-3",
+   "type": "stall",
+   "x": 22,
+   "z": 50.2,
+   "ry": 270
+  },
+  {
+   "id": "stall-E-r3-s1-4",
+   "type": "stall",
+   "x": 24,
+   "z": 50.2,
+   "ry": 270
+  },
+  {
+   "id": "stall-E-r3-s1-5",
+   "type": "stall",
+   "x": 26,
+   "z": 50.2,
+   "ry": 270
+  },
+  {
+   "id": "stall-E-r3-s1-6",
+   "type": "stall",
+   "x": 28,
+   "z": 50.2,
+   "ry": 270
+  },
+  {
+   "id": "stall-E-r3-s1-7",
+   "type": "stall",
+   "x": 30,
+   "z": 50.2,
+   "ry": 270
+  },
+  {
+   "id": "stall-E-r3-s1-8",
+   "type": "stall",
+   "x": 32,
+   "z": 50.2,
+   "ry": 270
+  },
+  {
+   "id": "stall-E-r3-s2-1",
+   "type": "stall",
+   "x": 44,
+   "z": 50.2,
+   "ry": 270
+  },
+  {
+   "id": "stall-E-r3-s2-2",
+   "type": "stall",
+   "x": 46,
+   "z": 50.2,
+   "ry": 270
+  },
+  {
+   "id": "stall-E-r3-s2-3",
+   "type": "stall",
+   "x": 48,
+   "z": 50.2,
+   "ry": 270
+  },
+  {
+   "id": "stall-E-r3-s2-4",
+   "type": "stall",
+   "x": 50,
+   "z": 50.2,
+   "ry": 270
+  },
+  {
+   "id": "stall-E-r3-s2-5",
+   "type": "stall",
+   "x": 52,
+   "z": 50.2,
+   "ry": 270
+  },
+  {
+   "id": "stall-E-r3-s2-6",
+   "type": "stall",
+   "x": 54,
+   "z": 50.2,
+   "ry": 270
+  },
+  {
+   "id": "stall-E-r3-s2-7",
+   "type": "stall",
+   "x": 56,
+   "z": 50.2,
+   "ry": 270
+  },
+  {
+   "id": "stall-E-r3-s2-8",
+   "type": "stall",
+   "x": 58,
+   "z": 50.2,
+   "ry": 270
+  },
+  {
+   "id": "umbrella-1",
+   "type": "umbrella",
+   "x": -46,
+   "z": -30,
+   "ry": 0
+  },
+  {
+   "id": "umbrella-2",
+   "type": "umbrella",
+   "x": -38,
+   "z": -30.5,
+   "ry": 0
+  },
+  {
+   "id": "umbrella-3",
+   "type": "umbrella",
+   "x": -34,
+   "z": -26,
+   "ry": 0
+  },
+  {
+   "id": "umbrella-4",
+   "type": "umbrella",
+   "x": 18,
+   "z": -40,
+   "ry": 0
+  },
+  {
+   "id": "umbrella-5",
+   "type": "umbrella",
+   "x": 20,
+   "z": -8,
+   "ry": 0
+  },
+  {
+   "id": "umbrella-6",
+   "type": "umbrella",
+   "x": 30,
+   "z": -10,
+   "ry": 0
+  },
+  {
+   "id": "slot-hawker-1",
+   "type": "hawker_marker",
+   "x": -44,
+   "z": -26,
+   "ry": 0,
+   "note": "M4 job slot marker"
+  },
+  {
+   "id": "slot-hawker-2",
+   "type": "hawker_marker",
+   "x": -38,
+   "z": -30.5,
+   "ry": 0,
+   "note": "M4 job slot marker"
+  },
+  {
+   "id": "slot-hawker-3",
+   "type": "hawker_marker",
+   "x": -14.2,
+   "z": 38.5,
+   "ry": 0,
+   "note": "M4 job slot marker"
+  },
+  {
+   "id": "slot-hawker-4",
+   "type": "hawker_marker",
+   "x": 14.2,
+   "z": 38.5,
+   "ry": 0,
+   "note": "M4 job slot marker"
+  },
+  {
+   "id": "slot-hawker-5",
+   "type": "hawker_marker",
+   "x": 18,
+   "z": -36,
+   "ry": 0,
+   "note": "M4 job slot marker"
+  },
+  {
+   "id": "slot-hawker-6",
+   "type": "hawker_marker",
+   "x": 22,
+   "z": -6,
+   "ry": 0,
+   "note": "M4 job slot marker"
+  },
+  {
+   "id": "slot-hawker-7",
+   "type": "hawker_marker",
+   "x": -11.7,
+   "z": 0,
+   "ry": 0,
+   "note": "M4 job slot marker"
+  },
+  {
+   "id": "slot-hawker-8",
+   "type": "hawker_marker",
+   "x": -11.7,
+   "z": -15,
+   "ry": 0,
+   "note": "M4 job slot marker"
+  },
+  {
+   "id": "shelter-oshodi-under-bridge",
+   "type": "bus_shelter",
+   "x": -12.2,
+   "z": 45,
+   "ry": 0,
+   "opensTo": "east (the road)",
+   "sign": "OSHODI UNDER BRIDGE"
+  },
+  {
+   "id": "stop-pole-oshodi-under-bridge",
+   "type": "bus_stop_pole",
+   "x": -8.75,
+   "z": 42,
+   "ry": 0,
+   "sign": "OSHODI UNDER BRIDGE"
+  },
+  {
+   "id": "sign-NW",
+   "type": "street_sign",
+   "x": -8.75,
+   "z": -65.55,
+   "ry": 0,
+   "text": "AGEGE MOTOR ROAD"
+  },
+  {
+   "id": "sign-SE",
+   "type": "street_sign",
+   "x": 8.75,
+   "z": -74.45,
+   "ry": 0,
+   "text": "AGEGE MOTOR ROAD"
+  },
+  {
+   "id": "sign-NE",
+   "type": "street_sign",
+   "x": 8.75,
+   "z": -65.55,
+   "ry": 0,
+   "text": "SIDE STREET (OSM NAME)"
+  },
+  {
+   "id": "slot-lastma-warden",
+   "type": "warden_marker",
+   "x": 9.8,
+   "z": -65,
+   "ry": 225,
+   "note": "LASTMA warden stands here at rush hour (later milestone)"
+  },
+  {
+   "id": "gen-1",
+   "type": "generator",
+   "x": -11.85,
+   "z": 66,
+   "ry": 0,
+   "w": 0.6,
+   "d": 1.2
+  },
+  {
+   "id": "gen-2",
+   "type": "generator",
+   "x": -11.85,
+   "z": 103.5,
+   "ry": 0,
+   "w": 0.6,
+   "d": 1.2
+  },
+  {
+   "id": "gen-3",
+   "type": "generator",
+   "x": 11.85,
+   "z": 78.5,
+   "ry": 0,
+   "w": 0.6,
+   "d": 1.2
+  },
+  {
+   "id": "gen-4",
+   "type": "generator",
+   "x": 11.85,
+   "z": -98.5,
+   "ry": 0,
+   "w": 0.6,
+   "d": 1.2
+  },
+  {
+   "id": "gen-5",
+   "type": "generator",
+   "x": -11.85,
+   "z": -111,
+   "ry": 0,
+   "w": 0.6,
+   "d": 1.2
+  },
+  {
+   "id": "gen-yard",
+   "type": "generator",
+   "x": -30,
+   "z": -4,
+   "ry": 0
+  },
+  {
+   "id": "kiosk-pos",
+   "type": "pos_kiosk",
+   "x": 19,
+   "z": 12,
+   "ry": 0,
+   "sign": "POS"
+  },
+  {
+   "id": "car-shell-1",
+   "type": "car_shell",
+   "x": -44,
+   "z": -14,
+   "ry": 0
+  },
+  {
+   "id": "car-shell-2",
+   "type": "car_shell",
+   "x": -38,
+   "z": -6,
+   "ry": 15
+  },
+  {
+   "id": "car-shell-3",
+   "type": "car_shell",
+   "x": -46,
+   "z": -3,
+   "ry": 80
+  },
+  {
+   "id": "tyres-1",
+   "type": "tyre_stack",
+   "x": -30,
+   "z": -18,
+   "ry": 0
+  },
+  {
+   "id": "tyres-2",
+   "type": "tyre_stack",
+   "x": -29,
+   "z": -16.6,
+   "ry": 0
+  },
+  {
+   "id": "tyres-3",
+   "type": "tyre_stack",
+   "x": -34,
+   "z": -20,
+   "ry": 0
+  },
+  {
+   "id": "tree-1",
+   "type": "tree_almond",
+   "x": -46,
+   "z": -26,
+   "ry": 0
+  },
+  {
+   "id": "tree-2",
+   "type": "tree_almond",
+   "x": -46,
+   "z": -31,
+   "ry": 0
+  },
+  {
+   "id": "tree-3",
+   "type": "tree_almond",
+   "x": -40,
+   "z": -26,
+   "ry": 0
+  },
+  {
+   "id": "tree-4",
+   "type": "tree_almond",
+   "x": 19,
+   "z": 20,
+   "ry": 0
+  },
+  {
+   "id": "tree-5",
+   "type": "tree_almond",
+   "x": 19,
+   "z": 26,
+   "ry": 0
+  },
+  {
+   "id": "hoarding-T2-roof",
+   "type": "hoarding",
+   "x": 34.2,
+   "z": -24,
+   "ry": 270,
+   "y": 16.5,
+   "text": "NAIJA COLA",
+   "readFrom": "footbridge deck and ROAD-A southbound"
+  },
+  {
+   "id": "hoarding-flyover-south",
+   "type": "hoarding",
+   "x": 0,
+   "z": 33.7,
+   "ry": 180,
+   "y": 7.4,
+   "text": "KUDI BANK",
+   "readFrom": "walking north on ROAD-A from the spawn"
+  },
+  {
+   "id": "hoarding-NW-roof",
+   "type": "hoarding",
+   "x": -18,
+   "z": 97.5,
+   "ry": 90,
+   "y": 13.5,
+   "text": "WAZO MOBILE",
+   "readFrom": "under the flyover looking north"
+  }
+ ],
+ "wires": [
+  {
+   "id": "wire-A-W-1",
+   "from": [
+    -8.75,
+    -145
+   ],
+   "to": [
+    -8.75,
+    -115
+   ],
+   "topY": 8.6,
+   "sagY": 7.4,
+   "strands": 3
+  },
+  {
+   "id": "wire-A-W-2",
+   "from": [
+    -8.75,
+    -115
+   ],
+   "to": [
+    -8.75,
+    -85
+   ],
+   "topY": 8.6,
+   "sagY": 7.4,
+   "strands": 3
+  },
+  {
+   "id": "wire-A-W-3",
+   "from": [
+    -8.75,
+    -85
+   ],
+   "to": [
+    -8.75,
+    -55
+   ],
+   "topY": 8.6,
+   "sagY": 7.4,
+   "strands": 3
+  },
+  {
+   "id": "wire-A-W-5",
+   "from": [
+    -8.75,
+    -25
+   ],
+   "to": [
+    -8.75,
+    5
+   ],
+   "topY": 8.6,
+   "sagY": 7.4,
+   "strands": 3
+  },
+  {
+   "id": "wire-A-W-7",
+   "from": [
+    -8.75,
+    65
+   ],
+   "to": [
+    -8.75,
+    95
+   ],
+   "topY": 8.6,
+   "sagY": 7.4,
+   "strands": 3
+  },
+  {
+   "id": "wire-A-W-8",
+   "from": [
+    -8.75,
+    95
+   ],
+   "to": [
+    -8.75,
+    125
+   ],
+   "topY": 8.6,
+   "sagY": 7.4,
+   "strands": 3
+  },
+  {
+   "id": "wire-A-E-1",
+   "from": [
+    8.75,
+    -145
+   ],
+   "to": [
+    8.75,
+    -115
+   ],
+   "topY": 8.6,
+   "sagY": 7.4,
+   "strands": 3
+  },
+  {
+   "id": "wire-A-E-2",
+   "from": [
+    8.75,
+    -115
+   ],
+   "to": [
+    8.75,
+    -85
+   ],
+   "topY": 8.6,
+   "sagY": 7.4,
+   "strands": 3
+  },
+  {
+   "id": "wire-A-E-3",
+   "from": [
+    8.75,
+    -85
+   ],
+   "to": [
+    8.75,
+    -55
+   ],
+   "topY": 8.6,
+   "sagY": 7.4,
+   "strands": 3
+  },
+  {
+   "id": "wire-A-E-5",
+   "from": [
+    8.75,
+    -25
+   ],
+   "to": [
+    8.75,
+    8
+   ],
+   "topY": 8.6,
+   "sagY": 7.4,
+   "strands": 3
+  },
+  {
+   "id": "wire-A-E-7",
+   "from": [
+    8.75,
+    65
+   ],
+   "to": [
+    8.75,
+    95
+   ],
+   "topY": 8.6,
+   "sagY": 7.4,
+   "strands": 3
+  },
+  {
+   "id": "wire-A-E-8",
+   "from": [
+    8.75,
+    95
+   ],
+   "to": [
+    8.75,
+    125
+   ],
+   "topY": 8.6,
+   "sagY": 7.4,
+   "strands": 3
+  },
+  {
+   "id": "wire-B-N-1",
+   "from": [
+    -110,
+    -65.55
+   ],
+   "to": [
+    -80,
+    -65.55
+   ],
+   "topY": 8.6,
+   "sagY": 7.4,
+   "strands": 3
+  },
+  {
+   "id": "wire-B-N-2",
+   "from": [
+    -80,
+    -65.55
+   ],
+   "to": [
+    -50,
+    -65.55
+   ],
+   "topY": 8.6,
+   "sagY": 7.4,
+   "strands": 3
+  },
+  {
+   "id": "wire-B-N-3",
+   "from": [
+    -50,
+    -65.55
+   ],
+   "to": [
+    -20,
+    -65.55
+   ],
+   "topY": 8.6,
+   "sagY": 7.4,
+   "strands": 3
+  },
+  {
+   "id": "wire-B-N-4",
+   "from": [
+    -20,
+    -65.55
+   ],
+   "to": [
+    20,
+    -65.55
+   ],
+   "topY": 8.6,
+   "sagY": 7.4,
+   "strands": 3
+  },
+  {
+   "id": "wire-B-N-5",
+   "from": [
+    20,
+    -65.55
+   ],
+   "to": [
+    50,
+    -65.55
+   ],
+   "topY": 8.6,
+   "sagY": 7.4,
+   "strands": 3
+  },
+  {
+   "id": "wire-B-N-6",
+   "from": [
+    50,
+    -65.55
+   ],
+   "to": [
+    80,
+    -65.55
+   ],
+   "topY": 8.6,
+   "sagY": 7.4,
+   "strands": 3
+  },
+  {
+   "id": "wire-B-N-7",
+   "from": [
+    80,
+    -65.55
+   ],
+   "to": [
+    110,
+    -65.55
+   ],
+   "topY": 8.6,
+   "sagY": 7.4,
+   "strands": 3
+  },
+  {
+   "id": "wire-B-S-1",
+   "from": [
+    -110,
+    -74.45
+   ],
+   "to": [
+    -80,
+    -74.45
+   ],
+   "topY": 8.6,
+   "sagY": 7.4,
+   "strands": 3
+  },
+  {
+   "id": "wire-B-S-2",
+   "from": [
+    -80,
+    -74.45
+   ],
+   "to": [
+    -50,
+    -74.45
+   ],
+   "topY": 8.6,
+   "sagY": 7.4,
+   "strands": 3
+  },
+  {
+   "id": "wire-B-S-3",
+   "from": [
+    -50,
+    -74.45
+   ],
+   "to": [
+    -20,
+    -74.45
+   ],
+   "topY": 8.6,
+   "sagY": 7.4,
+   "strands": 3
+  },
+  {
+   "id": "wire-B-S-4",
+   "from": [
+    -20,
+    -74.45
+   ],
+   "to": [
+    20,
+    -74.45
+   ],
+   "topY": 8.6,
+   "sagY": 7.4,
+   "strands": 3
+  },
+  {
+   "id": "wire-B-S-5",
+   "from": [
+    20,
+    -74.45
+   ],
+   "to": [
+    50,
+    -74.45
+   ],
+   "topY": 8.6,
+   "sagY": 7.4,
+   "strands": 3
+  },
+  {
+   "id": "wire-B-S-6",
+   "from": [
+    50,
+    -74.45
+   ],
+   "to": [
+    80,
+    -74.45
+   ],
+   "topY": 8.6,
+   "sagY": 7.4,
+   "strands": 3
+  },
+  {
+   "id": "wire-B-S-7",
+   "from": [
+    80,
+    -74.45
+   ],
+   "to": [
+    110,
+    -74.45
+   ],
+   "topY": 8.6,
+   "sagY": 7.4,
+   "strands": 3
+  }
+ ],
+ "spawn": {
+  "x": -10.2,
+  "y": 0.12,
+  "z": -20,
+  "ry": 0,
+  "note": "west pavement clear zone by Terminal 3 plaza, facing north to the flyover"
+ },
+ "viewpoints": [
+  {
+   "id": "V1",
+   "x": -10.2,
+   "y": 0.12,
+   "z": -20,
+   "ry": 0,
+   "wat": "13:00",
+   "shows": "road, median rail, footbridge overhead, flyover and market ahead, KUDI BANK hoarding"
+  },
+  {
+   "id": "V2",
+   "x": 0,
+   "y": 6.12,
+   "z": -30,
+   "ry": 180,
+   "wat": "13:00",
+   "shows": "from the footbridge deck: danfo park 3-deep, junction, Terminal 3, NAIJA COLA behind you"
+  },
+  {
+   "id": "V3",
+   "x": -22.3,
+   "y": 0.12,
+   "z": -40.5,
+   "ry": 270,
+   "wat": "17:30",
+   "shows": "island head: route board, conductor slot, danfos 3-deep, Terminal 3 front"
+  },
+  {
+   "id": "V4",
+   "x": -14.5,
+   "y": 0.12,
+   "z": 43.3,
+   "ry": 270,
+   "wat": "13:00",
+   "shows": "under-bridge market aisle, piers with posters, soffit lamps, shelter"
+  },
+  {
+   "id": "V5",
+   "x": 16,
+   "y": 0.12,
+   "z": -12,
+   "ry": 60,
+   "wat": "13:00",
+   "shows": "Terminal 2 curved glass, okada park, POS kiosk"
+  },
+  {
+   "id": "V6",
+   "x": -10.2,
+   "y": 0.12,
+   "z": -20,
+   "ry": 0,
+   "wat": "21:00",
+   "shows": "V1 at night: street lamps, soffit lamps, lit terminal glass, lit windows"
+  }
+ ],
+ "budgets": {
+  "drawCallsInViewEstimate": 69,
+  "drawCallsInViewMax": 99,
+  "drawCallsDistrictMax": 350,
+  "drawCallBreakdown": [
+   [
+    "road asphalt + lane markings",
+    2
+   ],
+   [
+    "kerbs + median (black/white chequer)",
+    2
+   ],
+   [
+    "pavements + gutter slabs",
+    2
+   ],
+   [
+    "plazas, yard, park pad",
+    1
+   ],
+   [
+    "terminals T1-T3 (concrete + glass)",
+    2
+   ],
+   [
+    "shophouses + filler (shared atlas: wall, shopfront, window)",
+    3
+   ],
+   [
+    "signboards + posters + hoardings (one atlas)",
+    2
+   ],
+   [
+    "flyover deck + piers",
+    2
+   ],
+   [
+    "footbridge",
+    2
+   ],
+   [
+    "danfos (instanced, body + glass)",
+    2
+   ],
+   [
+    "okadas (instanced)",
+    1
+   ],
+   [
+    "NEPA poles (instanced) + wires (one mesh)",
+    2
+   ],
+   [
+    "street lamps + soffit lamps (pole, emissive head)",
+    2
+   ],
+   [
+    "guard rails + park rail",
+    1
+   ],
+   [
+    "stalls, umbrellas, stools, tables (instanced)",
+    4
+   ],
+   [
+    "shelter, signs, kiosk, generators, tyres, car shells",
+    3
+   ],
+   [
+    "trees (trunk, canopy)",
+    2
+   ],
+   [
+    "skyline shell (one mesh)",
+    1
+   ],
+   [
+    "skybox",
+    1
+   ],
+   [
+    "player",
+    3
+   ],
+   [
+    "main-light shadow casters (Medium tier, 40 m)",
+    25
+   ],
+   [
+    "HUD (M1 stick + sprint)",
+    4
+   ]
+  ]
+ },
+ "counts": {
+  "buildings": 45,
+  "props": 211,
+  "propsByType": {
+   "nepa_pole": 34,
+   "street_lamp": 30,
+   "soffit_lamp": 8,
+   "guard_rail": 2,
+   "stall": 96,
+   "umbrella": 6,
+   "hawker_marker": 8,
+   "bus_shelter": 1,
+   "bus_stop_pole": 1,
+   "street_sign": 3,
+   "warden_marker": 1,
+   "generator": 6,
+   "pos_kiosk": 1,
+   "car_shell": 3,
+   "tyre_stack": 3,
+   "tree_almond": 5,
+   "hoarding": 3
+  },
+  "danfos": 15,
+  "wires": 26,
+  "stalls": 96
+ }
+}

@@ -39,6 +39,17 @@ written here. This file is where the teams talk to each other between runs.
 
 ## To Ted's team (from Claude's team)
 
+- **IN-8. M2 Oshodi greybox spec ready.** From: Claude. To: Ted. Date: 2026-11-05. Status: OPEN.
+  Ask: Read docs/specs/oshodi-greybox.md (on main). M2.1 to M2.3 are READY in TASKS.md once M0.1 lands. Build the
+  scene FROM docs/specs/oshodi-greybox-layout.json with an Editor builder
+  (spec section 8), do not place things by hand; to move anything, change
+  tools/oshodi/oshodi-layout.js and run it (it checks lanes, pavements, the
+  footbridge climb and the M4 bays). Two things only you can do: (1) put the
+  real OSM name of the side street at the junction and of the next danfo stop
+  south of Oshodi on Agege Motor Road into the script (spec 3.2 and 4.6);
+  (2) post evidence under qa/M2.<n>/ as spec section 11 lists. Reply with
+  when you expect M2.1 to start, given IN-4 (Unity Editor).
+
 - **IN-7. HUD and phone spec is ready: HUD-1 to HUD-7.** From: Claude. To: Ted. Date: 2026-11-05. Status: OPEN.
   Claude's UI workstream wrote docs/specs/hud-and-phone.md with mockups in
   docs/specs/img/hud/. Decision: UI Toolkit for all screen UI (reasons in
