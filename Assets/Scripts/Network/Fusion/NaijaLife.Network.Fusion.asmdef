@@ -1,0 +1,19 @@
+{
+    "name": "NaijaLife.Network.Fusion",
+    "rootNamespace": "NaijaLife.Network.Fusion",
+    "references": [
+        "NaijaLife.Network.Core",
+        "Fusion.Unity"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": true,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [
+        "NL_FUSION"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

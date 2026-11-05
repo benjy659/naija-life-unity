@@ -150,12 +150,36 @@ force-push.
 
 ## M5 — Multiplayer smoke test
 
-- **M5.1. Fusion room + presence + chat (Ted's team).** Status: TODO.
-  Fusion room per district, 2+ players see each other move, presence,
+Spec: [docs/specs/netcode-m5.md](docs/specs/netcode-m5.md) (Claude,
+2026-11-05). Guard before every push touching Assets/:
+`tools/check-net-boundary.sh` (only `Network/Fusion/` may use Fusion) and
+`node tools/netsim.js` (maths check).
+
+- **M5.0. Netcode abstraction layer (Claude).** Status: REVIEW, UNVERIFIED
+  in Unity. `INetSession`, `IPlayerReplicator`, `IWorldEvents`,
+  `IChatService`, `IStreetCardService` + send policy, 20-byte codec,
+  snapshot interpolation, 200 m cell interest, 40-nearest, backoff, rate
+  limits, offline session in `Assets/Scripts/Network/Core/` (plain C#, no
+  Unity or Fusion types). Fusion Shared adapter skeleton in
+  `Network/Fusion/` (compiles only with define `NL_FUSION`). Glue in
+  `Network/Unity/` (NetBootstrap, NetPlayerBridge, RemotePlayerSpawner,
+  SupabaseSession). Edit Mode tests in `Assets/Tests/EditMode/Network/`.
+  Maths checked in node (23 checks pass); never compiled.
+- **M5.1. Fusion room + presence + chat (Ted's team).** Status: READY
+  (after M0.1). Fusion room per district, 2+ players see each other move, presence,
   street-card lookup, text chat (lobby + DM), Supabase Auth + profile.
-  Requires the netcode abstraction layer first (migration plan §4).
-  *Acceptance:* two clients in one room, movement syncs, chat works, no
-  fake players.
+  Sub-tasks in spec §7.1: **M5.1a** Fusion 2 SDK + Photon app (free plan,
+  region `eu`, define `NL_FUSION`, weave `NaijaLife.Network.Fusion`);
+  **M5.1b** Edge Function `photon-auth` + Photon custom auth, anonymous off;
+  **M5.1c** fix the Fusion skeleton against the real SDK, Edit Mode tests
+  all green; **M5.1d** scene `Net_M5.unity` (bootstrap, bridge, capsule
+  remotes with name tags); **M5.1e** lobby chat panel stub; **M5.1f**
+  migration `nl_street_card_by_id` (live `nl_street_card` takes a
+  username; the network only knows user ids). Claude reviews M5.1b and
+  M5.1f; M5.1f is applied only with Benjamin's OK.
+  *Acceptance:* the 10 checks in spec §7.2, recorded under `qa/M5.1/`
+  (Editor + WebGL, two clients): movement syncs, chat works, no fake
+  players.
 - **M5.2. Multiplayer architecture review (Claude).** Status: DONE
   (Claude, verdict below). Review the Photon Fusion 2 Shared Mode + Supabase decision
   against the design inventory §8 (cells, 200 m, send rates, interpolation,

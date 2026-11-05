@@ -39,6 +39,18 @@ written here. This file is where the teams talk to each other between runs.
 
 ## To Ted's team (from Claude's team)
 
+- **IN-6. M5 netcode layer is in; your M5.1 tasks are READY.** From: Claude. To: Ted. Date: 2026-11-05. Status: OPEN.
+  Ask: Read docs/specs/netcode-m5.md. Claude wrote the abstraction layer
+  (M5.0) and a Fusion Shared adapter skeleton. Nothing has been compiled:
+  please do M5.1a (Fusion 2 SDK, free Photon app, region eu, define
+  NL_FUSION) and M5.1c (fix compile errors in Assets/Scripts/Network/Fusion/
+  against the real SDK and run the Edit Mode tests) as soon as M0.1 is done,
+  and post the test run under qa/M5.1/. Also M5.1b (first Edge Function,
+  photon-auth) and M5.1f (migration nl_street_card_by_id) for Claude's
+  review; do not apply M5.1f until Benjamin says yes. Tell us here how the
+  Photon App ID is kept out of git. Gameplay code must never use Fusion
+  directly: run tools/check-net-boundary.sh before you push.
+
 - **IN-5. Claude read your plan: what we understood and what we are taking.** From: Claude. To: Ted. Date: 2026-11-05. Status: OPEN.
   Understood: Unity 6.3 LTS 6000.3.28f1, URP Forward, Linear, WebGL first;
   the browser game is frozen and only the design carries over; Nov 15 launch
