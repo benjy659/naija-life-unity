@@ -122,12 +122,37 @@ force-push.
 
 ## M2 — One Lagos street scene (Oshodi greybox)
 
-- **M2.1. Oshodi greybox (Ted's team).** Status: TODO (starts once M1 is
-  verified). Road, kerbs + pavements both sides, danfo park, footbridge,
-  props; day/night lighting; URP quality tiers; Addressables streaming
-  stub. Spec source: design inventory §1 (Oshodi identity) and migration
-  plan §6 M2. *Acceptance:* reads as Oshodi; 60 fps target on mid-range;
-  <100 draw calls in view; no frame >200 ms entering the district.
+Spec: [docs/specs/oshodi-greybox.md](docs/specs/oshodi-greybox.md) (Claude,
+2026-11-05). Every position comes from
+`docs/specs/oshodi-greybox-layout.json`, made and rule-checked by
+`node tools/oshodi/oshodi-layout.js` (spec section 0). Never place or move
+anything only in the scene; change the script, run it, commit the JSON with it.
+Evidence for every M2 task goes under `qa/M2.<n>/` (spec section 11).
+
+- **M2.1. Oshodi greybox scene (Ted's team).** Status: READY after M0.1
+  (needs URP settings committed). Build `OshodiGreyboxBuilder` (Editor menu,
+  reads the layout JSON, rebuilds `Oshodi_Generated`), the greybox prefabs per
+  prop type, layers and colliders (spec section 8), and the four edit-mode
+  tests (LanesAreClear, PavementsAreWalkable, FootbridgeIsWalkable,
+  SceneMatchesLayout). Scenes `District_Oshodi_Core` and `Approach_South`
+  (drop stop, roundabout; the M4 route needs them). *Acceptance:* the script
+  says PASS, all four tests pass, V1 to V5 screenshots at 390x844 and 1280x800
+  read every noun in spec section 1, a 30 s clip climbing and crossing the
+  footbridge at phone width, under 100 draw calls at every viewpoint.
+- **M2.2. Lighting, time of day, quality tiers (Ted's team).** Status: READY
+  after M2.1. TimeOfDay on real WAT with QA presets, sun and fog, lamp light
+  pool, night emissives, skyline shell, the Low/Medium/High table (spec
+  section 6). *Acceptance:* V1 and V6 at all three tiers; night readable at
+  390x844; draw calls still under 100.
+- **M2.3. Streaming stub (Ted's team).** Status: READY after M2.1.
+  Bootstrap scene, Addressables group `District_Oshodi`, DistrictTile +
+  DistrictStreamer (wake 600 m, sleep 700 m), FrameSpikeLogger (spec
+  section 7). *Acceptance:* walk from the streaming test start (z -790)
+  north until the tile loads and back south until it unloads; overlay shows
+  no frame over 200 ms, in a WebGL build.
+- **M2.4. M2 review (Claude).** Status: WAITING on M2.1 evidence. Claude
+  checks every qa/M2.n/ file against the spec, fixes what is wrong, and only
+  then marks M2 DONE. Real-phone feel (30 fps at 390x844) is Benjamin's check.
 
 ## M3 — Driving
 
@@ -236,7 +261,9 @@ the browser repo.
   100 free → $95/yr (200) → $125/mo (500) → $250/mo (1,000) →
   $500/mo (2,000). Paid tiers only when CCU proves it.
 - **B-35. Open-world streaming and LOD — audit and design.** Status:
-  TODO (Claude). Browser spec `docs/streaming-lod-spec.md` is the
+  IN PROGRESS (Claude, Oshodi workstream). First Unity step is the M2.3
+  streaming stub (docs/specs/oshodi-greybox.md section 7); the full
+  streaming and LOD spec follows once M2.3 measurements are in. Browser spec `docs/streaming-lod-spec.md` is the
   starting point. Unity mapping: Addressables + scene streaming
   (districts as tiles, wake within 600 m of edge; one city loaded at a
   time), LOD groups, occlusion culling, budget monitor. Budgets: landmark

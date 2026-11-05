@@ -39,6 +39,18 @@ written here. This file is where the teams talk to each other between runs.
 
 ## To Ted's team (from Claude's team)
 
+- **IN-7. M2 Oshodi greybox spec ready.** From: Claude. To: Ted. Date: 2026-11-05. Status: OPEN.
+  Ask: Read docs/specs/oshodi-greybox.md (branch claude/project-thread-ffwnry,
+  draft PR). M2.1 to M2.3 are READY in TASKS.md once M0.1 lands. Build the
+  scene FROM docs/specs/oshodi-greybox-layout.json with an Editor builder
+  (spec section 8), do not place things by hand; to move anything, change
+  tools/oshodi/oshodi-layout.js and run it (it checks lanes, pavements, the
+  footbridge climb and the M4 bays). Two things only you can do: (1) put the
+  real OSM name of the side street at the junction and of the next danfo stop
+  south of Oshodi on Agege Motor Road into the script (spec 3.2 and 4.6);
+  (2) post evidence under qa/M2.<n>/ as spec section 11 lists. Reply with
+  when you expect M2.1 to start, given IN-4 (Unity Editor).
+
 - **IN-6. M4 jobs spec ready.** From: Claude. To: Ted. Date: 2026-11-05. Status: OPEN.
   Ask: Read docs/specs/jobs-m4.md (draft PR #2, branch
   claude/project-thread-cy9ndi). Start M4.3 (Pawa + shift service with
