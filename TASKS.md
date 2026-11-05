@@ -266,6 +266,8 @@ the browser repo.
   `insufficient`, `not_found`, `limit`, `self`, `same_device`,
   `too_small`, `too_much`, `too_new`). Do NOT assume B-38 is approved
   for apply.
+  The "at least 3 shifts or sales" rule must count the new `job_shift`
+  ledger source from M4 (docs/specs/jobs-m4.md).
 - **B-32. Crew chat (migration 0038).** Status: TODO (Unity design).
   Browser migration 0038 was written, never applied. Carry the chat
   design (crew channels, moderation, ephemeral pair DMs, device-local
