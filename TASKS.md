@@ -140,13 +140,36 @@ force-push.
 
 ## M4 — Jobs loop
 
-- **M4.1. Job-slot system + danfo conductor end-to-end (Ted's team).**
-  Status: TODO. Job-slot manager (ScriptableObject slot registry + bot AI
-  handover: walk up, one prompt, bot steps aside and waits, walks back
-  when you let go); one job at a time; pay via server-verified RPC stub;
-  Pawa ≥25 gate; 3-shifts/day cap. Spec source: design inventory §6 and
-  migration plan §6 M4. *Acceptance:* take over from a bot, do the work,
-  get paid, bot returns — all visible in-game.
+Spec: [docs/specs/jobs-m4.md](docs/specs/jobs-m4.md) (Claude, 2026-11-05).
+Pacing check: `node tools/jobsim.js`. Build in this order; each task needs its
+`qa/m4.<n>/` evidence (spec section 11) before it counts. Uses the
+`LocalShiftStub` until M4.4 is applied, so M4.1 to M4.3 do not wait on the
+backend.
+
+- **M4.1. Job-slot system + bot handover (Ted's team).** Status: READY (after
+  M0.1 and M1 play). `JobSlot`, `JobSlotRegistry` (ScriptableObject),
+  `BotWorker` (Working, SteppingAside, WaitingAside, WalkingBack; NavMeshAgent,
+  never teleports), `PlayerJobs` (one job at a time, release triggers spec
+  4.3, one prompt), `IJobSlotSync` + `LocalJobSlotSync`. Spec sections 3 to 5.
+  *Acceptance:* spec 11 items 2 and 7 in Editor and WebGL at 390x844 and
+  1280x800.
+- **M4.2. Danfo conductor shift, client (Ted's team).** Status: READY after
+  M4.1, needs the M2 bays + route and the M3 danfo prefab. `ConductorShift`,
+  `ShoutMinigame`, `ChangeMinigame`, `DanfoRoute` (kinematic), `PassengerQueue`,
+  shift chip and summary card, bot trips with no player. Spec sections 6 and
+  10. *Acceptance:* spec 11 items 1, 3, 4, 5 and 8.
+- **M4.3. Pawa + shift service client (Ted's team).** Status: READY.
+  `PlayerNeeds` (Pawa gate 25, drain 1.2/min, dev menu), `IShiftService`,
+  `LocalShiftStub` (refused in release builds), `SupabaseShiftService`,
+  `WalletCache.AdoptServerBalance`. Spec sections 7 and 8. *Acceptance:* spec
+  11 item 6; the wallet changes only from a server or stub reply.
+- **M4.4. Shift RPCs migration (Ted's team, owns and applies).** Status:
+  READY. Write the migration from spec section 9 (`nl_job_shifts`,
+  `nl_job_trips`, `nl_shift_start`, `nl_shift_trip`, `nl_shift_end`, server
+  only ledger source `job_shift`, explicit GRANTs). Post the SQL for Claude's
+  review before applying. *Acceptance:* spec 11 item 9.
+- **M4.5. M4 review (Claude).** Status: TODO. Review M4.1 to M4.4 against the
+  spec and the qa evidence; nothing counts as done on code review alone.
 
 ## M5 — Multiplayer smoke test
 
