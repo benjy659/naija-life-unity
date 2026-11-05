@@ -61,7 +61,7 @@ interfaces below (same rule as the netcode abstraction in TASKS.md M5.2).
 |---|---|
 | `Jobs/JobKind.cs` | `enum JobKind { Conductor }` (more kinds added later, never renamed). |
 | `Jobs/JobDefinition.cs` | ScriptableObject per job: kind, display name, prompt text, take radius, leave radius, idle timeout, Pawa drain per minute. Asset: `Assets/Settings/Jobs/Conductor.asset`. |
-| `Jobs/JobSlot.cs` | MonoBehaviour on each bot worker's work spot. Holds `SlotId` (stable string, e.g. `oshodi-bay-1-conductor`), `JobDefinition`, `WorkPoint` and `AsidePoint` transforms, the `BotWorker`, and the current `Holder`. |
+| `Jobs/JobSlot.cs` | MonoBehaviour on each bot worker's work spot. Holds `SlotId` (stable string, e.g. `oshodi-bay-1-conductor`), `JobDefinition`, `WorkPoint` and `AsidePoints` (two, section 6.4), the `BotWorker`, and the current `Holder`. |
 | `Jobs/JobSlotRegistry.cs` | ScriptableObject runtime set (`Assets/Settings/Jobs/JobSlotRegistry.asset`). The only way to claim or release. API in section 4.2. |
 | `Jobs/BotWorker.cs` | The bot's state machine and NavMeshAgent moves (section 5). |
 | `Jobs/PlayerJobs.cs` | On the player: what the player holds, release triggers, the single job prompt. |
@@ -153,9 +153,9 @@ States: `Working` -> `SteppingAside` -> `WaitingAside` -> `WalkingBack` ->
   player would (section 6), with no money involved. The world looks busy with
   no player present.
 - **SteppingAside.** On claim: one line ("Oya, try am."), then walk with the
-  NavMeshAgent at 1.3 m/s with the real walk animation to `AsidePoint`. The
-  aside point is placed by hand per bay: 2 to 3 m from the bus door, on the
-  pavement, never on the road and never between the player and the door.
+  NavMeshAgent at 1.3 m/s with the real walk animation to the aside point
+  farther from the player (section 6.4): 2 to 3 m from the bus door, on the
+  island, never on the road and never between the player and the door.
 - **WaitingAside.** Faces the bus, idle variants, a bark every 40 to 90 s
   ("Shout am well!", "No dash dem change o."). Never boards the bus.
 - **WalkingBack.** On release: wait 1 s, walk back to `WorkPoint` at 1.3 m/s,
@@ -250,9 +250,21 @@ at level 1, because the server caps trips by time and count.
   back, right-hand lane, no props in the lane. The bus is a kinematic follower
   (8 to 10 m/s, eases in and out of stops, no traffic AI in M4). The bus is the
   M3 danfo model and prefab, driven by the route, not by WheelColliders.
-- If the M2 greybox has no loop, an out-and-back on the main road with a
-  turning point is fine. The M2 spec owner places the route; this spec needs
-  only the three bays, one drop stop and a clear lane.
+- **Placed in the M2 layout (Oshodi thread, 2026-11-05):**
+  `docs/specs/oshodi-greybox-layout.json` (checked by
+  `tools/oshodi/oshodi-layout.js`), spec `docs/specs/oshodi-greybox.md`, branch
+  `claude/project-thread-ffwnry`. `danfoPark.bays[0..2]` carry `m4: true`
+  (bay-1 UNILAG GATE, bay-2 IKEJA ALONG, bay-3 MILE 2), park west of Agege
+  Motor Road by Terminal 3, buses face east with the sliding door on a raised
+  2 m island. Each bay has a `workPoint` at the door and TWO aside points
+  (`aside-west`, `aside-east`, 2.3 to 2.5 m from the door along the island).
+  `BotWorker` picks the aside point farther from where the player stepped onto
+  the island, so the bot is never between the player and the door. Queue: 6
+  spots per bay, 0.8 m apart, behind `aside-west`. Drop stop: lay-by on the
+  southbound side of the south approach road (scene `Approach_South`), 597.5 m
+  from the park exit, with `stopPoint` and `alightPoint`; turning point is the
+  roundabout at z -720. The route is an out-and-back. Any new scene need for
+  M4 goes to the Oshodi thread so its layout checker covers it.
 
 ## 7. Pawa
 
