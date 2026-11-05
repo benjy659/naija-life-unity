@@ -620,7 +620,7 @@ namespace NaijaLife.Player
             _vcam.Follow = _pivot;
             _vcam.Priority = cameraPriority;
 
-            _thirdPersonFollow = _vcam.AddCinemachineComponent<CinemachineThirdPersonFollow>();
+            _thirdPersonFollow = vcamGo.AddComponent<CinemachineThirdPersonFollow>(); // CM3: components are plain MonoBehaviours; AddCinemachineComponent was a CM2 CinemachineVirtualCamera API and does not exist on CinemachineCamera
             _thirdPersonFollow.ShoulderOffset = shoulderOffset;
             _thirdPersonFollow.VerticalArmLength = verticalArmLength;
             _thirdPersonFollow.CameraSide = 0.5f; // centred — one steady angle, no over-shoulder offset
