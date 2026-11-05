@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <title>Naija Streets — Shield (concept B)</title>
+  <defs>
+    <linearGradient id="bgB" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1b2547"/><stop offset="1" stop-color="#070b16"/>
+    </linearGradient>
+    <linearGradient id="shdB" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#233158"/><stop offset="1" stop-color="#0d1428"/>
+    </linearGradient>
+    <linearGradient id="grnB" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3ce882"/><stop offset="1" stop-color="#00944a"/>
+    </linearGradient>
+    <linearGradient id="ylwB" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#5defb5"/><stop offset="1" stop-color="#2fe19a"/>
+    </linearGradient>
+    <linearGradient id="goldB" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#a9f6d7"/><stop offset=".5" stop-color="#3fe7a4"/><stop offset="1" stop-color="#17b777"/>
+    </linearGradient>
+    <pattern id="ankB" width="40" height="40" patternUnits="userSpaceOnUse">
+      <rect x="14" y="14" width="12" height="12" transform="rotate(45 20 20)" fill="none" stroke="#3fe7a4" stroke-opacity="0.16" stroke-width="2"/>
+    </pattern>
+    <filter id="softB" x="-40%" y="-40%" width="180%" height="180%">
+      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#000" flood-opacity="0.55"/>
+    </filter>
+  </defs>
+  <rect width="512" height="512" rx="116" fill="url(#bgB)"/>
+  <rect width="512" height="512" rx="116" fill="url(#ankB)"/>
+  <!-- esports shield -->
+  <g filter="url(#softB)">
+    <path d="M256 56 L392 104 V268 C392 360 328 420 256 452 C184 420 120 360 120 268 V104 Z"
+          fill="url(#shdB)" stroke="url(#goldB)" stroke-width="14" stroke-linejoin="round"/>
+    <path d="M256 84 L368 124 V266 C368 342 312 394 256 422 C200 394 144 342 144 266 V124 Z"
+          fill="none" stroke="#3fe7a4" stroke-opacity="0.35" stroke-width="3"/>
+    <!-- N inside shield: green left, white diagonal, danfo yellow right -->
+    <g transform="translate(256 250) skewX(-6) translate(-256 -250)">
+      <path d="M176,148 H232 L336,352 H280 Z" fill="#f2f4fa"/>
+      <path d="M176,148 H232 V352 H176 Z" fill="url(#grnB)"/>
+      <path d="M280,148 H336 V352 H280 Z" fill="url(#ylwB)"/>
+      <path d="M176,148 H232 L336,352 H280 Z M176,148 H232 V352 H176 Z M280,148 H336 V352 H280 Z"
+            fill="none" stroke="#0a0f1e" stroke-width="9" stroke-linejoin="round"/>
+    </g>
+    <!-- banner ribbon -->
+    <g>
+      <path d="M120 268 L92 282 L120 296 Z" fill="#17b777"/>
+      <path d="M392 268 L420 282 L392 296 Z" fill="#17b777"/>
+      <rect x="120" y="258" width="272" height="48" rx="8" fill="url(#goldB)"/>
+      <text x="256" y="291" text-anchor="middle" font-family="Arial Black, Arial, sans-serif"
+            font-size="30" font-weight="900" fill="#0a0f1e" letter-spacing="4">NAIJA</text>
+    </g>
+  </g>
+  <!-- hustle spark -->
+  <path d="M412 72 l7 19 l19 7 l-19 7 l-7 19 l-7 -19 l-19 -7 l19 -7 z" fill="#5defb5"/>
+</svg>

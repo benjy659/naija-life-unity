@@ -118,7 +118,10 @@ force-push.
   to `<Gamepad>/leftStick` so it feeds the existing Move action, plus a
   sprint button bottom-right. Nothing else on screen in M1. *Acceptance:*
   phone width 390x844 in WebGL: light tilt walks, full tilt jogs, the stick
-  never covers the player.
+  never covers the player. Note (Claude, 2026-11-05): this stock uGUI stick is
+  a stopgap for M1 testing only. HUD-2 replaces it with the UI Toolkit
+  floating stick (124 px base, per design inventory §9); keep the binding to
+  `<Gamepad>/leftStick` so the swap needs no input changes.
 
 ## M2 — One Lagos street scene (Oshodi greybox)
 
@@ -213,6 +216,74 @@ backend.
   end-to-end in the Unity Editor AND a WebGL build, on desktop and phone
   widths. No regressions on any working feature. Nothing counts as done on
   code review alone.
+
+## HUD and phone (UI workstream)
+
+Spec: [docs/specs/hud-and-phone.md](docs/specs/hud-and-phone.md) (Claude,
+2026-11-05). UI Toolkit for all screen UI; brand tokens in
+`Assets/UI/Styles/NLTokens.uss`; 99 line icons in `Assets/UI/Icons/`; shield
+logo in `Assets/UI/Brand/`. Owner rules: nothing blocks the screen, one
+prompt at a time, lean HUD with the minimap, no gold or yellow in UI, no
+emoji, motion on every change. **DONE rule for every HUD task:** Ted's team
+posts Editor screenshots and a WebGL capture at 390x844, 844x390, 1280x800
+and 1920x1080 under `qa/<task id>/`, then Claude reviews. Until then:
+UNVERIFIED.
+
+- **HUD-1. UI foundation (Ted's team).** Status: READY after M0.1. Spec §2-4.
+  One runtime `UIDocument` + PanelSettings (Constant Pixel Size);
+  `NLUIRoot` (mode classes `.nl-portrait`/`.nl-landscape`/`.nl-desktop`,
+  safe-area padding); `NLUIScaler` + `NLGetDevicePixelRatio` `.jslib` so
+  1 USS px = 1 CSS px; import `NLTokens.uss`; TextCore font assets Inter
+  Medium/Bold/ExtraBold with the ₦ glyph (U+20A6); import the 99 icons and
+  the shield mark as VectorImage (fallback: SDF textures if strokes break on
+  WebGL). *Acceptance:* an `IconSheet` test scene showing all 99 icons
+  tinted accent, the logo, and "₦8,450 ₦12.5k ₦1.2bn" in all three weights,
+  sharp on a phone in WebGL, captured at the 4 sizes in `qa/hud-1/`.
+- **HUD-2. Touch controls (Ted's team).** Status: READY after HUD-1 and M1.4.
+  Spec §5.2. Floating `NLTouchStick` (base 124, thumb 52, 12% dead zone)
+  feeding `NLStickControl : OnScreenControl` on `<Gamepad>/leftStick`;
+  sprint 56 (hold, Settings toggle), camera 60 (cycles views), phone 58;
+  look-drag zone outside stick and buttons; touch UI auto hides on
+  keyboard/mouse with no flicker. Replaces the M1.6 stock stick.
+  *Acceptance:* real phone in WebGL: stick and look drag work at the same
+  time with two thumbs; light tilt walks, full tilt jogs; buttons fire on
+  press; nothing covers the player; clip in `qa/hud-2/`.
+- **HUD-3. On-foot HUD layout (Ted's team).** Status: READY after HUD-1.
+  Spec §5.1 and §10. Radar (orthographic RenderTexture camera, 256 px,
+  10 Hz, rotates with camera yaw), place and WAT clock pill, vitals strip,
+  wallet chip (`NLMoney.Short`) + menu button, right-column rows via
+  `NLHudStack` (+0/+52/+100/+148/+196, collapse upward), desktop key-hint
+  chip. *Acceptance:* matches the mockups in `docs/specs/img/hud/` at the 4
+  sizes; Profiler shows 0 B GC alloc per frame from the HUD.
+- **HUD-4. Prompts, toasts and the screen guard (Ted's team).** Status: READY
+  after HUD-3. Spec §6-7. `NLPromptManager` (Offer/Withdraw/Accept; kinds
+  action/exit/other; 2.5 m show, 3.0 m hide, 0.4 s min swap; "+N" chip and
+  chooser sheet), `NLToastManager` (3 live, 2 in portrait, 5 queued, dedupe
+  by key within 10 s), `NLScreenGuard` keep-out box with fallbacks, `F9`
+  debug overlay. *Acceptance:* walking past 3 offers in a row never
+  flickers and never shows two prompts; Top camera view moves the prompt
+  off the player; F9 screenshots at the 4 sizes in `qa/hud-4/`.
+- **HUD-5. Phone shell (Ted's team).** Status: READY after HUD-1. Spec §8.1-8.2.
+  Open/close in portrait (full screen) and landscape/desktop (side panel);
+  status bar; home with shield mark, WAT clock, Next card, 4-column app grid
+  showing only built apps (Bank, Map, Settings for M6); `NLPhoneNav`
+  push/pop with slide motion; Settings with Reduce motion and sprint toggle.
+  *Acceptance:* open, push Bank, back, close by every route (button, Esc,
+  P, swipe down) at the 4 sizes; clip in `qa/hud-5/`.
+- **HUD-6. Bank app, wallet from the ledger (Ted's team).** Status: READY after
+  HUD-5 (live data needs M5/M6). Spec §8.3-8.4. Balance card, History and
+  This week tabs, rows by ledger source; `IWalletSource` with an
+  Editor-only fake source compiled out of player builds; loading (300 ms),
+  slow (3 s), timeout (8 s) and empty states; refresh on open, after money
+  events, on tap and every 5 min; `NLMoney.Short/Full` with Edit mode
+  tests for every example in §8.4. Send tab stays hidden (B-38 gate).
+  *Acceptance:* each state captured at 390x844 and 1280x800 in
+  `qa/hud-6/`; tests green.
+- **HUD-7. HUD QA pass (Ted's team, Claude reviews).** Status: TODO after
+  HUD-2 to HUD-6. Spec §5.1, §6.3, §10. All 32 right-column combinations at
+  the 4 sizes with no overlap (script it), two-thumb test on a real phone,
+  prompt flicker walk, phone open frame time. *Acceptance:* report and
+  captures in `qa/hud-7/`.
 
 ## After M6 (in priority order, quality first)
 

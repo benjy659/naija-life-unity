@@ -1,0 +1,123 @@
+/*
+ * Naija Streets brand tokens for UI Toolkit (USS).
+ * Spec: docs/specs/hud-and-phone.md section 4.
+ *
+ * Carried over from the browser game's css/nl-brand.css "FLAT PRO" block
+ * (owner rule 2026-10-28: no yellow or gold anywhere in UI, flat pro look).
+ * Every panel, button and HUD piece reads these variables. Never hard-code a
+ * colour in another .uss file; add a token here instead.
+ *
+ * Units: 1 USS px = 1 CSS px of the browser game. NLUIScaler sets
+ * PanelSettings.scale so this holds on every screen (spec section 3.3).
+ *
+ * UNVERIFIED: written without a Unity Editor. Ted's team imports it in
+ * HUD-1 and posts the Editor screenshot to qa/hud-1/.
+ */
+
+:root {
+    /* accent: street green (replaces every old gold token) */
+    --nl-accent: #2EE59D;
+    --nl-accent-soft: #8FF3C6;
+    --nl-accent-deep: #0F9F63;
+    --nl-accent-ink: #03231A;
+
+    /* flag and support colours */
+    --nl-green-flag: #008751;
+    --nl-white: #F8F6EF;
+    --nl-indigo: #1F2C6E;
+    --nl-indigo-deep: #0D1433;
+    --nl-night: #070B18;
+    --nl-danger: #E0613A;
+    --nl-live: #4F6BFF;
+
+    /* panels: flat near-black glass */
+    --nl-panel-bg: rgba(12, 14, 19, 0.94);
+    --nl-panel-edge: rgba(255, 255, 255, 0.08);
+    --nl-card: rgba(255, 255, 255, 0.04);
+    --nl-card-hi: rgba(46, 229, 157, 0.08);
+    --nl-hud-chip: rgba(10, 12, 16, 0.72);
+    --nl-scrim: rgba(3, 5, 9, 0.55);
+
+    /* text */
+    --nl-text: #F3F6F8;
+    --nl-text-dim: rgba(225, 232, 238, 0.60);
+    --nl-text-faint: rgba(225, 232, 238, 0.38);
+
+    /* shape */
+    --nl-radius-panel: 18px;
+    --nl-radius-card: 14px;
+    --nl-radius-btn: 14px;
+    --nl-radius-chip: 12px;
+    --nl-accent-line: 2px;
+
+    /* touch sizes (design inventory section 9) */
+    --nl-touch-min: 44px;
+    --nl-stick-base: 124px;
+    --nl-stick-thumb: 52px;
+    --nl-btn-sprint: 56px;
+    --nl-btn-camera: 60px;
+    --nl-btn-phone: 58px;
+    --nl-btn-small: 44px;
+
+    /* spacing */
+    --nl-gap-xs: 4px;
+    --nl-gap-s: 8px;
+    --nl-gap-m: 12px;
+    --nl-gap-l: 16px;
+    --nl-gap-xl: 24px;
+}
+
+/* type: Inter for UI, Titan One only inside the logo */
+.nl-text-title { -unity-font-definition: url("project://database/Assets/UI/Fonts/Inter-ExtraBold SDF.asset"); font-size: 20px; color: var(--nl-text); }
+.nl-text-value { -unity-font-definition: url("project://database/Assets/UI/Fonts/Inter-ExtraBold SDF.asset"); font-size: 16px; color: var(--nl-accent-soft); }
+.nl-text-body  { -unity-font-definition: url("project://database/Assets/UI/Fonts/Inter-Medium SDF.asset"); font-size: 14px; color: var(--nl-text); }
+.nl-text-kicker { -unity-font-definition: url("project://database/Assets/UI/Fonts/Inter-Bold SDF.asset"); font-size: 11px; letter-spacing: 2px; color: var(--nl-text-dim); }
+
+/* motion: the only three durations the UI uses (spec section 4.5) */
+.nl-motion-fast { transition-duration: 0.12s; transition-timing-function: ease-out-cubic; }
+.nl-motion-base { transition-duration: 0.22s; transition-timing-function: ease-out-cubic; }
+.nl-motion-slow { transition-duration: 0.36s; transition-timing-function: ease-out-cubic; }
+/* NLUIRoot adds .nl-reduced-motion to the root when the player turns motion down */
+.nl-reduced-motion .nl-motion-fast,
+.nl-reduced-motion .nl-motion-base,
+.nl-reduced-motion .nl-motion-slow { transition-duration: 0s; }
+
+/* base pieces every screen builds on */
+.nl-panel {
+    background-color: var(--nl-panel-bg);
+    border-radius: var(--nl-radius-panel);
+    border-width: 1px;
+    border-color: var(--nl-panel-edge);
+    border-top-width: var(--nl-accent-line);
+    border-top-color: var(--nl-accent);
+    padding: var(--nl-gap-l);
+}
+.nl-chip {
+    background-color: var(--nl-hud-chip);
+    border-radius: var(--nl-radius-chip);
+    min-height: 40px;
+    padding: 0 var(--nl-gap-m);
+    flex-direction: row;
+    align-items: center;
+}
+.nl-btn {
+    background-color: var(--nl-accent);
+    color: var(--nl-accent-ink);
+    border-radius: var(--nl-radius-btn);
+    min-height: var(--nl-touch-min);
+    min-width: var(--nl-touch-min);
+    padding: 0 var(--nl-gap-l);
+    border-width: 0;
+    transition-property: scale, background-color;
+    transition-duration: 0.12s;
+}
+.nl-btn:active { scale: 0.96 0.96; background-color: var(--nl-accent-deep); }
+.nl-btn--ghost { background-color: rgba(0, 0, 0, 0); color: var(--nl-text); border-width: 1px; border-color: rgba(255, 255, 255, 0.16); }
+.nl-icon { width: 22px; height: 22px; -unity-background-image-tint-color: var(--nl-text); }
+.nl-icon-tile {
+    width: 40px; height: 40px;
+    border-radius: 12px;
+    background-color: var(--nl-card-hi);
+    align-items: center; justify-content: center;
+}
+.nl-icon-tile > .nl-icon { -unity-background-image-tint-color: var(--nl-accent); }
