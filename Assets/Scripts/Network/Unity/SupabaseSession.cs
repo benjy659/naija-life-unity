@@ -117,6 +117,26 @@ namespace NaijaLife.NetworkGlue
             }
         }
 
+        /// <summary>
+        /// GET a PostgREST path (e.g. "/rest/v1/economy_ledger?select=...") as the signed-in
+        /// player. Row-level security limits it to the player's own rows. Never throws for
+        /// network reasons.
+        /// </summary>
+        public async Task<(bool ok, long status, string body)> GetAsync(string pathAndQuery)
+        {
+            string token = await GetAccessTokenAsync();
+            if (token == null) return (false, 0, null);
+            using (var req = UnityWebRequest.Get(_cfg.Url.TrimEnd('/') + pathAndQuery))
+            {
+                req.SetRequestHeader("apikey", _cfg.AnonKey);
+                req.SetRequestHeader("Authorization", "Bearer " + token);
+                req.timeout = 15;
+                await req.SendWebRequest();
+                bool ok = req.result == UnityWebRequest.Result.Success;
+                return (ok, req.responseCode, ok ? req.downloadHandler.text : null);
+            }
+        }
+
         UnityWebRequest Post(string path, string json, string bearer)
         {
             var req = new UnityWebRequest(_cfg.Url.TrimEnd('/') + path, "POST");
