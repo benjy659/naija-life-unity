@@ -163,12 +163,13 @@ Evidence for every M2 task goes under `qa/M2.<n>/` (spec section 11).
   V5 screenshots at 390x844 and 1280x800 read every noun in spec section 1,
   a 30 s clip climbing and crossing the footbridge at phone width, under 100
   draw calls at every viewpoint.
-- **M2.2. Lighting, time of day, quality tiers (Ted's team).** Status: READY
-  after M2.1. TimeOfDay on real WAT with QA presets, sun and fog, lamp light
+- **M2.2. Lighting, time of day, quality tiers.** Status: code Claude, IN
+  PROGRESS (2026-11-06); Ted's team runs it and posts evidence after M2.1. TimeOfDay on real WAT with QA presets, sun and fog, lamp light
   pool, night emissives, skyline shell, the Low/Medium/High table (spec
   section 6). *Acceptance:* V1 and V6 at all three tiers; night readable at
   390x844; draw calls still under 100.
-- **M2.3. Streaming stub (Ted's team).** Status: READY after M2.1.
+- **M2.3. Streaming stub.** Status: code Claude, IN PROGRESS (2026-11-06);
+  Ted's team runs it and posts evidence after M2.1.
   Bootstrap scene, Addressables group `District_Oshodi`, DistrictTile +
   DistrictStreamer (wake 600 m, sleep 700 m), FrameSpikeLogger (spec
   section 7). *Acceptance:* walk from the streaming test start (z -790)
