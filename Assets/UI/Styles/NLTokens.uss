@@ -68,10 +68,10 @@
 }
 
 /* type: Inter for UI, Titan One only inside the logo */
-.nl-text-title { -unity-font-definition: url("project://database/Assets/UI/Fonts/Inter-ExtraBold SDF.asset"); font-size: 20px; color: var(--nl-text); }
-.nl-text-value { -unity-font-definition: url("project://database/Assets/UI/Fonts/Inter-ExtraBold SDF.asset"); font-size: 16px; color: var(--nl-accent-soft); }
-.nl-text-body  { -unity-font-definition: url("project://database/Assets/UI/Fonts/Inter-Medium SDF.asset"); font-size: 14px; color: var(--nl-text); }
-.nl-text-kicker { -unity-font-definition: url("project://database/Assets/UI/Fonts/Inter-Bold SDF.asset"); font-size: 11px; letter-spacing: 2px; color: var(--nl-text-dim); }
+.nl-text-title { -unity-font: url("project://database/Assets/UI/Fonts/Inter-ExtraBold.ttf"); font-size: 20px; color: var(--nl-text); }
+.nl-text-value { -unity-font: url("project://database/Assets/UI/Fonts/Inter-ExtraBold.ttf"); font-size: 16px; color: var(--nl-accent-soft); }
+.nl-text-body  { -unity-font: url("project://database/Assets/UI/Fonts/Inter-Medium.ttf"); font-size: 14px; color: var(--nl-text); }
+.nl-text-kicker { -unity-font: url("project://database/Assets/UI/Fonts/Inter-Bold.ttf"); font-size: 11px; letter-spacing: 2px; color: var(--nl-text-dim); }
 
 /* motion: the only three durations the UI uses (spec section 4.5) */
 .nl-motion-fast { transition-duration: 0.12s; transition-timing-function: ease-out-cubic; }

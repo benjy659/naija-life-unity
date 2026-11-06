@@ -30,9 +30,13 @@ public static class HUDVerifyRunner
     {
         try
         {
-            HUDFontBuilder.BuildAll();
+            // Fonts are the Inter TTFs referenced directly from NLTokens.uss
+            // (-unity-font). No SDF build step: TMP_FontAsset is the wrong type
+            // for -unity-font-definition (it needs a TextCore FontAsset), and
+            // TMP_FontAsset.CreateFontAsset NREs in this project (no TMP
+            // Settings asset). Direct TTF is the standard UI Toolkit path.
             HUDSceneBuilder.BuildAll();
-            Debug.Log("[HUDVerify] Fonts + scenes built.");
+            Debug.Log("[HUDVerify] Scenes built (fonts are direct TTF).");
         }
         catch (Exception e)
         {
