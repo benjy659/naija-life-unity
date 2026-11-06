@@ -77,16 +77,25 @@ namespace NaijaLife.Verification
             if (!_player.IsGrounded) Fail("Player not grounded at spawn");
             yield return Shot("01-spawn");
 
+            // Ground is 60x60 m (+/-30). Each speed/strafe test starts from a
+            // known spot with enough runway; without the reset the sprint ran
+            // off the +Z edge in run 7 and the player fell forever, poisoning
+            // every later test with free-fall speeds.
             // ---- Phase 1: jog (W) ----
+            Teleport(new Vector3(0f, 0f, 0f), 0f);
             yield return HoldKeys(new[] { Key.W }, 4.0f, "jog W");
-            // ---- Phase 2: sprint (W+Shift) ----
+            // ---- Phase 2: sprint (W+Shift) — start Z=-20 so 34 m ends ~Z+14 ----
+            Teleport(new Vector3(0f, 0f, -20f), 0f);
             yield return HoldKeys(new[] { Key.W, Key.LeftShift }, 4.0f, "sprint W+Shift");
             // ---- Phase 3: walk (W+C) ----
+            Teleport(new Vector3(0f, 0f, 0f), 0f);
             yield return HoldKeys(new[] { Key.W, Key.C }, 4.0f, "walk W+C");
 
             // ---- Phase 4: strafe right (D) 6 s — R1 dead-zone test ----
+            Teleport(new Vector3(0f, 0f, 0f), 0f);
             yield return StrafeTest(new[] { Key.D }, "strafe D");
             // ---- Phase 5: backpedal (S) 6 s ----
+            Teleport(new Vector3(0f, 0f, 0f), 0f);
             yield return StrafeTest(new[] { Key.S }, "backpedal S");
 
             if (!phoneRun)
@@ -264,12 +273,13 @@ namespace NaijaLife.Verification
             Log("Ramp test: teleport to (4,0,-6) facing +X, hold W 4.5 s up Ramp_20deg");
             Teleport(new Vector3(4f, 0f, -6f), 90f);
             float camY0 = _mainCam.transform.position.y;
-            float maxY = 0f; int groundedFrames = 0; int totalFrames = 0;
+            float maxY = 0f; float maxCamY = camY0; int groundedFrames = 0; int totalFrames = 0;
             float t0 = Time.time;
             while (Time.time - t0 < 4.5f)
             {
                 QueueKeys(new[] { Key.W });
                 if (_player.transform.position.y > maxY) maxY = _player.transform.position.y;
+                if (_mainCam.transform.position.y > maxCamY) maxCamY = _mainCam.transform.position.y;
                 totalFrames++;
                 if (_player.IsGrounded) groundedFrames++;
                 yield return null;
@@ -277,9 +287,9 @@ namespace NaijaLife.Verification
             QueueKeys(new Key[0]);
             float camY1 = _mainCam.transform.position.y;
             Log($"Ramp: max player Y={maxY:0.00} (ground 0, ramp top ~1.0), grounded {groundedFrames}/{totalFrames} frames, " +
-                $"player end={_player.transform.position}, camera Y {camY0:0.00} -> {camY1:0.00} (no world-Y clamp if it rose)");
+                $"player end={_player.transform.position}, camera Y start {camY0:0.00} max {maxCamY:0.00} end {camY1:0.00} (no world-Y clamp if it rose)");
             if (maxY < 0.5f) Fail($"Ramp climb failed: max Y {maxY:0.00} (player did not get up the ramp)");
-            if (camY1 - camY0 < 0.3f) Fail($"Camera Y did not follow up the ramp ({camY0:0.00} -> {camY1:0.00})");
+            if (maxCamY - camY0 < 0.3f) Fail($"Camera Y did not follow up the ramp (start {camY0:0.00} max {maxCamY:0.00})");
             yield return Shot("09-ramp-top");
             yield return new WaitForSeconds(0.4f);
         }
