@@ -15,6 +15,7 @@ namespace NaijaLife.Network.Tests
         static NetPose Drive(float x, float z) =>
             new NetPose { X = x, Z = z, Speed = 12f, Flags = MoveFlags.Moving | MoveFlags.Driving, VehicleModelId = 3 };
         static NetPose Still(float x, float z) => new NetPose { X = x, Z = z };
+        static bool SendOk(in NetPose p, ushort s) => true; // method group: older compilers mis-read `in` lambdas across assemblies
 
         // ---- MoveCodec ----
 
@@ -307,7 +308,7 @@ namespace NaijaLife.Network.Tests
         {
             int sends = 0;
             PublicState last = default;
-            var r = new ReplicatorCore((in NetPose p, ushort s) => true, st => { sends++; last = st; return true; });
+            var r = new ReplicatorCore(SendOk, st => { sends++; last = st; return true; });
             r.SetLocalPublicState(new PublicState { AppearanceId = 1 });
             r.SubmitLocal(Still(0, 0), 0);
             r.SetLocalPublicState(new PublicState { AppearanceId = 2 });
@@ -325,7 +326,7 @@ namespace NaijaLife.Network.Tests
         {
             double now = 0;
             int calls = 0;
-            var cache = new StreetCardCache((id, ct) =>
+            var cache = new StreetCardCache((who, ct) =>
             {
                 calls++;
                 return System.Threading.Tasks.Task.FromResult(new StreetCard { Username = "ada", Id = new NetPlayerId("spoof") });

@@ -329,7 +329,9 @@ Spec: [docs/specs/netcode-m5.md](docs/specs/netcode-m5.md) (Claude,
   SupabaseSession). Edit Mode tests in `Assets/Tests/EditMode/Network/`.
   Maths checked in node (23 checks pass). Compiled in Ted's Editor on
   2026-11-06 (b2ffc61: the only compile error in the project was in
-  PlayerCamera); Edit Mode tests not run yet.
+  PlayerCamera). 2026-11-06: `bash tools/network/compile-check.sh` runs the
+  27 Core tests outside Unity (all pass) and type-checks the glue and the
+  scene builder; still needs Ted's Test Runner run in Unity 6.
 - **M5.1. Fusion room + presence + chat (Ted's team).** Status: READY
   (after M0.1). Fusion room per district, 2+ players see each other move, presence,
   street-card lookup, text chat (lobby + DM), Supabase Auth + profile.

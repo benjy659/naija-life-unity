@@ -1,0 +1,25 @@
+// Stubs for tools/network/compile-check.sh ONLY (never in the Unity project).
+// They stand in for Unity 6 APIs missing from the 2021.3 reference assemblies,
+// for TextMeshPro, and for the Player scripts, so the M5 glue type-checks.
+using System.Threading.Tasks;
+using UnityEngine;
+
+namespace UnityEngine {
+  public static class NLAsyncOpAwaitStub {
+    public static System.Runtime.CompilerServices.TaskAwaiter GetAwaiter(this AsyncOperation op) { return Task.CompletedTask.GetAwaiter(); }
+  }
+}
+namespace TMPro {
+  public enum TextAlignmentOptions { Center = 514 }
+  public class TextMeshPro : MonoBehaviour {
+    public bool richText; public string text; public float alpha; public float fontSize;
+    public TextAlignmentOptions alignment; public RectTransform rectTransform;
+  }
+}
+namespace NaijaLife.Player {
+  public class PlayerController : MonoBehaviour {
+    public enum LocomotionBand { Idle, Walk, Jog, Run, Sprint }
+    public float CurrentSpeed { get; set; }
+    public LocomotionBand CurrentBand { get; set; }
+  }
+}
