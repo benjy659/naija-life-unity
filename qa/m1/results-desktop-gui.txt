@@ -1,0 +1,53 @@
+[0.00] M1 verify harness started. phoneRun=False Screen=1101x613
+[1.20] Player at (0.00, 0.00, 0.00) grounded=True speed=0.00
+[1.20] Camera followYaw=0.00 ready=True mainCam=(0.00, 2.75, -4.35)
+[1.20] CharacterController present=True radius=0.35 height=1.80 center=(0.00, 0.90, 0.00) slopeLimit=45.00 stepOffset=0.30 skinWidth=0.08
+[1.20] PlayerInput ready=True MoveInput=(0.00, 0.00)
+[1.62] Screenshot: /var/cache/apt/archives/unity/m1-verify/desktop/shots/01-spawn.png
+[1.62] Teleported to (0.00, 0.00, 0.00) yaw 0, camera snapped to 0.00
+[1.62] Virtual Keyboard device added: Keyboard:/Keyboard1 (Keyboard.current was Keyboard:/Keyboard1)
+[5.79] jog W: steadySpeed=4.00 m/s (inspector mean 4.20) displacement=17.15 m from (0.00, 0.00, 0.00) to (0.00, 0.08, 17.15) yaw 0.00->0.00 grounded=True MoveInput=(0.00, 1.00) keys=W kb=Keyboard:/Keyboard1
+[6.28] Teleported to (0.00, 0.00, -20.00) yaw 0, camera snapped to 0.00
+[10.40] sprint W+Shift: steadySpeed=8.25 m/s (inspector mean 8.50) displacement=32.63 m from (0.00, 0.00, -20.00) to (0.00, 0.08, 12.63) yaw 0.00->0.00 grounded=True MoveInput=(0.00, 1.00) keys=W+LeftShift kb=Keyboard:/Keyboard1
+[10.87] Teleported to (0.00, 0.00, 0.00) yaw 0, camera snapped to 0.00
+[15.08] walk W+C: steadySpeed=2.32 m/s (inspector mean 2.40) displacement=10.09 m from (0.00, 0.00, 0.00) to (0.00, 0.08, 10.09) yaw 0.00->0.00 grounded=True MoveInput=(0.00, 1.00) keys=W+C kb=Keyboard:/Keyboard1
+[15.58] Teleported to (0.00, 0.00, 0.00) yaw 0, camera snapped to 0.00
+[15.88] Screenshot: /var/cache/apt/archives/unity/m1-verify/desktop/shots/04-strafe-D-start.png
+[21.88] strafe D: yaw 0.00 -> 0.00, max|delta|=0.00 deg over 6 s, player (0.00, 0.00, 0.00) -> (24.69, 0.08, 0.00) (moved 24.69 m), speed=4.20
+[21.88] strafe D: PASS (yaw held within 0.00 deg)
+[22.17] Screenshot: /var/cache/apt/archives/unity/m1-verify/desktop/shots/05-strafe-D-end.png
+[22.58] Teleported to (0.00, 0.00, 0.00) yaw 0, camera snapped to 0.00
+[22.81] Screenshot: /var/cache/apt/archives/unity/m1-verify/desktop/shots/04-backpedal-S-start.png
+[28.89] backpedal S: yaw 0.00 -> 0.00, max|delta|=0.00 deg over 6 s, player (0.00, 0.00, 0.00) -> (0.00, 0.08, -24.99) (moved 24.99 m), speed=4.20
+[28.89] backpedal S: PASS (yaw held within 0.00 deg)
+[29.31] Screenshot: /var/cache/apt/archives/unity/m1-verify/desktop/shots/05-backpedal-S-end.png
+[29.77] Orbit test: dragging +0.5 x for 0.6 s via AddOrbitInput
+[30.47] Orbit: yaw 0.00 -> 41.95 (delta -41.95 deg)
+[33.00] Orbit hold: max yaw drift over 2.5 s idle = 0.00 deg (expect < 2)
+[33.31] Screenshot: /var/cache/apt/archives/unity/m1-verify/desktop/shots/06-orbit-held.png
+[35.50] post-orbit walk W: steadySpeed=3.65 m/s (inspector mean 4.20) displacement=8.63 m from (0.00, 0.08, -25.18) to (6.76, 0.08, -19.81) yaw 41.95->51.62 grounded=True MoveInput=(0.00, 1.00) keys=W kb=Keyboard:/Keyboard1
+[35.97] Analog turn test: virtual gamepad stick 20 deg right of camera-forward for 3 s
+[35.97] Virtual gamepad added: Gamepad:/Gamepad
+[38.97] Analog turn: yaw 51.62 -> 139.39 (delta -87.77 deg), facing (0.78, 0.00, 0.62) -> (0.40, 0.00, -0.92), speed during=4.20, MoveInput=(0.34, 0.94)
+[38.97] Analog turn: PASS (camera re-aligned toward travel)
+[39.38] Occlusion test: teleport player to (6,0,6) facing +Z so Block_Tall (x5-7,z3-5) sits between camera and player
+[39.38] Teleported to (6.00, 0.00, 6.00) yaw 0, camera snapped to 0.00
+[40.89] Occlusion: IsOccluded=True cam-player dist=2.09 m (nominal 4.5), cam pos=(6.00, 1.97, 5.30) player=(6.00, 0.00, 6.00)
+[41.17] Screenshot: /var/cache/apt/archives/unity/m1-verify/desktop/shots/08-occlusion.png
+[41.17] Occlusion: PASS (pull-in active or camera already close)
+[43.78] occlusion walk-away W: steadySpeed=4.14 m/s (inspector mean 4.20) displacement=10.44 m from (6.00, 0.00, 6.00) to (6.00, 0.08, 16.44) yaw 0.00->0.00 grounded=True MoveInput=(0.00, 1.00) keys=W kb=Keyboard:/Keyboard1
+[44.21] Occlusion walk-away: cam-player dist now 5.14 m
+[44.21] Ramp test: teleport to (4,0,-6) facing +X, hold W 4.5 s up Ramp_20deg
+[44.21] Teleported to (4.00, 0.00, -6.00) yaw 90, camera snapped to 90.00
+[48.77] Ramp: max player Y=1.35 (ground 0, ramp top ~1.0), grounded 38/40 frames, player end=(22.73, 0.08, -6.00), camera Y start 2.83 max 4.09 end 2.84 (no world-Y clamp if it rose)
+[49.02] Screenshot: /var/cache/apt/archives/unity/m1-verify/desktop/shots/09-ramp-top.png
+[49.50] Collision test: teleport to (3,0,4) facing +X, hold W 3 s into Block_Tall (face at x=5)
+[49.50] Teleported to (3.00, 0.00, 4.00) yaw 90, camera snapped to 90.00
+[52.59] Collision: player end=(4.57, 0.08, 4.00) (block face x=5, capsule radius 0.35 -> expect x <= ~4.65)
+[52.59] Collision: PASS (blocked by Block_Tall)
+[52.82] Screenshot: /var/cache/apt/archives/unity/m1-verify/desktop/shots/10-collision.png
+[52.82] Follow test: walk W 3 s from current spot, track camera-player distance
+[52.82] Teleported to (0.00, 0.00, 0.00) yaw 0, camera snapped to 0.00
+[56.48] Follow: cam-player distance during walk min=5.14 max=5.84 m (nominal 4.5)
+FAILURES: 0
+RESULT: ALL HARNESS CHECKS PASSED

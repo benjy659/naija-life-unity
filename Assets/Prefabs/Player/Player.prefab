@@ -81,6 +81,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inputActions: {fileID: -944628639613478452, guid: bab253d3088542028ab31ff53a7553d9, type: 3}
   actionMapName: Gameplay
+  mouseDegreesPerPixel: 0.15
+  touchDegreesPerPixel: 0.2
+  stickDegreesPerSecond: 120
+  stickDeadZone: 0.15
+  touchButtonBand: 0.35
 --- !u!95 &1000005
 Animator:
   serializedVersion: 7
@@ -225,7 +230,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: e2465c7e8cbc8cf07965bb002053d430, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -315,7 +320,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 4edbf2b7ff22e0bae9caa4865fca5a8e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
