@@ -238,6 +238,13 @@ No real political party names, colours or faces anywhere (owner rule).
 
 ### 6.1 Time of day
 
+**Status 2026-11-06:** Claude wrote the M2.2 code (commit 8d3f39c):
+`Assets/Scripts/World/TimeOfDay.cs`, `LampLightPool.cs`, the URP tier assets
+`Assets/Settings/URP_Low|Medium|High.asset` set to the 6.4 table and wired
+into each quality level. Bloom (a Volume) is Ted's Editor step; the skyline
+shell (6.5) is not built yet. Never compiled: UNVERIFIED until Ted's run
+(inbox IN-17).
+
 - `TimeOfDay` component in Bootstrap. Default source: real WAT
   (UTC plus 1, `DateTime.UtcNow.AddHours(1)`, works in WebGL). For M2 the sun
   table is fixed: sunrise 06:30, sunset 18:30 WAT; the real table comes later.
@@ -290,6 +297,14 @@ a cluster of glass towers to the south-east (Victoria Island across the water,
 lit windows at night). Never collides, layer `CameraIgnore`.
 
 ## 7. Streaming stub (M2.3, start of B-35 in Unity)
+
+**Status 2026-11-06:** Claude wrote the M2.3 code (commit 8d3f39c):
+`DistrictTile.cs`, `DistrictStreamer.cs`, `FrameSpikeLogger.cs` in
+`Assets/Scripts/World/`, and `Assets/Editor/World/OshodiBootstrapSetup.cs`
+(menu Naija Streets > Set up Oshodi streaming (Bootstrap)), which makes the
+Addressables group, the tile asset and `Assets/Scenes/Bootstrap.unity`.
+Approach_South loads from Build Settings before the player is switched on.
+Never compiled: UNVERIFIED until Ted's run (inbox IN-17).
 
 - `Bootstrap.unity`: player, camera, TimeOfDay, `DistrictStreamer`, debug
   overlay, and `Approach_South` (always loaded in M2).
