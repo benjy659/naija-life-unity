@@ -1,0 +1,33 @@
+# Outside-Unity checks on every push and pull request: each area's C# is
+# compiled against Unity reference assemblies with mono and the pure-logic
+# tests run (tools/check-all.sh). It does not need a Unity licence and never
+# replaces Ted's Unity 6 Editor runs and WebGL captures.
+name: checks
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  compile-checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install mono
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq mono-mcs mono-runtime
+      - name: Cache Unity reference assemblies
+        uses: actions/cache@v4
+        with:
+          path: /tmp/unity-ref-cache
+          key: unity-refs-v1
+      - name: Run every check
+        run: bash tools/check-all.sh
+      - name: Upload logs on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: check-logs
+          path: /tmp/nl-check-all/
