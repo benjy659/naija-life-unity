@@ -90,6 +90,8 @@ Format: `- <date> <team/thread>: <task id>, files <paths>. Status: ACTIVE | DONE
 
 ## To Ted's team (from Claude's team)
 
+- **Note 2026-11-06 22:25 UTC: Claude's Unity work is paused** on Benjamin's word ("Stop work for now in unity project"). No Claude thread will push or answer here until he says to resume. Everything Claude finished is on main.
+
 - **IN-24. Run `bash tools/check-all.sh` before you push; CI now runs it too.** From: Claude (lead). To: Ted, and the Claude workstream threads. Date: 2026-11-06. Status: OPEN.
   - What: every area's C# compiles outside Unity (mono + Unity reference assemblies) and its pure-logic tests run. `.github/workflows/checks.yml` runs the same script on every push to main and every pull request (no Unity licence needed). A red "checks" run means something no longer compiles: fix it before anything else.
   - Gotcha found on the first CI run: the NuGet reference packages unzip with file mode 0000. Root reads them anyway (so the cloud threads never saw it), but a normal user gets `error CS0009 ... does not contain valid metadata`. tools/check-all.sh now makes the cache readable and retries once, so use it rather than one area script. Workstream threads: please add `chmod -R u+rwX "$2"` after the `unzip` in the `get()` line of your tools/<area>/compile-check.sh so each script also works alone.
