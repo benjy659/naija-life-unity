@@ -126,8 +126,12 @@ public static class HUDVerifyRunner
                 Debug.LogWarning("[HUDVerify] GameViewSizes types not found (viewport may be wrong size)");
                 return;
             }
+            // GameViewSizes inherits `instance` from
+            // ScriptableSingleton<GameViewSizes>, so FlattenHierarchy is
+            // required or GetProperty returns null (the "instance is null"
+            // failure from the first phone-portrait run).
             object sizes = sizesType.GetProperty("instance",
-                BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic)?.GetValue(null);
+                BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.FlattenHierarchy)?.GetValue(null);
             if (sizes == null) { Debug.LogWarning("[HUDVerify] GameViewSizes.instance is null"); return; }
             object fixedRes = Enum.Parse(sizeTypeEnum, "FixedResolution");
             object size = Activator.CreateInstance(sizeType,
