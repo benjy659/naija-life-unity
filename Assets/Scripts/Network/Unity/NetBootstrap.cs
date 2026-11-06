@@ -15,6 +15,14 @@ namespace NaijaLife.NetworkGlue
         public static INetSession Session { get; private set; }
         public static IStreetCardService StreetCards { get; private set; }
 
+        /// <summary>
+        /// The ONE Supabase session for the whole game (auth token, RPC calls). Jobs,
+        /// wallet and HUD use this instead of making their own, so the player is
+        /// never signed in twice (two anonymous accounts). Set in Awake.
+        /// </summary>
+        public static SupabaseSession Supabase { get; private set; }
+        public static SupabaseConfig SupabaseCfg { get; private set; }
+
         [SerializeField] string city = "lagos";
         [SerializeField] string district = "oshodi";
         [SerializeField] SupabaseConfig supabase = new SupabaseConfig();
@@ -25,10 +33,16 @@ namespace NaijaLife.NetworkGlue
         SupabaseSession _sb;
         CancellationTokenSource _cts;
 
+        void Awake()
+        {
+            // Keep one session even if a second district scene brings its own bootstrap.
+            if (Supabase == null) { SupabaseCfg = supabase; Supabase = new SupabaseSession(supabase); }
+            _sb = Supabase;
+        }
+
         async void Start()
         {
             _cts = new CancellationTokenSource();
-            _sb = new SupabaseSession(supabase);
             StreetCards = new StreetCardCache(_sb.FetchStreetCardAsync, () => Time.realtimeSinceStartupAsDouble);
             var blocklist = LoadBlocklist();
 
