@@ -29,6 +29,8 @@ namespace NaijaLife.NetworkGlue
         [Tooltip("Lowercase words, one per line. Applied to chat on send and on receive.")]
         [SerializeField] TextAsset chatBlocklist;
         [SerializeField] bool showStatusBadge = true;
+        [Tooltip("After sign-in, the Bank reads the real server ledger. Turn off in the Editor to keep the fake test wallet.")]
+        [SerializeField] bool useServerWallet = true;
 
         SupabaseSession _sb;
         CancellationTokenSource _cts;
@@ -54,6 +56,10 @@ namespace NaijaLife.NetworkGlue
 #endif
             string token = await _sb.GetAccessTokenAsync();
             if (token == null) { Debug.Log("[net] no sign-in; playing offline"); return; }
+
+            // Bank and HUD balance from the server ledger (HUD-6 live data). Replaces the
+            // Editor fake wallet once the player is really signed in.
+            if (useServerWallet) NaijaLife.UI.NLWallet.Source = new SupabaseWalletSource(_sb);
 
             // Players-online count across all districts (live nl_online_touch).
             if (!TryGetComponent(out OnlineHeartbeat hb)) hb = gameObject.AddComponent<OnlineHeartbeat>(); // not ??: Unity fake-null
