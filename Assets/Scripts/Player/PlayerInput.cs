@@ -46,6 +46,32 @@ namespace NaijaLife.Player
         /// <summary>True while Walk is held (Left Ctrl / C).</summary>
         public bool WalkHeld { get; private set; }
 
+        /// <summary>
+        /// Camera orbit for this frame, in DEGREES (x = yaw, y = pitch, positive
+        /// y = drag up). Already scaled per device and gated by the M1.4 rules:
+        /// desktop orbits only while the right mouse button is held (a free
+        /// mouse never moves the lens), phone orbits by dragging on the right
+        /// half of the screen above the bottom button band, gamepad by the
+        /// right stick. PlayerCamera reads this every frame.
+        /// </summary>
+        public Vector2 OrbitDegrees { get; private set; }
+
+        [Header("Camera orbit (M1.4)")]
+        [Tooltip("Mouse orbit, degrees per pixel of drag while the right button is held.")]
+        [SerializeField] private float mouseDegreesPerPixel = 0.15f;
+        [Tooltip("Touch orbit, degrees per pixel of drag on the right half of the screen.")]
+        [SerializeField] private float touchDegreesPerPixel = 0.2f;
+        [Tooltip("Gamepad right stick orbit, degrees per second at full deflection.")]
+        [SerializeField] private float stickDegreesPerSecond = 120f;
+        [Tooltip("Right-stick dead zone.")]
+        [SerializeField] private float stickDeadZone = 0.15f;
+        [Tooltip("Bottom share of the screen kept for buttons (sprint, phone); touches starting there never orbit.")]
+        [Range(0f, 0.6f)]
+        [SerializeField] private float touchButtonBand = 0.35f;
+
+        // Touch that owns the orbit drag (-1 = none).
+        private int _orbitTouchId = -1;
+
         /// <summary>True once the action map was found and enabled.</summary>
         public bool IsReady { get; private set; }
 
@@ -91,6 +117,72 @@ namespace NaijaLife.Player
             LookInput = _lookAction.ReadValue<Vector2>();
             SprintHeld = _sprintAction.IsPressed();
             WalkHeld = _walkAction.IsPressed();
+            OrbitDegrees = ReadOrbit();
+        }
+
+        // M1.4: orbit from the right mouse drag, a right-half touch drag, or
+        // the right stick. Read straight from devices because the rules differ
+        // per device (a held button, a screen region, a rate), which one
+        // Look action cannot express.
+        private Vector2 ReadOrbit()
+        {
+            Vector2 degrees = Vector2.zero;
+
+            Mouse mouse = Mouse.current;
+            if (mouse != null && mouse.rightButton.isPressed)
+                degrees += mouse.delta.ReadValue() * mouseDegreesPerPixel;
+
+            Gamepad pad = Gamepad.current;
+            if (pad != null)
+            {
+                Vector2 stick = pad.rightStick.ReadValue();
+                if (stick.magnitude > stickDeadZone)
+                    degrees += stick * (stickDegreesPerSecond * Time.deltaTime);
+            }
+
+            Touchscreen touch = Touchscreen.current;
+            if (touch != null)
+                degrees += ReadTouchOrbit(touch);
+
+            return degrees;
+        }
+
+        private Vector2 ReadTouchOrbit(Touchscreen screen)
+        {
+            foreach (var t in screen.touches)
+            {
+                var phase = t.phase.ReadValue();
+                int id = t.touchId.ReadValue();
+
+                if (_orbitTouchId == -1 && phase == UnityEngine.InputSystem.TouchPhase.Began)
+                {
+                    Vector2 start = t.startPosition.ReadValue();
+                    bool rightHalf = start.x > Screen.width * 0.5f;
+                    bool aboveButtons = start.y > Screen.height * touchButtonBand;
+                    if (rightHalf && aboveButtons)
+                        _orbitTouchId = id;
+                }
+
+                if (id != _orbitTouchId)
+                    continue;
+
+                if (phase == UnityEngine.InputSystem.TouchPhase.Ended ||
+                    phase == UnityEngine.InputSystem.TouchPhase.Canceled)
+                {
+                    _orbitTouchId = -1;
+                    return Vector2.zero;
+                }
+                return t.delta.ReadValue() * touchDegreesPerPixel;
+            }
+            // Owning touch vanished without an end phase: release it.
+            if (_orbitTouchId != -1)
+            {
+                bool stillThere = false;
+                foreach (var t in screen.touches)
+                    if (t.touchId.ReadValue() == _orbitTouchId && t.isInProgress) { stillThere = true; break; }
+                if (!stillThere) _orbitTouchId = -1;
+            }
+            return Vector2.zero;
         }
     }
 }

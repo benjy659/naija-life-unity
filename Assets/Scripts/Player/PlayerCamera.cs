@@ -244,6 +244,7 @@ namespace NaijaLife.Player
         private bool _warnedNoTarget;
         private IPlayerCameraTarget _cameraTarget; // cached on target change (no per-frame GetComponent)
         private CharacterController _characterController;
+        private PlayerInput _targetInput;            // M1.4 orbit source (NaijaLife.Player.PlayerInput)
 
         // ------------------------------------------------------------------
         // Unity lifecycle
@@ -295,6 +296,11 @@ namespace NaijaLife.Player
             ReadMovementState(out Vector3 velocity, out float horizontalSpeed,
                 out bool grounded, out Vector3 facing);
 
+            // 1b. Manual orbit from the player's input (M1.4). Applied before
+            //     the follow rule so the recenter delay sees it this frame.
+            if (_targetInput != null)
+                AddOrbitDegrees(_targetInput.OrbitDegrees);
+
             // 2. Update the ONE piece of camera state: followYaw.
             UpdateFollowYaw(velocity, horizontalSpeed, grounded, facing, dt);
 
@@ -334,6 +340,21 @@ namespace NaijaLife.Player
             _pitch = Mathf.Clamp(
                 _pitch + delta.y * orbitSensitivity * Time.deltaTime,
                 orbitPitchClamp.x, orbitPitchClamp.y);
+            _lastOrbitInputTime = Time.time;
+        }
+
+        /// <summary>
+        /// M1.4: apply an orbit already expressed in degrees (yaw, pitch; positive
+        /// pitch = drag up = look up). Fed every frame from PlayerInput.OrbitDegrees.
+        /// Counts as manual orbit, so the 2 s recenter delay applies.
+        /// </summary>
+        public void AddOrbitDegrees(Vector2 degrees)
+        {
+            if (degrees.sqrMagnitude <= 0f || followTarget == null)
+                return;
+
+            _followYaw += degrees.x;
+            _pitch = Mathf.Clamp(_pitch - degrees.y, orbitPitchClamp.x, orbitPitchClamp.y);
             _lastOrbitInputTime = Time.time;
         }
 
@@ -688,6 +709,9 @@ namespace NaijaLife.Player
                 : null;
             _characterController = followTarget != null
                 ? followTarget.GetComponent<CharacterController>()
+                : null;
+            _targetInput = followTarget != null
+                ? followTarget.GetComponent<PlayerInput>()
                 : null;
         }
 

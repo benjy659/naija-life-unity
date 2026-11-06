@@ -289,9 +289,13 @@ namespace NaijaLife.Player
                     QueryTriggerInteraction.Ignore))
             {
                 _groundNormal = hit.normal;
-                // Close to the ground counts as grounded even if isGrounded
-                // flickers for a frame (e.g. walking down a kerb).
-                if (hit.distance <= _controller.height * 0.5f + 0.15f)
+                // M1.5: the probe only bridges a one-frame isGrounded flicker.
+                // The sphere (radius 0.9 r) touches ground at distance
+                // height/2 - 0.9 r when the feet are on it; allow 5 cm of gap
+                // below the feet, not the old ~0.4 m that floated the player
+                // off kerbs (review R6).
+                float feetOnGround = _controller.height * 0.5f - _controller.radius * 0.9f;
+                if (hit.distance <= feetOnGround + 0.05f + _controller.skinWidth && _verticalVelocity <= 0f)
                     IsGrounded = true;
             }
             else
