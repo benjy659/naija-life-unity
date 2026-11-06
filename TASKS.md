@@ -468,7 +468,7 @@ UNVERIFIED.
   height), end-of-shift card; replace the IMGUI JobDebugUi parts in
   NLJobUiBridge. Code on main 2026-11-06 (NLJobHud, IN-21); Ted: compile
   and captures at the 4 sizes under qa/hud-8/.
-- **HUD-7. HUD QA pass (Ted's team, Claude reviews).** Status: TODO after
+- **HUD-7. HUD QA pass (Ted's team, Claude reviews).** Status: Claude, IN PROGRESS: overlap test scripted 2026-11-06 (NLOverlapTest + menu, IN-23); Ted: run it at the 4 sizes, two-thumb and flicker tests, captures. After
   HUD-2 to HUD-6. Spec §5.1, §6.3, §10. All 32 right-column combinations at
   the 4 sizes with no overlap (script it), two-thumb test on a real phone,
   prompt flicker walk, phone open frame time. *Acceptance:* report and

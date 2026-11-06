@@ -14,6 +14,8 @@
 //   Test: job change sheet    fare change sheet; pick an amount, then the result line
 //   Test: job shift card      end-of-shift card; Okay closes it
 //   Test: clear job UI        hides every job piece
+//   HUD-7 overlap test        all 32 right-column combinations at the current
+//                             Game view size; report in qa/hud-7/ (about 70 s)
 // Batch (CI / harness):
 //   -executeMethod NaijaLife.UI.Editor.NLUISetup.AddToGreyboxBatch
 //   opens Assets/Scenes/Greybox_M1.unity, adds the UI and saves the scene.
@@ -220,6 +222,29 @@ namespace NaijaLife.UI.Editor
             var hud = Job(); if (hud == null) return;
             EditorApplication.update -= ShoutTick;
             hud.ClearAll();
+        }
+
+        // ---------------- HUD-7 ----------------
+
+        [MenuItem("Naija Streets/UI/HUD-7 overlap test (Play mode)")]
+        private static void OverlapTest()
+        {
+            if (!Application.isPlaying) { Debug.LogWarning("Enter Play mode first, at the size you want to test."); return; }
+            NLOverlapTest.Finished -= WriteOverlapReport;
+            NLOverlapTest.Finished += WriteOverlapReport;
+            NLOverlapTest.Run();
+            Debug.Log("[NLUISetup] HUD-7 overlap test running (about 70 s). Do not touch the Game view.");
+        }
+
+        private static void WriteOverlapReport(string report, bool pass)
+        {
+            NLOverlapTest.Finished -= WriteOverlapReport;
+            var mode = NLUIRoot.Instance != null ? NLUIRoot.Instance.Mode.ToString().ToLowerInvariant() : "unknown";
+            string dir = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(Application.dataPath), "qa", "hud-7");
+            System.IO.Directory.CreateDirectory(dir);
+            string path = System.IO.Path.Combine(dir, "overlap-" + Screen.width + "x" + Screen.height + "-" + mode + ".txt");
+            System.IO.File.WriteAllText(path, report);
+            Debug.Log("[NLUISetup] HUD-7 report " + (pass ? "PASS" : "FAIL") + ": " + path);
         }
 
         private static NLEditorFakeWallet Fake()

@@ -179,11 +179,11 @@ namespace NaijaLife.UI
 
         protected override void OnBind(VisualElement root)
         {
-            var rows = root.Q("nl-rows");
             var safe = root.Q("nl-safe");
 
             // shift chip
-            _chip = NLPhone.Add(rows, "nl-chip");
+            _chip = NLHudStack.Request("job.shift", NLHudStack.JobShift, new VisualElement());
+            _chip.AddToClassList("nl-chip");
             _chip.AddToClassList("nl-shift");
             _chip.AddToClassList("is-hidden");
             _chip.pickingMode = PickingMode.Ignore;
@@ -195,7 +195,8 @@ namespace NaijaLife.UI
             _chipNote = L(_chip, "nl-shift-note");
 
             // busy row
-            _busy = NLPhone.Add(rows, "nl-chip");
+            _busy = NLHudStack.Request("job.busy", NLHudStack.JobBusy, new VisualElement());
+            _busy.AddToClassList("nl-chip");
             _busy.AddToClassList("nl-busy");
             _busy.AddToClassList("is-hidden");
             _busy.pickingMode = PickingMode.Ignore;
@@ -258,7 +259,7 @@ namespace NaijaLife.UI
 
         protected override void OnUnbind()
         {
-            _chip?.RemoveFromHierarchy(); _busy?.RemoveFromHierarchy();
+            NLHudStack.Release("job.shift"); NLHudStack.Release("job.busy");
             _shout?.RemoveFromHierarchy(); _sheetWrap?.RemoveFromHierarchy();
             UI?.SetRootClass("nl-job-shout", false);
             UI?.SetRootClass("nl-job-sheet-open", false);
