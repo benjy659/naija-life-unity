@@ -250,6 +250,10 @@ at level 1, because the server caps trips by time and count.
   back, right-hand lane, no props in the lane. The bus is a kinematic follower
   (8 to 10 m/s, eases in and out of stops, no traffic AI in M4). The bus is the
   M3 danfo model and prefab, driven by the route, not by WheelColliders.
+- **Later, with M3 traffic:** M3 now has `LaneGraph` and `TrafficDriver`
+  (Assets/Scripts/Vehicles). Once M3 is verified, the bay danfo should drive
+  its route with `TrafficDriver` on the lane graph so it reacts to traffic,
+  and `DanfoRoute` keeps only the stop and bay events. Not in M4.
 - **Placed in the M2 layout (Oshodi thread, 2026-11-05):**
   `docs/specs/oshodi-greybox-layout.json` (checked by
   `tools/oshodi/oshodi-layout.js`), spec `docs/specs/oshodi-greybox.md`, branch

@@ -67,7 +67,7 @@ namespace NaijaLife.JobsGlue.EditorTools
             if (player) rig.followTarget = player.transform;
             new GameObject("JobDebugUi").AddComponent<JobDebugUi>();
 
-            System.IO.Directory.CreateDirectory("Assets/Scenes");
+            EnsureFolder("Assets", "Scenes");
             EditorSceneManager.SaveScene(scene, ScenePath);
             AssetDatabase.SaveAssets();
             Debug.Log("[M4] Built " + ScenePath + ". Press Play, walk to a bot conductor on the island (south side of a bus) and press E.");
@@ -176,7 +176,7 @@ namespace NaijaLife.JobsGlue.EditorTools
         {
             var def = AssetDatabase.LoadAssetAtPath<JobDefinition>(DefPath);
             if (def) return def;
-            System.IO.Directory.CreateDirectory("Assets/Settings/Jobs");
+            EnsureFolder("Assets/Settings", "Jobs");
             def = ScriptableObject.CreateInstance<JobDefinition>();
             def.kind = JobKind.Conductor;
             AssetDatabase.CreateAsset(def, DefPath);
@@ -188,12 +188,18 @@ namespace NaijaLife.JobsGlue.EditorTools
             string path = "Assets/Settings/Jobs/" + name + ".mat";
             var m = AssetDatabase.LoadAssetAtPath<Material>(path);
             if (m) return m;
-            System.IO.Directory.CreateDirectory("Assets/Settings/Jobs");
+            EnsureFolder("Assets/Settings", "Jobs");
             Shader lit = Shader.Find("Universal Render Pipeline/Lit") ?? Shader.Find("Standard");
             m = new Material(lit) { name = name };
             if (m.HasProperty("_BaseColor")) m.SetColor("_BaseColor", c); else m.color = c;
             AssetDatabase.CreateAsset(m, path);
             return m;
+        }
+
+        /// <summary>Create a folder the AssetDatabase knows about (System.IO alone makes CreateAsset fail).</summary>
+        static void EnsureFolder(string parent, string name)
+        {
+            if (!AssetDatabase.IsValidFolder(parent + "/" + name)) AssetDatabase.CreateFolder(parent, name);
         }
 
         static Transform Child(Transform parent, string name, Vector3 local)
