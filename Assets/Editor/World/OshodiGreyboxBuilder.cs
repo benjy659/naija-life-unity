@@ -40,6 +40,7 @@ namespace NaijaLife.World.Editor
         public const string GeneratedRoot = "Oshodi_Generated";
         public const string PlaytestRoot = "Oshodi_Playtest";
         const string MaterialDir = "Assets/Art/Materials/Greybox";
+        const string MeshDir = "Assets/Art/Meshes/Greybox";
         const string PlayerPrefabPath = "Assets/Prefabs/Player/Player.prefab";
         const string PlayerCameraType = "NaijaLife.Player.PlayerCamera, Assembly-CSharp";
 
@@ -102,13 +103,27 @@ namespace NaijaLife.World.Editor
             var groups = new Dictionary<string, Transform>();
             int count = 0;
 
+            var merges = new Dictionary<string, List<GreyboxItem>>();
             foreach (var it in data.items)
             {
                 if (it.scene != sceneKey) continue;
+                if (!string.IsNullOrEmpty(it.merge))
+                {
+                    if (!merges.TryGetValue(it.merge, out var list)) merges[it.merge] = list = new List<GreyboxItem>();
+                    list.Add(it);
+                    continue;
+                }
                 var go = MakePiece(it, mats);
                 go.transform.SetParent(GroupTransform(root.transform, it.group, groups), false);
                 go.transform.localPosition = new Vector3(it.x, it.y, it.z);
                 go.transform.localRotation = Quaternion.Euler(it.rx, it.ry, it.rz);
+                count++;
+            }
+
+            foreach (var kv in merges)
+            {
+                var go = MakeMerged(sceneKey, kv.Key, kv.Value, mats);
+                go.transform.SetParent(GroupTransform(root.transform, kv.Value[0].group, groups), false);
                 count++;
             }
 
@@ -129,6 +144,53 @@ namespace NaijaLife.World.Editor
             if (!EditorSceneManager.SaveScene(scene, path))
                 throw new IOException("Could not save " + path);
             return count;
+        }
+
+        // Combines boxes that share a merge key into one mesh asset (one draw call),
+        // e.g. the skyline shell. No collider. The mesh is saved under MeshDir so the
+        // scene keeps a reference to it; each rebuild overwrites the same asset.
+        static GameObject MakeMerged(string sceneKey, string key, List<GreyboxItem> pieces, Dictionary<string, Material> mats)
+        {
+            var temp = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            var cube = temp.GetComponent<MeshFilter>().sharedMesh;
+            var combine = new CombineInstance[pieces.Count];
+            for (int i = 0; i < pieces.Count; i++)
+            {
+                var it = pieces[i];
+                if (it.shape != "box") Debug.LogWarning($"[Oshodi] {it.id}: merged pieces are drawn as boxes");
+                combine[i] = new CombineInstance
+                {
+                    mesh = cube,
+                    transform = Matrix4x4.TRS(new Vector3(it.x, it.y, it.z), Quaternion.Euler(it.rx, it.ry, it.rz), new Vector3(it.sx, it.sy, it.sz)),
+                };
+            }
+
+            EnsureFolder(MeshDir);
+            string path = $"{MeshDir}/{sceneKey}_{key}.asset";
+            var mesh = AssetDatabase.LoadAssetAtPath<Mesh>(path);
+            bool isNew = mesh == null;
+            if (isNew) mesh = new Mesh();
+            mesh.Clear();
+            mesh.name = key;
+            mesh.indexFormat = pieces.Count * 24 > 65000 ? IndexFormat.UInt32 : IndexFormat.UInt16;
+            mesh.CombineMeshes(combine, true, true);
+            mesh.RecalculateBounds();
+            if (isNew) AssetDatabase.CreateAsset(mesh, path);
+            else EditorUtility.SetDirty(mesh);
+            UnityEngine.Object.DestroyImmediate(temp);
+
+            var first = pieces[0];
+            var go = new GameObject(key) { layer = LayerOrDefault(first.layer) };
+            go.AddComponent<MeshFilter>().sharedMesh = mesh;
+            var mr = go.AddComponent<MeshRenderer>();
+            if (mats.TryGetValue(first.mat ?? "", out var mat)) mr.sharedMaterial = mat;
+            else Debug.LogWarning($"[Oshodi] {key}: no material '{first.mat}'");
+            mr.shadowCastingMode = ShadowCastingMode.Off;   // far away: shadows would cost and never show
+            mr.receiveShadows = false;
+            if (first.night) go.AddComponent<NightOnly>();
+            if (first.isStatic && !first.night)
+                GameObjectUtility.SetStaticEditorFlags(go, StaticEditorFlags.BatchingStatic);
+            return go;
         }
 
         static GameObject MakePiece(GreyboxItem it, Dictionary<string, Material> mats)

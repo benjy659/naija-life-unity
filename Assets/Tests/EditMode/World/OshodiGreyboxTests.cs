@@ -125,7 +125,9 @@ namespace NaijaLife.World.Tests
                         foreach (var t in root.GetComponentsInChildren<Transform>(true))
                             byName[t.name] = t;
 
-                foreach (var it in _data.items.Where(i => i.scene == key))
+                foreach (var mergeKey in _data.items.Where(i => i.scene == key && !string.IsNullOrEmpty(i.merge)).Select(i => i.merge).Distinct())
+                    if (!byName.ContainsKey(mergeKey)) problems.Add($"{key}: missing merged mesh {mergeKey}");
+                foreach (var it in _data.items.Where(i => i.scene == key && string.IsNullOrEmpty(i.merge)))
                 {
                     if (!byName.TryGetValue(it.id, out var t)) { problems.Add($"{key}: missing {it.id}"); continue; }
                     if (Vector3.Distance(t.position, new Vector3(it.x, it.y, it.z)) > 0.01f) problems.Add($"{key}: {it.id} moved to {t.position}");

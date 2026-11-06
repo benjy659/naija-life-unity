@@ -16,6 +16,8 @@ const path = require('path');
 const ROOT = path.resolve(__dirname, '..', '..');
 const IN = path.join(ROOT, 'docs/specs/oshodi-greybox-layout.json');
 const OUT = path.join(ROOT, 'Assets/Data/Oshodi/oshodi-greybox-build.json');
+// Items with a "merge" key are combined by the Unity builder into one mesh per
+// key (one draw call); "night" pieces only show when TimeOfDay says it is night.
 
 const r3 = (v) => Math.round(v * 1000) / 1000;
 const DEG = 180 / Math.PI;
@@ -30,6 +32,7 @@ function make(L) {
       x: r3(o.x), y: r3(o.y), z: r3(o.z), sx: r3(o.sx), sy: r3(o.sy), sz: r3(o.sz),
       rx: r3(o.rx || 0), ry: r3(o.ry || 0), rz: r3(o.rz || 0),
       mat: o.mat || 'concrete', layer: o.layer || 'Default', collider: o.collider || 'box', isStatic: o.isStatic !== false,
+      merge: o.merge || '', night: !!o.night,
     });
   };
   const mark = (id, x, y, z, ry, group, scene = 'core') => {
@@ -334,6 +337,13 @@ function make(L) {
     }
   }
 
+  // ---- skyline shell (spec 6.5): the builder merges each key into one mesh, no colliders
+  const SK = L.skyline;
+  if (SK) {
+    for (const b of SK.blocks) add({ id: b.id, group: 'Skyline', x: b.x, y: b.h / 2, z: b.z, sx: b.w, sy: b.h, sz: b.d, ry: b.ry, mat: 'skyline', layer: SK.layer, collider: 'none', merge: SK.mergeShell });
+    for (const w of SK.windows) add({ id: w.id, group: 'Skyline', x: w.x, y: w.y, z: w.z, sx: w.w, sy: w.h, sz: w.d, ry: w.ry, mat: 'window_lit', layer: SK.layer, collider: 'none', merge: SK.mergeWindows, night: true });
+  }
+
   // ---- spawn and viewpoints
   mark('spawn', L.spawn.x, L.spawn.y, L.spawn.z, L.spawn.ry, 'Markers');
   for (const v of L.viewpoints) mark(v.id, v.x, v.y, v.z, v.ry, 'Markers/Viewpoints');
@@ -406,7 +416,7 @@ const MATERIALS = [
   ['awning_red', 0.82, 0.22, 0.16], ['awning_blue', 0.16, 0.36, 0.72], ['awning_yellow', 0.95, 0.8, 0.2],
   ['sign_red', 0.78, 0.16, 0.14], ['sign_blue', 0.12, 0.3, 0.66], ['sign_yellow', 0.95, 0.82, 0.15], ['sign_green', 0.05, 0.5, 0.22],
   ['poster_a', 0.9, 0.85, 0.2], ['poster_b', 0.2, 0.6, 0.85], ['hoarding', 0.9, 0.3, 0.55],
-  ['lamp_emissive', 1.0, 0.85, 0.55, 2.5],
+  ['lamp_emissive', 1.0, 0.85, 0.55, 2.5], ['skyline', 0.46, 0.49, 0.55], ['window_lit', 1.0, 0.86, 0.6, 1.6],
 ].map(([key, r, g, b, e]) => ({ key, r, g, b, emission: e || 0 }));
 
 function write() {

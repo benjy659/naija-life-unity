@@ -445,6 +445,42 @@ const approach = {
   approach.dropStop.routeDistanceFromPark = r2(-48.5 - approach.dropStop.stopPoint.z);
 }
 
+// ---------------------------------------------------------------- skyline shell (spec 6.5)
+// A ring of flat building silhouettes around the tile, built as ONE mesh in
+// Unity (merge key "skyline-shell", one draw call), plus lit window strips as a
+// second mesh that only shows at night ("skyline-windows"). Never collides,
+// layer CameraIgnore. Inside the fog end (380 m from the camera) so it reads
+// as haze, not as a hard cut. Victoria Island towers cluster to the south-east.
+// A gap in the south lets Agege Motor Road run on into Approach_South.
+const SKY = { r: 320, depth: 12, southGapDeg: 9, viFrom: 115, viTo: 150 };
+const skyline = (() => {
+  let seed = 20261106;
+  const rnd = () => { seed = (seed * 1103515245 + 12345) % 2147483648; return seed / 2147483648; };
+  const blocks = [], windows = [];
+  const face = (b, i, y) => {   // a strip on the face that looks at the tile
+    const th = b.ry * Math.PI / 180, off = b.d / 2 + 0.2;
+    windows.push({ id: `${b.id}-win${i}`, x: r2(b.x - Math.sin(th) * off), z: r2(b.z - Math.cos(th) * off), y: r2(y), w: r2(b.w * 0.8), h: 0.9, d: 0.3, ry: b.ry });
+  };
+  let deg = 0, n = 0;
+  while (deg < 360) {
+    const vi = deg >= SKY.viFrom && deg <= SKY.viTo;
+    if (Math.abs(deg - 180) < SKY.southGapDeg) { deg += 2; continue; }
+    const w = vi ? 18 + rnd() * 10 : 24 + rnd() * 36;
+    const h = vi ? 70 + rnd() * 70 : 14 + rnd() * 30;
+    const r = vi ? SKY.r + 15 + rnd() * 25 : SKY.r + rnd() * 20;
+    const th = deg * Math.PI / 180;
+    const b = { id: `skyline-${n}`, x: r2(Math.sin(th) * r), z: r2(Math.cos(th) * r), y: 0, w: r2(w), h: r2(h), d: SKY.depth, ry: r2(deg), vi };
+    if (Math.abs(b.x) < 40 && b.z < 0) { deg += 2; continue; }   // keep the approach corridor open
+    blocks.push(b);
+    if (vi) for (let k = 0; k < 12; k++) if (rnd() < 0.7) face(b, k, 8 + k * (h - 12) / 11);
+    if (!vi && rnd() < 0.35) for (let k = 0; k < 3; k++) face(b, k, 4 + k * (h - 6) / 3);
+    const step = (w / r) * 180 / Math.PI * (vi ? 0.8 : 1.05);   // towers overlap a little, blocks leave thin gaps
+    deg += step; n++;
+  }
+  return { mergeShell: 'skyline-shell', mergeWindows: 'skyline-windows', layer: 'CameraIgnore', radius: SKY.r, blocks, windows,
+    note: 'One mesh for the shell, one for the night windows. Victoria Island towers sit between bearings 115 and 150 (south-east).' };
+})();
+
 // ---------------------------------------------------------------- lights, spawn, views
 const spawn = { x: -10.2, y: Y_PAVE, z: -20, ry: 0, note: 'west pavement clear zone by Terminal 3 plaza, facing north to the flyover' };
 const viewpoints = [
@@ -604,6 +640,24 @@ if (danfoPark.bays.filter((b) => b.m4).length < 3) err('M4 needs 3 danfo bays');
   if (startDist <= 600) err(`streaming test start is only ${startDist} m from the tile edge (want > 600 so the tile is asleep at start)`);
 }
 
+// 14 (spec section 9). Skyline shell: outside the tile and its blockers, inside the fog, approach road open, never collides.
+{
+  for (const b of skyline.blocks) {
+    const d = Math.hypot(b.x, b.z);
+    if (d < 260) err(`${b.id} is only ${r2(d)} m from the tile centre (want the ring past the tile blockers)`);
+    if (d > 380) err(`${b.id} is ${r2(d)} m out, past the fog end (380 m): it would never show`);
+    // footprint corners must stay out of the approach corridor (|x| < 25 south of the tile)
+    const th = b.ry * Math.PI / 180, tx = Math.cos(th), tz = -Math.sin(th);
+    for (const s of [-1, 1]) {
+      const cx = b.x + tx * s * b.w / 2, cz = b.z + tz * s * b.w / 2;
+      if (cz < TILE.z0 && Math.abs(cx) < 25) err(`${b.id} blocks the approach road at (${r2(cx)}, ${r2(cz)})`);
+    }
+  }
+  const vi = skyline.blocks.filter((b) => b.vi).length;
+  if (vi < 6) err(`only ${vi} Victoria Island towers in the skyline (want a cluster of 6 or more)`);
+  if (skyline.windows.length === 0) err('skyline has no night windows');
+}
+
 // ---------------------------------------------------------------- budgets (estimate, checked in Unity by Ted)
 const drawCalls = [
   ['road asphalt + lane markings', 2], ['kerbs + median (black/white chequer)', 2], ['pavements + gutter slabs', 2], ['plazas, yard, park pad', 1],
@@ -611,7 +665,7 @@ const drawCalls = [
   ['flyover deck + piers', 2], ['footbridge', 2], ['danfos (instanced, body + glass)', 2], ['okadas (instanced)', 1],
   ['NEPA poles (instanced) + wires (one mesh)', 2], ['street lamps + soffit lamps (pole, emissive head)', 2], ['guard rails + park rail', 1],
   ['stalls, umbrellas, stools, tables (instanced)', 4], ['shelter, signs, kiosk, generators, tyres, car shells', 3], ['trees (trunk, canopy)', 2],
-  ['skyline shell (one mesh)', 1], ['skybox', 1], ['player', 3], ['main-light shadow casters (Medium tier, 40 m)', 25], ['HUD (M1 stick + sprint)', 4],
+  ['skyline shell (one mesh) + night windows (one mesh)', 2], ['skybox', 1], ['player', 3], ['main-light shadow casters (Medium tier, 40 m)', 25], ['HUD (M1 stick + sprint)', 4],
 ];
 const dcTotal = drawCalls.reduce((s, [, n]) => s + n, 0);
 if (dcTotal >= 100) err(`draw call estimate ${dcTotal} is not under 100`);
@@ -624,7 +678,7 @@ const layout = {
   units: 'metres', axes: 'X east, Z north, Y up; rect = {x0,z0,x1,z1}; ry = yaw degrees clockwise from +Z (Unity Y rotation)',
   levels: { road: Y_ROAD, pavement: Y_PAVE, kerbHeight: 0.12 }, tile: TILE,
   roads, lanes, medians, crossings, pavements, corners, driveways,
-  flyover, footbridge, buildings, areas, danfoPark, okadaPark, approach,
+  flyover, footbridge, buildings, areas, danfoPark, okadaPark, approach, skyline,
   propTypes: TYPES, props, wires, spawn, viewpoints,
   budgets: { drawCallsInViewEstimate: dcTotal, drawCallsInViewMax: 99, drawCallsDistrictMax: 350, drawCallBreakdown: drawCalls },
   counts: { buildings: buildings.length, props: props.length, propsByType: counts, danfos: danfoPark.danfos.length, wires: wires.length, stalls: counts.stall || 0 },

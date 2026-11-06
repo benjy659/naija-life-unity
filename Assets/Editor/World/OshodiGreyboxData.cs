@@ -30,6 +30,8 @@ namespace NaijaLife.World.Editor
         public string layer;
         public string collider;  // none | box | primitive | meshConvex
         public bool isStatic;
+        public string merge;     // "" or a key: the builder combines every piece with this key into one mesh
+        public bool night;       // merged mesh only shows at night (NightOnly)
     }
 
     [Serializable]

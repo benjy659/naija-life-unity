@@ -242,7 +242,7 @@ No real political party names, colours or faces anywhere (owner rule).
 `Assets/Scripts/World/TimeOfDay.cs`, `LampLightPool.cs`, the URP tier assets
 `Assets/Settings/URP_Low|Medium|High.asset` set to the 6.4 table and wired
 into each quality level. Bloom (a Volume) is Ted's Editor step; the skyline
-shell (6.5) is not built yet. Never compiled: UNVERIFIED until Ted's run
+shell (6.5) is in the layout and builder. Never compiled: UNVERIFIED until Ted's run
 (inbox IN-17).
 
 - `TimeOfDay` component in Bootstrap. Default source: real WAT
@@ -292,9 +292,17 @@ shell (6.5) is not built yet. Never compiled: UNVERIFIED until Ted's run
 
 ### 6.5 Skyline shell
 
-One mesh (one draw call) ring of flat building silhouettes at about 350 m, with
-a cluster of glass towers to the south-east (Victoria Island across the water,
-lit windows at night). Never collides, layer `CameraIgnore`.
+One mesh (one draw call) ring of flat building silhouettes at about 320 to
+360 m from the tile centre (inside the 380 m fog end, so it reads as haze),
+with a cluster of taller towers to the south-east (Victoria Island across the
+water, bearings 115 to 150). Lit window strips are a second mesh that only
+shows at night (`NightOnly`). Never collides, layer `CameraIgnore`. A gap in
+the south keeps Agege Motor Road open into Approach_South.
+
+**Status 2026-11-06:** Claude added it to `tools/oshodi/oshodi-layout.js`
+(`skyline`, rule 14) and the builder: build-list pieces with a `merge` key are
+combined into one mesh asset under `Assets/Art/Meshes/Greybox/`. Never
+compiled: UNVERIFIED until Ted rebuilds (inbox IN-17).
 
 ## 7. Streaming stub (M2.3, start of B-35 in Unity)
 
@@ -408,9 +416,12 @@ until Ted's team runs it (TASKS.md M2.1, inbox IN-14).
     through lane, shelter off the pavement, roundabout ring at least 6.5 m,
     streaming test start more than 600 m from the tile.
 13. Draw call estimate under 100.
+14. Skyline shell: every silhouette 260 to 380 m from the tile centre, none
+    across the approach road, at least 6 Victoria Island towers, night windows
+    present.
 
-Current run: PASS (45 buildings, 211 props, 15 danfos, 26 wire spans, estimate
-69 draw calls).
+Current run: PASS (45 buildings, 211 props, 15 danfos, 26 wire spans, 52
+skyline silhouettes with 11 towers, estimate 70 draw calls).
 
 ## 10. Budgets
 
@@ -427,8 +438,8 @@ Current run: PASS (45 buildings, 211 props, 15 danfos, 26 wire spans, estimate
 Estimate breakdown (in the JSON `budgets.drawCallBreakdown`): road and markings
 2, kerbs and median 2, pavements 2, plazas 1, terminals 2, shophouses and filler
 3, signs and posters 2, flyover 2, footbridge 2, danfos 2, okadas 1, poles and
-wires 2, lamps 2, rails 1, market 4, other furniture 3, trees 2, skyline 1, sky
-1, player 3, shadow casters 25, HUD 4: 69.
+wires 2, lamps 2, rails 1, market 4, other furniture 3, trees 2, skyline 2 (shell
+and night windows), sky 1, player 3, shadow casters 25, HUD 4: 70.
 
 ## 11. QA evidence Ted's team posts (under qa/M2.1/, qa/M2.2/, qa/M2.3/)
 
