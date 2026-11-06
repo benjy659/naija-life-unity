@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Naija Streets — phone shell template (UI Toolkit). Spec section 8.
+     Instantiated into #nl-phone-root by NLPhoneController. Home screen is
+     static here; app screens (Bank, Map, Settings) are built in code and
+     pushed by NLPhoneNav. -->
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi:noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <ui:VisualElement name="nl-phone" class="nl-phone">
+    <ui:VisualElement name="nl-phone-scrim" class="nl-phone-scrim" />
+    <ui:VisualElement name="nl-phone-panel" class="nl-phone-panel">
+      <ui:VisualElement name="nl-phone-status" class="nl-phone-status">
+        <ui:Label name="nl-phone-clock" class="nl-text-body" text="07:42" />
+        <ui:VisualElement name="nl-phone-signal" class="nl-icon" style="background-image: url('project://database/Assets/UI/Icons/ico-signal.svg');" />
+      </ui:VisualElement>
+      <ui:VisualElement name="nl-phone-nav" class="nl-phone-nav">
+        <ui:Button name="nl-phone-back" class="nl-btn nl-btn--ghost nl-phone-back">
+          <ui:VisualElement name="nl-phone-back-icon" class="nl-icon" style="background-image: url('project://database/Assets/UI/Icons/ico-chevron.svg');" />
+        </ui:Button>
+        <ui:Label name="nl-phone-title" class="nl-text-title" text="Bank" />
+        <ui:Button name="nl-phone-close" class="nl-btn nl-btn--ghost nl-phone-close">
+          <ui:VisualElement name="nl-phone-close-icon" class="nl-icon" style="background-image: url('project://database/Assets/UI/Icons/ico-close.svg');" />
+        </ui:Button>
+      </ui:VisualElement>
+      <ui:VisualElement name="nl-phone-screen" class="nl-phone-screen">
+        <ui:VisualElement name="nl-phone-home" class="nl-phone-page nl-phone-home">
+          <ui:VisualElement name="nl-phone-home-head" class="nl-phone-home-head">
+            <ui:VisualElement name="nl-phone-logo" class="nl-phone-logo" style="background-image: url('project://database/Assets/UI/Brand/naija-life-mark.svg');" />
+            <ui:VisualElement name="nl-phone-clock-block" class="nl-phone-clock-block">
+              <ui:Label name="nl-phone-day" class="nl-text-kicker" text="TUESDAY, WAT" />
+              <ui:Label name="nl-phone-big-clock" class="nl-text-title nl-phone-big-clock" text="07:42" />
+            </ui:VisualElement>
+          </ui:VisualElement>
+          <ui:VisualElement name="nl-phone-next" class="nl-panel nl-phone-next">
+            <ui:VisualElement name="nl-phone-next-icon-tile" class="nl-icon-tile">
+              <ui:VisualElement name="nl-phone-next-icon" class="nl-icon" style="background-image: url('project://database/Assets/UI/Icons/ico-route.svg');" />
+            </ui:VisualElement>
+            <ui:VisualElement name="nl-phone-next-texts" class="nl-phone-next-texts">
+              <ui:Label name="nl-phone-next-title" class="nl-text-value" text="Next: find Musa" />
+              <ui:Label name="nl-phone-next-sub" class="nl-text-body" text="Oshodi park, 120 m" />
+            </ui:VisualElement>
+          </ui:VisualElement>
+          <ui:VisualElement name="nl-phone-grid" class="nl-phone-grid" />
+        </ui:VisualElement>
+      </ui:VisualElement>
+    </ui:VisualElement>
+  </ui:VisualElement>
+</ui:UXML>

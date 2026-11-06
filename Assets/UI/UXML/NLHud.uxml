@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Naija Streets — HUD skeleton (UI Toolkit). Spec: docs/specs/hud-and-phone.md §5.
+     One runtime UIDocument. Left column: radar, place+clock pill, vitals,
+     prompt slot. Right column: wallet, wanted, objective, ride, spare, toast
+     lane (rows positioned by NLHudStack). Bottom: touch controls. The middle
+     band (where the player stands) has nothing fixed in it. -->
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi:noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <ui:VisualElement name="nl-root" class="nl-root">
+    <!-- LEFT COLUMN -->
+    <ui:VisualElement name="nl-left" class="nl-left">
+      <ui:VisualElement name="nl-radar-wrap" class="nl-radar-wrap">
+        <ui:VisualElement name="nl-radar" class="nl-radar" />
+        <ui:VisualElement name="nl-radar-arrow" class="nl-radar-arrow" style="background-image: url('project://database/Assets/UI/Icons/ico-arrow.svg');" />
+      </ui:VisualElement>
+      <ui:VisualElement name="nl-place-pill" class="nl-chip nl-place-pill">
+        <ui:Label name="nl-place-text" class="nl-text-kicker" text="OSHODI" />
+        <ui:Label name="nl-clock-text" class="nl-text-value" text="07:42" />
+      </ui:VisualElement>
+      <ui:VisualElement name="nl-vitals" class="nl-vitals">
+        <ui:VisualElement name="nl-vital-hunger" class="nl-vital">
+          <ui:VisualElement name="nl-vital-hunger-fill" class="nl-vital-fill nl-vital-fill--hunger" />
+        </ui:VisualElement>
+        <ui:VisualElement name="nl-vital-energy" class="nl-vital">
+          <ui:VisualElement name="nl-vital-energy-fill" class="nl-vital-fill nl-vital-fill--energy" />
+        </ui:VisualElement>
+        <ui:VisualElement name="nl-vital-pawa" class="nl-vital">
+          <ui:VisualElement name="nl-vital-pawa-fill" class="nl-vital-fill nl-vital-fill--pawa" />
+        </ui:VisualElement>
+      </ui:VisualElement>
+      <ui:VisualElement name="nl-prompt-slot" class="nl-prompt-slot">
+        <ui:VisualElement name="nl-prompt" class="nl-prompt">
+          <ui:VisualElement name="nl-prompt-bar" class="nl-prompt-bar" />
+          <ui:VisualElement name="nl-prompt-icon-tile" class="nl-icon-tile">
+            <ui:VisualElement name="nl-prompt-icon" class="nl-icon" />
+          </ui:VisualElement>
+          <ui:VisualElement name="nl-prompt-texts" class="nl-prompt-texts">
+            <ui:Label name="nl-prompt-verb" class="nl-text-value" text="Take over" />
+            <ui:Label name="nl-prompt-subject" class="nl-text-body" text="Danfo conductor" />
+          </ui:VisualElement>
+          <ui:Label name="nl-prompt-key" class="nl-prompt-key" text="E" />
+          <ui:Button name="nl-prompt-more" class="nl-prompt-more">
+            <ui:Label name="nl-prompt-more-label" class="nl-text-body" text="+1" />
+          </ui:Button>
+        </ui:VisualElement>
+      </ui:VisualElement>
+    </ui:VisualElement>
+
+    <!-- RIGHT COLUMN -->
+    <ui:VisualElement name="nl-right" class="nl-right">
+      <ui:VisualElement name="nl-row-wallet" class="nl-row">
+        <ui:VisualElement name="nl-wallet-chip" class="nl-chip nl-wallet-chip">
+          <ui:VisualElement name="nl-wallet-icon" class="nl-icon" style="background-image: url('project://database/Assets/UI/Icons/ico-wallet.svg');" />
+          <ui:Label name="nl-wallet-amount" class="nl-text-value" text="₦8,450" />
+        </ui:VisualElement>
+        <ui:Button name="nl-menu-btn" class="nl-btn nl-btn--ghost nl-menu-btn">
+          <ui:VisualElement name="nl-menu-icon" class="nl-icon" style="background-image: url('project://database/Assets/UI/Icons/ico-more.svg');" />
+        </ui:Button>
+      </ui:VisualElement>
+      <ui:VisualElement name="nl-row-wanted" class="nl-row">
+        <ui:VisualElement name="nl-wanted-chip" class="nl-chip nl-wanted-chip">
+          <ui:VisualElement name="nl-wanted-stars" class="nl-wanted-stars">
+            <ui:VisualElement name="nl-star-0" class="nl-icon nl-star" style="background-image: url('project://database/Assets/UI/Icons/ico-star.svg');" />
+            <ui:VisualElement name="nl-star-1" class="nl-icon nl-star" style="background-image: url('project://database/Assets/UI/Icons/ico-star.svg');" />
+            <ui:VisualElement name="nl-star-2" class="nl-icon nl-star" style="background-image: url('project://database/Assets/UI/Icons/ico-star.svg');" />
+            <ui:VisualElement name="nl-star-3" class="nl-icon nl-star" style="background-image: url('project://database/Assets/UI/Icons/ico-star.svg');" />
+            <ui:VisualElement name="nl-star-4" class="nl-icon nl-star" style="background-image: url('project://database/Assets/UI/Icons/ico-star.svg');" />
+          </ui:VisualElement>
+        </ui:VisualElement>
+      </ui:VisualElement>
+      <ui:VisualElement name="nl-row-objective" class="nl-row">
+        <ui:VisualElement name="nl-objective-chip" class="nl-chip nl-objective-chip">
+          <ui:VisualElement name="nl-objective-icon" class="nl-icon" style="background-image: url('project://database/Assets/UI/Icons/ico-route.svg');" />
+          <ui:Label name="nl-objective-text" class="nl-text-body" text="Find Musa at the park" />
+        </ui:VisualElement>
+      </ui:VisualElement>
+      <ui:VisualElement name="nl-row-ride" class="nl-row">
+        <ui:VisualElement name="nl-ride-chip" class="nl-chip nl-ride-chip">
+          <ui:VisualElement name="nl-ride-icon" class="nl-icon" style="background-image: url('project://database/Assets/UI/Icons/ico-taxi.svg');" />
+          <ui:Label name="nl-ride-text" class="nl-text-body" text="" />
+        </ui:VisualElement>
+      </ui:VisualElement>
+      <ui:VisualElement name="nl-row-spare" class="nl-row" />
+      <ui:VisualElement name="nl-toast-lane" class="nl-toast-lane" />
+    </ui:VisualElement>
+
+    <!-- BOTTOM TOUCH CONTROLS -->
+    <ui:VisualElement name="nl-touch" class="nl-touch">
+      <ui:VisualElement name="nl-stick-zone" class="nl-stick-zone">
+        <ui:VisualElement name="nl-stick-base" class="nl-stick-base">
+          <ui:VisualElement name="nl-stick-thumb" class="nl-stick-thumb" />
+        </ui:VisualElement>
+      </ui:VisualElement>
+      <ui:VisualElement name="nl-btn-sprint" class="nl-touch-btn nl-btn-sprint">
+        <ui:VisualElement name="nl-btn-sprint-icon" class="nl-icon" style="background-image: url('project://database/Assets/UI/Icons/ico-onfoot.svg');" />
+      </ui:VisualElement>
+      <ui:VisualElement name="nl-btn-camera" class="nl-touch-btn nl-btn-camera">
+        <ui:VisualElement name="nl-btn-camera-icon" class="nl-icon" style="background-image: url('project://database/Assets/UI/Icons/ico-camera.svg');" />
+      </ui:VisualElement>
+      <ui:VisualElement name="nl-btn-phone" class="nl-touch-btn nl-btn-phone">
+        <ui:VisualElement name="nl-btn-phone-icon" class="nl-icon" style="background-image: url('project://database/Assets/UI/Icons/ico-phone.svg');" />
+      </ui:VisualElement>
+    </ui:VisualElement>
+
+    <!-- DESKTOP KEY HINTS -->
+    <ui:VisualElement name="nl-hint-chip" class="nl-chip nl-hint-chip">
+      <ui:Label name="nl-hint-text" class="nl-text-body" text="P Phone   M Map   V Camera   Esc Menu" />
+    </ui:VisualElement>
+
+    <!-- OFFER CHOOSER SHEET -->
+    <ui:VisualElement name="nl-chooser-sheet" class="nl-chooser-sheet">
+      <ui:Label text="Offers" class="nl-text-title" />
+      <ui:VisualElement name="nl-chooser-list" class="nl-chooser-list" />
+    </ui:VisualElement>
+
+    <!-- PHONE OVERLAY (populated from NLPhone.uxml by NLPhoneController) -->
+    <ui:VisualElement name="nl-phone-root" class="nl-phone-root" />
+
+    <!-- F9 DEBUG OVERLAY (drawn by NLScreenGuard) -->
+    <ui:VisualElement name="nl-debug-overlay" class="nl-debug-overlay" />
+  </ui:VisualElement>
+</ui:UXML>

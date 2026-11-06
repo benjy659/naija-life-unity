@@ -1,0 +1,308 @@
+/*
+ * Naija Streets — HUD styles (UI Toolkit).
+ * Spec: docs/specs/hud-and-phone.md §5. Tokens live in NLTokens.uss;
+ * this file only uses var(--nl-...). 1 USS px = 1 CSS px.
+ * Mode classes on #nl-root: .nl-portrait / .nl-landscape / .nl-desktop.
+ * Touch controls only show while .nl-touch-ui is on the root.
+ */
+
+.nl-root {
+    position: absolute;
+    left: 0; top: 0; right: 0; bottom: 0;
+    flex-direction: row;
+    font-size: 14px;
+}
+
+/* ---------- left column ---------- */
+.nl-left {
+    position: absolute;
+    left: 12px; top: 12px;
+    width: 200px;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.nl-portrait .nl-left { width: 170px; }
+.nl-landscape .nl-left { width: 150px; }
+.nl-desktop .nl-left { width: 220px; }
+
+.nl-radar-wrap {
+    position: relative;
+    width: 112px; height: 112px;
+}
+.nl-portrait .nl-radar-wrap { width: 112px; height: 112px; }
+.nl-landscape .nl-radar-wrap { width: 96px; height: 96px; }
+.nl-desktop .nl-radar-wrap { width: 168px; height: 168px; }
+
+.nl-radar {
+    width: 100%; height: 100%;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: #0a0d14;
+    border-width: 2px;
+    border-color: rgba(255, 255, 255, 0.14);
+}
+.nl-radar-arrow {
+    position: absolute;
+    left: 50%; top: 50%;
+    width: 22px; height: 22px;
+    margin-left: -11px; margin-top: -11px;
+    -unity-background-image-tint-color: var(--nl-accent);
+}
+
+.nl-place-pill {
+    margin-top: -14px;
+    margin-left: 6px;
+    min-height: 28px;
+    padding: 0 10px;
+    flex-direction: row;
+    align-items: center;
+}
+.nl-place-pill .nl-text-kicker { color: var(--nl-text); margin-right: 8px; }
+.nl-place-pill .nl-text-value { color: var(--nl-accent); }
+
+.nl-vitals {
+    width: 112px;
+    height: 32px;
+    margin-top: 16px;
+    flex-direction: column;
+    justify-content: center;
+}
+.nl-portrait .nl-vitals { width: 112px; }
+.nl-landscape .nl-vitals { width: 96px; }
+.nl-desktop .nl-vitals { width: 168px; }
+.nl-vital {
+    height: 6px;
+    margin-bottom: 4px;
+    background-color: rgba(255, 255, 255, 0.12);
+    border-radius: 3px;
+    overflow: hidden;
+}
+.nl-vital-fill { height: 100%; border-radius: 3px; }
+.nl-vital-fill--hunger { background-color: var(--nl-accent); width: 80%; }
+.nl-vital-fill--energy { background-color: var(--nl-accent-soft); width: 65%; }
+.nl-vital-fill--pawa { background-color: var(--nl-live); width: 90%; }
+
+.nl-prompt-slot { margin-top: 22px; width: 100%; }
+
+/* prompt panel: icon tile, verb, subject, key hint, +N chip */
+.nl-prompt {
+    flex-direction: row;
+    align-items: center;
+    background-color: var(--nl-panel-bg);
+    border-radius: var(--nl-radius-panel);
+    border-width: 1px;
+    border-color: var(--nl-panel-edge);
+    border-left-width: 3px;
+    border-left-color: var(--nl-accent);
+    padding: 10px 12px;
+    opacity: 0;
+    translate: -12px 0;
+    transition-property: opacity, translate;
+    transition-duration: 0.22s;
+    transition-timing-function: ease-out-cubic;
+    max-width: 100%;
+}
+.nl-prompt--in { opacity: 1; translate: 0 0; }
+.nl-prompt--fallback {
+    position: absolute;
+    left: 50%;
+    top: 12px;
+    translate: -50% 0;
+}
+.nl-prompt-texts { flex-direction: column; flex-grow: 1; margin-left: 10px; }
+.nl-prompt-texts .nl-text-value { font-size: 15px; color: var(--nl-text); }
+.nl-prompt-texts .nl-text-body { font-size: 12px; color: var(--nl-text-dim); }
+.nl-prompt-key {
+    min-width: 28px; height: 28px;
+    border-radius: 8px;
+    border-width: 1px; border-color: rgba(255, 255, 255, 0.2);
+    color: var(--nl-text-dim);
+    font-size: 12px;
+    text-align: center;
+    margin-left: 8px;
+    padding-top: 5px;
+}
+.nl-prompt-more {
+    min-width: 36px; height: 36px;
+    border-radius: 18px;
+    background-color: var(--nl-accent);
+    color: var(--nl-accent-ink);
+    align-items: center; justify-content: center;
+    margin-left: 8px;
+    border-width: 0;
+}
+
+/* ---------- right column ---------- */
+.nl-right {
+    position: absolute;
+    right: 12px; top: 12px;
+    width: 260px;
+}
+.nl-portrait .nl-right { width: 220px; }
+.nl-landscape .nl-right { width: 260px; }
+.nl-desktop .nl-right { width: 300px; }
+
+.nl-row {
+    position: absolute;
+    right: 0;
+    height: 48px;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+}
+.nl-wallet-chip { flex-direction: row; align-items: center; }
+#nl-wallet-icon { -unity-background-image-tint-color: var(--nl-accent); }
+#nl-wallet-amount { color: var(--nl-text); font-size: 18px; margin-left: 8px; }
+.nl-menu-btn {
+    width: 44px; height: 44px;
+    min-width: 44px; min-height: 44px;
+    margin-left: 8px;
+    padding: 0;
+    align-items: center; justify-content: center;
+}
+.nl-wanted-chip { flex-direction: row; align-items: center; padding: 0 12px; }
+.nl-wanted-stars { flex-direction: row; align-items: center; }
+.nl-star { width: 20px; height: 20px; margin-right: 4px; -unity-background-image-tint-color: rgba(255, 255, 255, 0.25); }
+.nl-star--on { -unity-background-image-tint-color: var(--nl-danger); }
+.nl-objective-chip { flex-direction: row; align-items: center; max-width: 100%; }
+.nl-objective-chip .nl-icon { -unity-background-image-tint-color: var(--nl-accent); }
+.nl-objective-chip .nl-text-body { margin-left: 8px; color: var(--nl-text); }
+.nl-ride-chip { flex-direction: row; align-items: center; }
+.nl-ride-chip .nl-icon { -unity-background-image-tint-color: var(--nl-accent); }
+.nl-ride-chip .nl-text-body { margin-left: 8px; color: var(--nl-text); }
+
+.nl-toast-lane {
+    position: absolute;
+    right: 0;
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-end;
+}
+.nl-toast {
+    flex-direction: row;
+    align-items: center;
+    background-color: var(--nl-panel-bg);
+    border-radius: var(--nl-radius-card);
+    border-width: 1px;
+    border-color: var(--nl-panel-edge);
+    border-left-width: 3px;
+    border-left-color: var(--nl-accent);
+    padding: 10px 12px;
+    margin-bottom: 8px;
+    max-width: 100%;
+    opacity: 0;
+    translate: 12px 0;
+    transition-property: opacity, translate;
+    transition-duration: 0.22s;
+    transition-timing-function: ease-out-cubic;
+}
+.nl-toast--in { opacity: 1; translate: 0 0; }
+.nl-toast--police { border-left-color: var(--nl-danger); }
+.nl-toast--people { border-left-color: var(--nl-live); }
+.nl-toast-bar { width: 0; }
+.nl-toast-texts { flex-direction: column; margin-left: 10px; }
+.nl-toast-texts .nl-text-value { font-size: 15px; color: var(--nl-text); }
+.nl-toast-texts .nl-text-body { font-size: 12px; color: var(--nl-text-dim); }
+
+/* ---------- touch controls ---------- */
+.nl-touch { position: absolute; left: 0; top: 0; right: 0; bottom: 0; display: none; }
+.nl-touch-ui .nl-touch { display: flex; }
+.nl-stick-zone {
+    position: absolute;
+    left: 0; bottom: 0;
+    width: 50%; height: 45%;
+}
+.nl-landscape .nl-stick-zone { width: 40%; height: 70%; }
+.nl-stick-base {
+    position: absolute;
+    width: 124px; height: 124px;
+    border-radius: 50%;
+    background-color: rgba(10, 12, 16, 0.55);
+    border-width: 2px;
+    border-color: rgba(255, 255, 255, 0.18);
+}
+.nl-stick-thumb {
+    position: absolute;
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    background-color: rgba(243, 246, 248, 0.85);
+}
+.nl-touch-btn {
+    position: absolute;
+    border-radius: 50%;
+    background-color: rgba(10, 12, 16, 0.72);
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.16);
+    align-items: center; justify-content: center;
+}
+.nl-touch-btn--pressed { scale: 0.96 0.96; background-color: var(--nl-accent-deep); }
+.nl-btn-sprint {
+    right: 12px; bottom: 12px;
+    width: 56px; height: 56px;
+    background-color: var(--nl-accent);
+}
+.nl-btn-sprint .nl-icon { -unity-background-image-tint-color: var(--nl-accent-ink); }
+.nl-btn-camera {
+    right: 80px; bottom: 12px;
+    width: 60px; height: 60px;
+}
+.nl-btn-phone {
+    right: 12px; bottom: 80px;
+    width: 58px; height: 58px;
+}
+.nl-landscape .nl-btn-phone { right: 152px; bottom: 12px; }
+
+/* ---------- phone open: hide the HUD ---------- */
+.nl-phone-open .nl-left,
+.nl-phone-open .nl-right,
+.nl-phone-open .nl-touch,
+.nl-phone-open .nl-hint-chip { display: none; }
+
+/* ---------- desktop hint chip ---------- */
+.nl-hint-chip { position: absolute; right: 12px; bottom: 12px; display: none; }
+.nl-desktop .nl-hint-chip { display: flex; }
+.nl-touch-ui .nl-hint-chip { display: none; }
+
+/* ---------- offer chooser sheet ---------- */
+.nl-chooser-sheet {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    background-color: var(--nl-panel-bg);
+    border-top-left-radius: var(--nl-radius-panel);
+    border-top-right-radius: var(--nl-radius-panel);
+    border-top-width: 2px;
+    border-top-color: var(--nl-accent);
+    padding: 16px;
+    flex-direction: column;
+    display: none;
+}
+.nl-chooser-list { flex-direction: column; margin-top: 12px; }
+.nl-chooser-row {
+    flex-direction: row;
+    align-items: center;
+    height: 52px;
+    width: 100%;
+    background-color: var(--nl-card);
+    border-radius: var(--nl-radius-card);
+    border-width: 0;
+    margin-bottom: 8px;
+    padding: 0 12px;
+    text-align: left;
+}
+.nl-chooser-texts { flex-direction: column; margin-left: 10px; }
+
+/* ---------- debug overlay ---------- */
+.nl-debug-overlay { position: absolute; left: 0; top: 0; right: 0; bottom: 0; display: none; }
+.nl-debug-box {
+    position: absolute;
+    border-width: 1px;
+    border-style: dashed;
+}
+.nl-debug--keepout { border-color: #2EE59D; }
+.nl-debug--stick { border-color: #E0613A; }
+.nl-debug--look { border-color: #4F6BFF; }
+.nl-debug-label {
+    font-size: 11px;
+    color: #F3F6F8;
+    margin: 4px;
+}
