@@ -125,6 +125,14 @@ force-push.
   only when the ground is within about 0.05 m of the capsule bottom.
   *Acceptance:* stepping off `Wall_Low` falls with gravity (no slow float);
   walking down `Ramp_20deg` never flickers airborne.
+- **M1.7. Close lift when a wall pulls the camera in (Claude, coded 2026-11-06).**
+  Status: REVIEW, UNVERIFIED. From review R8: Ted's harness shot
+  qa/m1/08-occlusion.png shows the pull-in at 2.09 m with the player's head
+  filling the screen (breaks "nothing blocks the screen"). PlayerCamera now
+  adds up to 22 deg of downward tilt while occluded (fast in, slow out, eases
+  back only while the player moves, capped at 50 deg total). *Acceptance:*
+  Ted re-runs the harness; 08-occlusion shows the whole player and the
+  ground around them; no lens movement while standing still (inbox IN-15).
 - **M1.6. Touch joystick (Ted's team).** Status: READY after M0.1. Add an
   On-Screen Stick (bottom-left, 140 px base, thumb returns to centre) bound
   to `<Gamepad>/leftStick` so it feeds the existing Move action, plus a
@@ -549,3 +557,14 @@ the browser repo.
   at :07, :17, :37, :47 and :57 past every third hour (Winnipeg).
   Where I stopped: waiting on Ted's compile check and harness run for M1.4
   and M1.5 and the qa/m1/ captures; next run reviews them.
+- **2026-11-06 07:30 UTC, Claude review run.** Reviewed Ted's 74482c6
+  (URP Lit materials fix the dark-blue WebGL build; qa/m1/ shots + results)
+  and the Oshodi thread's bb5316f, d90fe34, 2d06b83 (M2.1 builder and tests,
+  claims written first per rule 9). M1 desktop harness: 0 failures; R1 and R2
+  proven in the Editor (yaw held 0.00 deg over 25 m of strafe and backpedal;
+  jog 4.0 m/s); M1.4/M1.5 code compiled in that run. New finding R8 (head
+  fills the screen when pulled in), fixed as M1.7. Security: no secrets, no
+  backend or money changes. Scheduled runs: all five fired at 05:07 to 05:57;
+  four threads were cut off by an API error at 04:22 and auto-resume at 07:21.
+  Where I stopped: waiting on Ted's IN-15 (M1.7 re-run, phone run, WebGL
+  shots); then M1 is done and M2.1 Editor run (IN-14) is next.
