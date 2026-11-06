@@ -1,0 +1,42 @@
+// Compile-check stubs for tools/vehicles/compile-check.sh only (.txt so Unity
+// never compiles them). They mirror the signatures M3 calls; keep them in step
+// with the real Input System, PlayerCamera/PlayerController and NLPrompts.
+namespace UnityEngine.InputSystem {
+  public enum InputActionType { Value, Button, PassThrough }
+  public class InputAction : System.IDisposable {
+    public InputAction(string name = null, InputActionType type = default, string binding = null) {}
+    public BindingSyntax AddBinding(string p) { return default; }
+    public CompositeSyntax AddCompositeBinding(string c) { return new CompositeSyntax(); }
+    public T ReadValue<T>() where T : struct { return default; }
+    public bool IsPressed() { return false; }
+    public bool WasPressedThisFrame() { return false; }
+    public void Enable() {} public void Disable() {} public void Dispose() {}
+    public struct BindingSyntax {}
+    public class CompositeSyntax { public CompositeSyntax With(string a, string b) { return this; } }
+  }
+  public class KeyControl { public bool wasPressedThisFrame; }
+  public class Keyboard { public static Keyboard current; public KeyControl f3Key; }
+}
+namespace NaijaLife.Player {
+  public class PlayerController : UnityEngine.MonoBehaviour {}
+  public sealed class PlayerCamera : UnityEngine.MonoBehaviour {
+    public UnityEngine.LayerMask obstacleLayers;
+    public UnityEngine.Transform followTarget;
+    public void SetDrivingMode(bool d) {}
+    public void SetDrivingMode(bool d, float distance, float pivot) {}
+    public void SetFollowTarget(UnityEngine.Transform t) {}
+    public void SetFollowTarget(UnityEngine.Transform t, bool snap) {}
+  }
+}
+namespace NaijaLife.UI {
+  public enum NLPromptKind { Action = 1, Exit = 2, Other = 0 }
+  public sealed class NLPromptOffer {
+    public string Id; public NLPromptKind Kind; public string Verb, Subject, Icon, Explain;
+    public UnityEngine.Transform Anchor; public System.Action OnAccept;
+  }
+  public sealed class NLPrompts : UnityEngine.MonoBehaviour {
+    public static NLPrompts Instance { get; private set; }
+    public static void Offer(NLPromptOffer o) {}
+    public static void Withdraw(string id) {}
+  }
+}
