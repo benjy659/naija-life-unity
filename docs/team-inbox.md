@@ -42,12 +42,14 @@ written here. This file is where the teams talk to each other between runs.
 
 Format: `- <date> <team/thread>: <task id>, files <paths>. Status: ACTIVE | DONE <commit> | DROPPED.`
 
+- 2026-11-06 07:30 Claude (lead thread): M1.7 close lift (review R8), file Assets/Scripts/Player/PlayerCamera.cs (new UpdateCloseLift; one line in Update, one in SnapToTarget). Checked first: Ted's 74482c6 does not touch it; the vehicles thread's driving-pivot lines are kept as they are. Status: DONE (this commit), UNVERIFIED until Ted's harness run (IN-15).
 - 2026-11-06 Claude (lead thread): M1.4 camera orbit input and M1.5 grounded check, files Assets/Scripts/Player/PlayerInput.cs, PlayerCamera.cs, PlayerController.cs. Checked first: Ted's commits 44d8428 to 2935a48 touch settings and the M1 harness only, not these lines. Status: DONE (code, see IN-13), UNVERIFIED until Ted's harness run.
 - 2026-11-06 Claude (multiplayer thread): M5.1b photon-auth and M5.1f migration 0041 drafts, files supabase/functions/photon-auth/*, supabase/migrations/0041_nl_street_card_by_id.sql, Assets/Scripts/Network/Unity/SupabaseSession.cs. Checked first: no Ted commit touches supabase/ or Assets/Scripts/Network/ (b2ffc61 to 2935a48 add folder metas only). Status: DONE 9334853 (drafts; Ted deploys photon-auth, applies 0041 only with Benjamin's OK, see IN-12).
 - 2026-11-06 Claude (Oshodi thread): M2.1 builder, build list and EditMode tests, files Assets/Editor/World/*, Assets/Tests/EditMode/World/*, Assets/Data/Oshodi/*, tools/oshodi/*, ProjectSettings/TagManager.asset (layers 8 to 13). Checked first: Ted's 44d8428 to 2935a48 do not touch these. Status: DONE bb5316f (never compiled; Ted runs it, IN-14).
 - 2026-11-06 Claude (Oshodi thread): M2.2 and M2.3 runtime code (TimeOfDay, lamp light pool, night emissives, DistrictTile, DistrictStreamer, FrameSpikeLogger, Bootstrap and Addressables setup script), files Assets/Scripts/World/*, Assets/Editor/World/OshodiBootstrapSetup.cs, Assets/Data/Oshodi/*, Assets/Settings/URP_Low|Medium|High.asset and the customRenderPipeline line of each level in ProjectSettings/QualitySettings.asset (spec 6.4 tier table). Checked first: nothing on main under Assets/Scripts/World/ but .gitkeep; no open claim on M2. Ted's part stays the Editor run and the evidence. Status: ACTIVE.
 - 2026-11-06 Claude (multiplayer thread): M5.1d scene builder (-executeMethod, builds Assets/Scenes/Net_M5.unity and Assets/Prefabs/Network/RemotePlayer.prefab) and M5.4 online heartbeat (live nl_online_touch / nl_heartbeat_leave), files Assets/Editor/Network/*, Assets/Scripts/Network/Unity/OnlineHeartbeat.cs, SupabaseSession.cs, NetBootstrap.cs. Checked first: Ted's 74482c6 and the Oshodi/lead commits since 0905ce9 do not touch these; no other claim on M5. Status: ACTIVE.
 - 2026-11-06 Claude (multiplayer thread): M5 code review of anything Ted pushes under Assets/Scripts/Network/ and supabase/. No new files claimed. Status: ACTIVE.
+- 2026-11-06 Claude (vehicles thread): M3.1, M3.3, M3.5, M3.6, M3.7 code (VehicleDefinition, VehicleController, DriveSession, VehiclePlayerDriver, TrafficSense, LaneGraph, TrafficDriver, TrafficSpawner, damage and contact events, lane validator) plus the M3.2 Greybox_M3 scene builder and an M3 check harness, files Assets/Scripts/Vehicles/*, Assets/Editor/Vehicles/*, Assets/Tests/EditMode/Vehicles/*, Assets/Scripts/Verification/M3*, ProjectSettings/TagManager.asset (layers 14 to 16: Vehicle, DrivenVehicle, Pedestrian; road surfaces use the Oshodi thread's Ground layer), ProjectSettings/TimeManager.asset (fixed step 0.02). Checked first: Ted's commits up to 74482c6 and other claims do not touch these; Assets/Scripts/Vehicles held only .gitkeep. Ted keeps M3.4 touch controls and every Editor run. Status: ACTIVE.
 
 - 2026-11-06 Claude (jobs thread): M4.1, M4.2, M4.3 code (everything but the Editor steps) and the M4.4 migration DRAFT, files Assets/Scripts/Jobs/**, Assets/Scripts/Economy/*, Assets/Scripts/Player/PlayerNeeds.cs (new file only), Assets/Tests/EditMode/Jobs/*, Assets/Editor/Jobs/*, supabase/migrations/drafts/m4_job_shifts.sql, docs/specs/jobs-m4.md, tools/jobsim.js. Checked first: Ted's 44d8428 to 74482c6 touch settings, the M1 harness and Greybox materials only; no claim covers Jobs, Economy or these files. Ted keeps: running the tests and scene builder in the Editor, captures, applying the migration. Status: ACTIVE.
 
@@ -60,6 +62,21 @@ Format: `- <date> <team/thread>: <task id>, files <paths>. Status: ACTIVE | DONE
 ```
 
 ## To Ted's team (from Claude's team)
+
+- **IN-15. M1 harness reviewed: camera fix proven; three things left for M1.** From: Claude. To: Ted. Date: 2026-11-06. Status: OPEN.
+  Reviewed 74482c6 and qa/m1/results-desktop-gui.txt. Proven in the Editor:
+  strafe D and backpedal S held the camera yaw at 0.00 deg while the player
+  moved 25 m (the R1 fix works), jog 4.0, sprint 8.25, walk 2.3 m/s (R2
+  fix), wall collision, ramp, occlusion pull-in. Your run included Claude's
+  M1.4/M1.5 code, so it compiles. Good work.
+  New from Claude (no Editor needed from you except the run): M1.7 close lift.
+  Your 08-occlusion.png shows the pull-in at 2 m with the head filling the
+  screen; the camera now tilts down over the head while pulled in.
+  Ask: (1) re-run the harness with M1.7 and check 08-occlusion.png shows the
+  whole player; (2) add the IN-13 checks (plain mouse move does not orbit,
+  RMB drag does, step off Wall_Low falls with gravity); (3) run RunPhone
+  390x844 and one WebGL build, and commit both results and shots under qa/m1/.
+  Then M1 can be called done.
 
 - **IN-14. Oshodi builder and tests are written; please run them (M2.1).** From: Claude. To: Ted. Date: 2026-11-06. Status: OPEN.
   Ask: Claude wrote the M2.1 code so you do not have to: Assets/Editor/World/
