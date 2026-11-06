@@ -49,7 +49,7 @@ namespace NaijaLife.Verification
             Directory.CreateDirectory(outDir);
             Directory.CreateDirectory(Path.Combine(outDir, "shots"));
             Log($"HUD verify harness started. Screen={Screen.width}x{Screen.height} scale={NLUIScaler.CurrentScale:0.00}");
-            yield return new WaitForSeconds(1.5f);
+            yield return new WaitForSecondsRealtime(1.5f);
 
             _hud = FindFirstObjectByType<NLHudController>();
             if (_hud == null) { Fail("No NLHudController in scene"); Finish(); yield break; }
@@ -59,10 +59,13 @@ namespace NaijaLife.Verification
             // Two keyboard presses so NLUIRoot switches from its default Touch
             // device to KeyboardMouse (desktop mode on wide screens).
             yield return SimulateKeyboardDevice();
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSecondsRealtime(0.5f);
 
             // ---- HUD element checks ----
-            Check(TextOf(root, "nl-wallet-amount") == "₦8,450", $"wallet amount shows ₦8,450 (got '{TextOf(root, "nl-wallet-amount")}')");
+            // The HUD wallet chip uses the SHORT format (spec §8.3: "HUD wallet
+            // chip uses the short format, Bank uses the full format") — ₦8,450
+            // renders as ₦8.5k here; the Bank balance check below expects Full.
+            Check(TextOf(root, "nl-wallet-amount") == "₦8.5k", $"wallet amount shows ₦8.5k (got '{TextOf(root, "nl-wallet-amount")}')");
             Check(TextOf(root, "nl-place-text") == "OSHODI", $"place pill shows OSHODI (got '{TextOf(root, "nl-place-text")}')");
             Check(TextOf(root, "nl-clock-text") == "07:42", $"clock shows 07:42 (got '{TextOf(root, "nl-clock-text")}')");
             Check(Visible(root, "nl-prompt"), "prompt panel visible (fake offer)");
@@ -79,13 +82,13 @@ namespace NaijaLife.Verification
 
             // ---- Prompt accept (same handler the E key feeds) ----
             _hud.Prompts.Accept();
-            yield return new WaitForSeconds(0.6f);
+            yield return new WaitForSecondsRealtime(0.6f);
             Check(CountToasts(root) >= 1, $"toast appears after prompt accept (count {CountToasts(root)})");
             yield return Shot("02-toast");
 
             // ---- Phone: open, home ----
             _hud.Phone.Open();
-            yield return new WaitForSeconds(0.8f);
+            yield return new WaitForSecondsRealtime(0.8f);
             Check(_hud.Phone.IsOpen, "phone open");
             Check(Visible(root, "nl-phone-home"), "phone home visible");
             Check(TextOf(root, "nl-phone-big-clock") == "07:42", "phone clock 07:42");
@@ -93,27 +96,27 @@ namespace NaijaLife.Verification
 
             // ---- Phone: Bank app ----
             ClickAppTile(root, "Bank");
-            yield return new WaitForSeconds(0.8f);
+            yield return new WaitForSecondsRealtime(0.8f);
             Check(TextOf(root, "nl-bank-balance") == "₦8,450", $"bank balance ₦8,450 (got '{TextOf(root, "nl-bank-balance")}')");
             Check(Visible(root, "nl-bank-list"), "bank history list visible");
             yield return Shot("04-phone-bank");
 
             // ---- Phone: back to home, then Map (M key path) ----
             _hud.Phone.Back();
-            yield return new WaitForSeconds(0.4f);
+            yield return new WaitForSecondsRealtime(0.4f);
             _hud.Phone.OpenToMap();
-            yield return new WaitForSeconds(0.6f);
+            yield return new WaitForSecondsRealtime(0.6f);
             Check(TextOf(root, "nl-phone-title") == "Map", $"phone title is Map (got '{TextOf(root, "nl-phone-title")}')");
             yield return Shot("05-phone-map");
 
             // ---- Phone: close ----
             _hud.Phone.Close();
-            yield return new WaitForSeconds(0.8f);
+            yield return new WaitForSecondsRealtime(0.8f);
             Check(!_hud.Phone.IsOpen, "phone closed");
 
             // ---- F9 debug overlay (same handler the F9 key feeds) ----
             _hud.SetDebug(true);
-            yield return new WaitForSeconds(0.4f);
+            yield return new WaitForSecondsRealtime(0.4f);
             Check(Visible(root, "nl-debug-overlay"), "F9 debug overlay visible");
             yield return Shot("06-debug-overlay");
             _hud.SetDebug(false);

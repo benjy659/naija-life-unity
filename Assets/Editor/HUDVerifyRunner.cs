@@ -148,8 +148,21 @@ public static class HUDVerifyRunner
             {
                 object group = sizesType.GetProperty("currentGroup",
                     BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)?.GetValue(sizes);
-                int builtin = (int)group.GetType().GetMethod("GetBuiltinCount").Invoke(group, null);
-                var customs = (IList)group.GetType().GetMethod("GetCustomSizes").Invoke(group, null);
+                if (group == null)
+                {
+                    // currentGroup can be null before the GameView initializes
+                    // its group; ask for the selected build target's group.
+                    var getGroup = sizesType.GetMethod("GetGroup",
+                        BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+                    if (getGroup != null)
+                        group = getGroup.Invoke(sizes, new object[] { EditorUserBuildSettings.selectedBuildTargetGroup });
+                }
+                if (group == null) { Debug.LogWarning("[HUDVerify] GameView size group is null; viewport may be wrong size"); return; }
+                var builtinMethod = group.GetType().GetMethod("GetBuiltinCount");
+                var customMethod = group.GetType().GetMethod("GetCustomSizes");
+                if (builtinMethod == null || customMethod == null) { Debug.LogWarning("[HUDVerify] GameView size group methods not found"); return; }
+                int builtin = (int)builtinMethod.Invoke(group, null);
+                var customs = (IList)customMethod.Invoke(group, null);
                 index = builtin + customs.Count - 1;
             }
             catch (Exception e) { Debug.LogWarning("[HUDVerify] size index lookup failed: " + e.Message); }
