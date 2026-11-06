@@ -79,7 +79,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74a615491bef4679a393a2b71cc88d94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputActions: {fileID: 0}
+  inputActions: {fileID: -944628639613478452, guid: bab253d3088542028ab31ff53a7553d9, type: 3}
   actionMapName: Gameplay
 --- !u!95 &1000005
 Animator:
