@@ -1,0 +1,215 @@
+/*
+ * Naija Streets on-foot HUD and touch controls.
+ * Spec: docs/specs/hud-and-phone.md section 5. Sizes in USS px = CSS px.
+ * Root mode classes (set by NLUIRoot): .nl-portrait / .nl-landscape /
+ * .nl-desktop, plus .nl-touch while touch controls are active, and
+ * .nl-phone-open while the phone is up.
+ */
+
+.nl-root { position: absolute; left: 0; top: 0; right: 0; bottom: 0; }
+.nl-safe { position: absolute; left: 0; top: 0; right: 0; bottom: 0; }
+
+/* visibility by mode */
+.nl-touch-only { display: none; }
+.nl-touch .nl-touch-only { display: flex; }
+.nl-desktop-only { display: none; }
+.nl-desktop .nl-desktop-only { display: flex; }
+.nl-touch .nl-desktop-only { display: none; }
+.nl-phone-open .nl-col, .nl-phone-open .nl-buttons, .nl-phone-open .nl-stick-zone, .nl-phone-open .nl-keyhints { opacity: 0; }
+
+/* ---------- two columns split at the centre ---------- */
+.nl-col {
+    position: absolute;
+    top: 12px;
+    max-width: 47%;
+    transition-property: opacity;
+    transition-duration: 0.22s;
+}
+.nl-col--left { left: 12px; align-items: flex-start; }
+.nl-col--right { right: 12px; align-items: flex-end; }
+
+/* ---------- radar ---------- */
+.nl-radar-wrap { align-items: center; }
+.nl-radar {
+    width: 112px; height: 112px;
+    border-radius: 56px;
+    background-color: #141A20;
+    border-width: 2px; border-color: rgba(255, 255, 255, 0.08);
+    -unity-background-scale-mode: scale-and-crop;
+    overflow: hidden;
+    align-items: center; justify-content: center;
+}
+.nl-landscape .nl-radar { width: 96px; height: 96px; border-radius: 48px; }
+.nl-desktop .nl-radar { width: 168px; height: 168px; border-radius: 84px; }
+.nl-radar-me {
+    width: 16px; height: 16px;
+    background-image: url("../Icons/ico-compass.svg");
+    -unity-background-image-tint-color: var(--nl-accent);
+}
+.nl-place {
+    flex-direction: row;
+    margin-top: -12px;
+    padding-left: 9px; padding-right: 9px; padding-top: 3px; padding-bottom: 3px;
+    border-radius: 9px;
+    background-color: #0C0E13;
+}
+.nl-place-name { -unity-font-style: bold; font-size: 10px; letter-spacing: 1px; color: var(--nl-text); padding: 0; margin: 0; }
+.nl-place-clock { -unity-font-style: bold; font-size: 10px; letter-spacing: 1px; color: var(--nl-accent-soft); padding: 0; margin: 0; margin-left: 8px; }
+
+/* ---------- vitals strip (hunger, energy, Pawa) ---------- */
+.nl-vitals {
+    flex-direction: row;
+    width: 112px;
+    height: 32px;            /* hit area; bars are 6 px */
+    align-items: center;
+    margin-top: 2px;
+}
+.nl-landscape .nl-vitals { width: 96px; }
+.nl-desktop .nl-vitals { width: 168px; }
+.nl-vital { flex-grow: 1; height: 6px; border-radius: 3px; background-color: rgba(255, 255, 255, 0.14); margin-right: 4px; overflow: hidden; }
+.nl-vital--last { margin-right: 0; }
+.nl-vital-fill { height: 100%; width: 70%; border-radius: 3px; transition-property: width; transition-duration: 0.36s; }
+.nl-vital-fill--hunger { background-color: var(--nl-accent); }
+.nl-vital-fill--energy { background-color: var(--nl-accent-soft); }
+.nl-vital-fill--pawa { background-color: var(--nl-live); }
+.nl-vital-fill.is-low { background-color: var(--nl-danger); }
+
+/* ---------- the one prompt ---------- */
+.nl-prompt {
+    flex-direction: row;
+    align-items: center;
+    min-height: 56px;
+    margin-top: 6px;
+    padding-left: 6px; padding-right: 14px; padding-top: 6px; padding-bottom: 6px;
+    border-radius: 14px;
+    border-left-width: 3px; border-left-color: var(--nl-accent);
+    background-color: var(--nl-panel-bg);
+    opacity: 0;
+    translate: -12px 0;
+    transition-property: opacity, translate, scale;
+    transition-duration: 0.22s;
+    transition-timing-function: ease-out-cubic;
+}
+.nl-prompt.is-in { opacity: 1; translate: 0 0; }
+.nl-prompt:active { scale: 0.97 0.97; }
+.nl-prompt.is-hidden { display: none; }
+.nl-prompt-text { margin-left: 10px; flex-shrink: 1; }
+.nl-prompt-verb-row { flex-direction: row; align-items: center; }
+.nl-prompt-verb { -unity-font-style: bold; font-size: 15px; color: var(--nl-text); padding: 0; margin: 0; white-space: normal; }
+.nl-prompt-subject { font-size: 12px; color: var(--nl-text-dim); padding: 0; margin: 0; white-space: normal; }
+.nl-prompt-more {
+    margin-left: 10px;
+    padding-left: 7px; padding-right: 7px; padding-top: 2px; padding-bottom: 2px;
+    border-radius: 8px;
+    background-color: var(--nl-card-hi);
+    color: var(--nl-accent);
+    -unity-font-style: bold; font-size: 12px;
+    display: none;
+}
+.nl-prompt-more.is-on { display: flex; }
+
+.nl-key {
+    -unity-font-style: bold; font-size: 11px;
+    color: var(--nl-accent-ink); background-color: var(--nl-accent);
+    border-radius: 6px;
+    padding-left: 6px; padding-right: 6px; padding-top: 1px; padding-bottom: 1px;
+    margin: 0; margin-left: 6px;
+}
+
+/* ---------- right column ---------- */
+.nl-row { flex-direction: row; align-items: center; }
+.nl-row--top { height: 44px; }
+.nl-wallet { margin-right: 8px; height: 44px; }
+.nl-wallet-value { -unity-font-style: bold; font-size: 18px; color: var(--nl-text); margin-left: 8px; padding: 0; transition-property: color; transition-duration: 0.22s; }
+.nl-wallet-value.is-up { color: var(--nl-accent); }
+.nl-wallet-value.is-loading { color: var(--nl-text-faint); }
+.nl-rows { align-items: flex-end; }
+.nl-rows > * { margin-top: 8px; }   /* rows land at +52, +100, +148 ... */
+
+.nl-sq-btn {
+    width: 44px; height: 44px; margin: 0; padding: 0;
+    border-radius: 12px; border-width: 0;
+    background-color: var(--nl-hud-chip);
+    align-items: center; justify-content: center;
+    transition-property: scale; transition-duration: 0.12s;
+}
+.nl-sq-btn:active { scale: 0.94 0.94; }
+.nl-sq-btn--ghost { background-color: rgba(255, 255, 255, 0.06); }
+
+.nl-icon--accent { -unity-background-image-tint-color: var(--nl-accent); }
+.nl-icon--ink { -unity-background-image-tint-color: var(--nl-accent-ink); }
+.nl-icon--small { width: 16px; height: 16px; }
+
+/* ---------- toasts ---------- */
+.nl-toasts { margin-top: 12px; align-items: flex-end; width: 240px; max-width: 100%; }
+.nl-portrait .nl-toasts { width: 177px; }
+.nl-toast {
+    flex-direction: row; align-items: center;
+    width: 100%;
+    margin-bottom: 8px;
+    padding-left: 10px; padding-right: 10px; padding-top: 8px; padding-bottom: 8px;
+    border-radius: 12px;
+    border-left-width: 3px; border-left-color: var(--nl-accent);
+    background-color: var(--nl-panel-bg);
+    opacity: 0; translate: 16px 0;
+    transition-property: opacity, translate;
+    transition-duration: 0.22s;
+    transition-timing-function: ease-out-cubic;
+}
+.nl-toast.is-in { opacity: 1; translate: 0 0; }
+.nl-toast--police { border-left-color: var(--nl-danger); }
+.nl-toast--people { border-left-color: var(--nl-live); }
+.nl-toast .nl-icon-tile { width: 30px; height: 30px; border-radius: 9px; }
+.nl-toast .nl-icon { width: 16px; height: 16px; }
+.nl-toast-text { margin-left: 8px; flex-shrink: 1; }
+.nl-toast-title { -unity-font-style: bold; font-size: 13px; color: var(--nl-text); padding: 0; margin: 0; white-space: normal; }
+.nl-toast-line { font-size: 12px; color: var(--nl-text-dim); padding: 0; margin: 0; white-space: normal; }
+
+/* ---------- touch: stick ---------- */
+.nl-look-zone { position: absolute; left: 0; top: 0; right: 0; bottom: 0; }
+.nl-stick-zone { position: absolute; left: 0; bottom: 0; width: 50%; height: 45%; }
+.nl-landscape .nl-stick-zone { width: 40%; height: 70%; }
+.nl-stick-base {
+    position: absolute;
+    width: 124px; height: 124px;
+    border-radius: 62px;
+    background-color: rgba(10, 12, 16, 0.38);
+    border-width: 2px; border-color: rgba(255, 255, 255, 0.14);
+    align-items: center; justify-content: center;
+    transition-property: left, top, opacity;
+    transition-duration: 0.22s;
+    transition-timing-function: ease-out-cubic;
+}
+.nl-stick-base.is-held { transition-duration: 0s; background-color: rgba(10, 12, 16, 0.5); }
+.nl-stick-thumb {
+    width: 52px; height: 52px;
+    border-radius: 26px;
+    background-color: rgba(243, 246, 248, 0.82);
+}
+
+/* ---------- touch: buttons (portrait arc, landscape one row) ---------- */
+.nl-buttons { position: absolute; right: 12px; bottom: 12px; width: 128px; height: 128px; }
+.nl-landscape .nl-buttons { width: 198px; height: 60px; }
+.nl-round-btn {
+    position: absolute;
+    border-radius: 30px;
+    background-color: rgba(10, 12, 16, 0.6);
+    border-width: 2px; border-color: rgba(255, 255, 255, 0.14);
+    align-items: center; justify-content: center;
+    transition-property: scale, background-color;
+    transition-duration: 0.12s;
+}
+.nl-round-btn.is-down { scale: 0.92 0.92; background-color: rgba(10, 12, 16, 0.8); }
+.nl-round-btn--sprint { right: 0; bottom: 0; width: 56px; height: 56px; border-radius: 28px; background-color: var(--nl-accent); border-width: 0; }
+.nl-round-btn--sprint.is-down, .nl-round-btn--sprint.is-latched { background-color: var(--nl-accent-deep); }
+.nl-round-btn--camera { right: 68px; bottom: 0; width: 60px; height: 60px; border-radius: 30px; }
+.nl-round-btn--phone { right: 0; bottom: 68px; width: 58px; height: 58px; border-radius: 29px; }
+.nl-landscape .nl-round-btn--phone { right: 140px; bottom: 0; }
+
+/* ---------- desktop hints ---------- */
+.nl-keyhints { position: absolute; right: 12px; bottom: 12px; height: 36px; }
+.nl-keyhints.is-hidden { display: none; }
+.nl-keyhint { font-size: 12px; color: var(--nl-text-dim); margin: 0; margin-left: 4px; margin-right: 6px; padding: 0; }
+
+/* reduced motion: no transitions anywhere */
+.nl-reduced-motion * { transition-duration: 0s; }

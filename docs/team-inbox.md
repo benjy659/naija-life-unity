@@ -52,6 +52,7 @@ Format: `- <date> <team/thread>: <task id>, files <paths>. Status: ACTIVE | DONE
 - 2026-11-06 Claude (vehicles thread): M3.1, M3.3, M3.5, M3.6, M3.7 code (VehicleDefinition, VehicleController, DriveSession, VehiclePlayerDriver, TrafficSense, LaneGraph, TrafficDriver, TrafficSpawner, damage and contact events, lane validator) plus the M3.2 Greybox_M3 scene builder and an M3 check harness, files Assets/Scripts/Vehicles/*, Assets/Editor/Vehicles/*, Assets/Tests/EditMode/Vehicles/*, Assets/Scripts/Verification/M3*, ProjectSettings/TagManager.asset (layers 14 to 16: Vehicle, DrivenVehicle, Pedestrian; road surfaces use the Oshodi thread's Ground layer), ProjectSettings/TimeManager.asset (fixed step 0.02). Checked first: Ted's commits up to 74482c6 and other claims do not touch these; Assets/Scripts/Vehicles held only .gitkeep. Ted keeps M3.4 touch controls and every Editor run. Status: ACTIVE.
 
 - 2026-11-06 Claude (jobs thread): M4.1, M4.2, M4.3 code (everything but the Editor steps) and the M4.4 migration DRAFT, files Assets/Scripts/Jobs/**, Assets/Scripts/Economy/*, Assets/Scripts/Player/PlayerNeeds.cs (new file only), Assets/Tests/EditMode/Jobs/*, Assets/Editor/Jobs/*, supabase/migrations/drafts/m4_job_shifts.sql, docs/specs/jobs-m4.md, tools/jobsim.js. Checked first: Ted's 44d8428 to 74482c6 touch settings, the M1 harness and Greybox materials only; no claim covers Jobs, Economy or these files. Ted keeps: running the tests and scene builder in the Editor, captures, applying the migration. Status: ACTIVE.
+- 2026-11-06 Claude (HUD and phone thread): HUD-1 to HUD-6 code (UI root, scaler, safe area, touch stick and buttons, HUD, radar, prompts, toasts, phone shell, Bank, NLMoney + tests, Editor setup menu), files Assets/Scripts/UI/*, Assets/Scripts/UI/Core/*, Assets/UI/UXML/*, Assets/UI/Styles/*, Assets/UI/Sprites/nl-balance-card.png, Assets/Plugins/WebGL/NLDevice.jslib, Assets/Editor/UI/*, Assets/Tests/EditMode/UI/*, plus one new method PlayerInput.SetLocked (phone stops the player). Checked first: Ted's commits up to 74482c6 do not touch these; no other claim on HUD; the lead's M1.4 already does the right-half touch look drag, so the HUD has no look zone of its own. Status: DONE (this commit), never compiled; Ted runs it (IN-16).
 
 ## Item format
 
@@ -62,6 +63,28 @@ Format: `- <date> <team/thread>: <task id>, files <paths>. Status: ACTIVE | DONE
 ```
 
 ## To Ted's team (from Claude's team)
+
+- **IN-16. HUD, joystick, phone and Bank code is on main: please compile and capture (HUD-1 to HUD-6).** From: Claude. To: Ted. Date: 2026-11-06. Status: OPEN.
+  Claude wrote all the code for HUD-1 to HUD-6 (UI Toolkit; files in the
+  Claims line above). Nothing has been compiled. Only Editor steps are left
+  for you:
+  1. Open the project, fix or report compile errors here (paste them).
+  2. Run the Edit Mode tests (NaijaLife.UI.Tests, NLMoney). All must pass.
+  3. Open Greybox_M1, menu Naija Streets > UI > Add HUD to open scene, save.
+     (Batch: -executeMethod NaijaLife.UI.Editor.NLUISetup.AddToGreyboxBatch.)
+  4. Check the SVG icons import as images (wallet, phone, camera icons show
+     on the HUD). If they show blank, tell us here; do not add a package
+     without saying which.
+  5. Play at 390x844, 844x390, 1280x800, 1920x1080 (Device Simulator for the
+     phone sizes). Use Naija Streets > UI > Test menus: pay a shift (wallet
+     counts up, money toast), offer 3 prompts (one prompt and a +2 chip),
+     go offline then open the Bank (timeout state at 8 s), low vitals.
+     Open the phone (P key or phone button), open Bank, Back, close.
+  6. Capture screenshots of each size and a short clip of the joystick on a
+     real phone in a WebGL build, under qa/hud-1/ to qa/hud-6/.
+  Known limits: Inter font assets are not made yet (default font for now,
+  check the naira sign shows); the M1.6 stock stick is not needed any more,
+  NLTouchControls replaces it.
 
 - **IN-15. M1 harness reviewed: camera fix proven; three things left for M1.** From: Claude. To: Ted. Date: 2026-11-06. Status: OPEN.
   Reviewed 74482c6 and qa/m1/results-desktop-gui.txt. Proven in the Editor:

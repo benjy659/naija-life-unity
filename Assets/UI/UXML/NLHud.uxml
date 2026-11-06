@@ -1,0 +1,98 @@
+<!--
+  Naija Streets: the whole on-screen UI in one document (HUD, touch controls,
+  prompt, toasts, phone). Spec: docs/specs/hud-and-phone.md sections 5 to 8.
+  Layout rule: two columns split at the screen centre; nothing fixed over the
+  middle; the player keep-out box is enforced by NLScreenGuard.
+-->
+<ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
+    <Style src="../Styles/NLTokens.uss" />
+    <Style src="../Styles/NLIcons.uss" />
+    <Style src="../Styles/NLHud.uss" />
+    <Style src="../Styles/NLPhone.uss" />
+
+    <ui:VisualElement name="nl-root" class="nl-root" picking-mode="Ignore">
+
+        <ui:VisualElement name="nl-safe" class="nl-safe" picking-mode="Ignore">
+
+            <!-- LEFT COLUMN: radar, place pill, vitals, prompt -->
+            <ui:VisualElement name="nl-left" class="nl-col nl-col--left" picking-mode="Ignore">
+                <ui:VisualElement name="nl-radar-wrap" class="nl-radar-wrap" picking-mode="Ignore">
+                    <ui:VisualElement name="nl-radar" class="nl-radar">
+                        <ui:VisualElement name="nl-radar-me" class="nl-radar-me" picking-mode="Ignore" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="nl-place" class="nl-place" picking-mode="Ignore">
+                        <ui:Label name="nl-place-name" class="nl-place-name" text="OSHODI" picking-mode="Ignore" />
+                        <ui:Label name="nl-place-clock" class="nl-place-clock" text="07:42" picking-mode="Ignore" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+
+                <ui:VisualElement name="nl-vitals" class="nl-vitals">
+                    <ui:VisualElement class="nl-vital"><ui:VisualElement name="nl-vital-hunger" class="nl-vital-fill nl-vital-fill--hunger" /></ui:VisualElement>
+                    <ui:VisualElement class="nl-vital"><ui:VisualElement name="nl-vital-energy" class="nl-vital-fill nl-vital-fill--energy" /></ui:VisualElement>
+                    <ui:VisualElement class="nl-vital nl-vital--last"><ui:VisualElement name="nl-vital-pawa" class="nl-vital-fill nl-vital-fill--pawa" /></ui:VisualElement>
+                </ui:VisualElement>
+
+                <ui:VisualElement name="nl-prompt" class="nl-prompt">
+                    <ui:VisualElement class="nl-icon-tile"><ui:VisualElement name="nl-prompt-icon" class="nl-icon" /></ui:VisualElement>
+                    <ui:VisualElement class="nl-prompt-text" picking-mode="Ignore">
+                        <ui:VisualElement class="nl-prompt-verb-row" picking-mode="Ignore">
+                            <ui:Label name="nl-prompt-verb" class="nl-prompt-verb" text="Take over" picking-mode="Ignore" />
+                            <ui:Label name="nl-prompt-key" class="nl-key nl-desktop-only" text="E" picking-mode="Ignore" />
+                        </ui:VisualElement>
+                        <ui:Label name="nl-prompt-subject" class="nl-prompt-subject" text="Danfo conductor" picking-mode="Ignore" />
+                    </ui:VisualElement>
+                    <ui:Label name="nl-prompt-more" class="nl-prompt-more" text="+2" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+
+            <!-- RIGHT COLUMN: wallet + menu, then stacked rows, then toasts -->
+            <ui:VisualElement name="nl-right" class="nl-col nl-col--right" picking-mode="Ignore">
+                <ui:VisualElement class="nl-row nl-row--top" picking-mode="Ignore">
+                    <ui:VisualElement name="nl-wallet" class="nl-chip nl-wallet">
+                        <ui:VisualElement class="nl-icon nl-icon--accent nl-ico-wallet" picking-mode="Ignore" />
+                        <ui:Label name="nl-wallet-value" class="nl-wallet-value" text="" picking-mode="Ignore" />
+                    </ui:VisualElement>
+                    <ui:Button name="nl-menu-btn" class="nl-sq-btn" text="">
+                        <ui:VisualElement class="nl-icon nl-ico-more" picking-mode="Ignore" />
+                    </ui:Button>
+                </ui:VisualElement>
+                <ui:VisualElement name="nl-rows" class="nl-rows" picking-mode="Ignore" />
+                <ui:VisualElement name="nl-toasts" class="nl-toasts" picking-mode="Ignore" />
+            </ui:VisualElement>
+
+            <!-- TOUCH CONTROLS (shown only with .nl-touch on the root) -->
+            <ui:VisualElement name="nl-stick-zone" class="nl-stick-zone nl-touch-only">
+                <ui:VisualElement name="nl-stick-base" class="nl-stick-base" picking-mode="Ignore">
+                    <ui:VisualElement name="nl-stick-thumb" class="nl-stick-thumb" picking-mode="Ignore" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="nl-buttons" class="nl-buttons nl-touch-only" picking-mode="Ignore">
+                <ui:VisualElement name="nl-btn-phone" class="nl-round-btn nl-round-btn--phone"><ui:VisualElement class="nl-icon nl-ico-phone" picking-mode="Ignore" /></ui:VisualElement>
+                <ui:VisualElement name="nl-btn-camera" class="nl-round-btn nl-round-btn--camera"><ui:VisualElement class="nl-icon nl-ico-camera" picking-mode="Ignore" /></ui:VisualElement>
+                <ui:VisualElement name="nl-btn-sprint" class="nl-round-btn nl-round-btn--sprint"><ui:VisualElement class="nl-icon nl-icon--ink nl-ico-onfoot" picking-mode="Ignore" /></ui:VisualElement>
+            </ui:VisualElement>
+
+            <!-- DESKTOP key hints (first 3 sessions) -->
+            <ui:VisualElement name="nl-keyhints" class="nl-chip nl-keyhints nl-desktop-only" picking-mode="Ignore">
+                <ui:Label class="nl-key" text="P" /><ui:Label class="nl-keyhint" text="Phone" />
+                <ui:Label class="nl-key" text="V" /><ui:Label class="nl-keyhint" text="Camera" />
+                <ui:Label class="nl-key" text="Esc" /><ui:Label class="nl-keyhint" text="Menu" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+        <!-- PHONE (full screen on portrait, side panel otherwise) -->
+        <ui:VisualElement name="nl-phone-scrim" class="nl-phone-scrim" />
+        <ui:VisualElement name="nl-phone" class="nl-phone">
+            <ui:VisualElement class="nl-phone-status" picking-mode="Ignore">
+                <ui:Label name="nl-phone-status-clock" class="nl-phone-status-clock" text="07:42" picking-mode="Ignore" />
+                <ui:VisualElement class="nl-icon nl-icon--small nl-ico-signal" picking-mode="Ignore" />
+            </ui:VisualElement>
+            <ui:VisualElement name="nl-phone-bar" class="nl-phone-bar">
+                <ui:Button name="nl-phone-back" class="nl-sq-btn nl-sq-btn--ghost" text=""><ui:VisualElement class="nl-icon nl-ico-back" picking-mode="Ignore" /></ui:Button>
+                <ui:Label name="nl-phone-title" class="nl-phone-title" text="" />
+                <ui:Button name="nl-phone-close" class="nl-sq-btn nl-sq-btn--ghost" text=""><ui:VisualElement class="nl-icon nl-ico-close" picking-mode="Ignore" /></ui:Button>
+            </ui:VisualElement>
+            <ui:VisualElement name="nl-phone-stack" class="nl-phone-stack" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

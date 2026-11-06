@@ -67,11 +67,12 @@
     --nl-gap-xl: 24px;
 }
 
-/* type: Inter for UI, Titan One only inside the logo */
-.nl-text-title { -unity-font-definition: url("project://database/Assets/UI/Fonts/Inter-ExtraBold SDF.asset"); font-size: 20px; color: var(--nl-text); }
-.nl-text-value { -unity-font-definition: url("project://database/Assets/UI/Fonts/Inter-ExtraBold SDF.asset"); font-size: 16px; color: var(--nl-accent-soft); }
-.nl-text-body  { -unity-font-definition: url("project://database/Assets/UI/Fonts/Inter-Medium SDF.asset"); font-size: 14px; color: var(--nl-text); }
-.nl-text-kicker { -unity-font-definition: url("project://database/Assets/UI/Fonts/Inter-Bold SDF.asset"); font-size: 11px; letter-spacing: 2px; color: var(--nl-text-dim); }
+/* type: Inter for UI once HUD-1 makes the font assets (spec 4.2). Until then
+   the default font with bold weights. HUD-1 adds -unity-font-definition here. */
+.nl-text-title { -unity-font-style: bold; font-size: 20px; color: var(--nl-text); }
+.nl-text-value { -unity-font-style: bold; font-size: 16px; color: var(--nl-accent-soft); }
+.nl-text-body  { font-size: 14px; color: var(--nl-text); }
+.nl-text-kicker { -unity-font-style: bold; font-size: 11px; letter-spacing: 2px; color: var(--nl-text-dim); }
 
 /* motion: the only three durations the UI uses (spec section 4.5) */
 .nl-motion-fast { transition-duration: 0.12s; transition-timing-function: ease-out-cubic; }
@@ -90,13 +91,14 @@
     border-color: var(--nl-panel-edge);
     border-top-width: var(--nl-accent-line);
     border-top-color: var(--nl-accent);
-    padding: var(--nl-gap-l);
+    padding-left: 16px; padding-right: 16px; padding-top: 16px; padding-bottom: 16px;
 }
 .nl-chip {
     background-color: var(--nl-hud-chip);
     border-radius: var(--nl-radius-chip);
     min-height: 40px;
-    padding: 0 var(--nl-gap-m);
+    padding-left: 12px;
+    padding-right: 12px;
     flex-direction: row;
     align-items: center;
 }
@@ -106,7 +108,8 @@
     border-radius: var(--nl-radius-btn);
     min-height: var(--nl-touch-min);
     min-width: var(--nl-touch-min);
-    padding: 0 var(--nl-gap-l);
+    padding-left: 16px;
+    padding-right: 16px;
     border-width: 0;
     transition-property: scale, background-color;
     transition-duration: 0.12s;
