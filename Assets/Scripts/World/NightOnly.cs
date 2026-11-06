@@ -29,6 +29,14 @@ namespace NaijaLife.World
             Show(tod != null && tod.Night01 > nightThreshold);
         }
 
+        /// <summary>Show or hide now. Also works in edit mode (QA capture runner).</summary>
+        public void ShowNow(bool on)
+        {
+            _renderers = GetComponentsInChildren<Renderer>(true);
+            _shown = !on;
+            Show(on);
+        }
+
         void Show(bool on)
         {
             if (on == _shown) return;

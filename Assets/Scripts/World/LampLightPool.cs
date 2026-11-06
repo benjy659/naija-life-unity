@@ -82,18 +82,23 @@ namespace NaijaLife.World
         {
             if (Time.unscaledTime < _next) return;
             _next = Time.unscaledTime + refreshSeconds;
-
             var tod = TimeOfDay.Instance;
-            bool night = tod != null && tod.Night01 > nightThreshold;
             var cam = Camera.main;
-            if (!night || cam == null || _lamps.Count == 0)
+            RefreshNow(tod != null && tod.Night01 > nightThreshold, cam != null ? cam.transform.position : (Vector3?)null);
+        }
+
+        /// <summary>Place the pool now. Also works in edit mode (QA capture runner):
+        /// call Rescan first there, since Start does not run.</summary>
+        public void RefreshNow(bool night, Vector3? camera)
+        {
+            if (!night || camera == null || _lamps.Count == 0)
             {
                 foreach (var l in _pool) l.enabled = false;
                 return;
             }
 
             // pick the nearest lamps to the camera (small lists: a partial selection sort is fine)
-            var p = cam.transform.position;
+            var p = camera.Value;
             var order = new List<int>(_lamps.Count);
             for (int i = 0; i < _lamps.Count; i++) order.Add(i);
             order.Sort((a, b) => (_lamps[a] - p).sqrMagnitude.CompareTo((_lamps[b] - p).sqrMagnitude));

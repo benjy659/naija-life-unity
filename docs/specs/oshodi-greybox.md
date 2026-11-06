@@ -458,6 +458,12 @@ cloud cannot run Unity):
 5. M2.3: the overlay during the streaming test (state, load ms, worst frame).
 6. A REPORT.md with what was checked and anything UNVERIFIED.
 
+First pass without walking: `NaijaLife.World.Editor.OshodiCaptureRunner.RunAllBatch`
+(menu Naija Streets > Capture Oshodi QA shots) builds the scenes, sets up
+Bootstrap and writes camera-only frames of V1 to V5 (both sizes) and the M2.2
+tier and hour set, with a report of objects in view, under qa/M2.1/ and
+qa/M2.2/. Claude reviews those first; items 2 to 5 above still follow.
+
 Before calling a shot done, read each noun of section 1 against the frame
 (L-58): wide road, median rail, footbridge, danfos three deep, curved glass,
 flyover, market, umbrellas, NEPA wires, gutter slabs, posters, hoardings.
