@@ -61,6 +61,7 @@ Format: `- <date> <team/thread>: <task id>, files <paths>. Status: ACTIVE | DONE
 - 2026-11-06 Claude (jobs thread, 08:37 run): M4 self-review fix in the test scene builder (asset folders made through AssetDatabase), files Assets/Editor/Jobs/M4ConductorSceneBuilder.cs. Checked first: commits since 79228ae (3b42af9 HUD wallet, bcb0293 M3, 74cf0cd skyline, d7bb77d drive HUD) do not touch jobs files; no Ted commit yet. Status: DONE (this run's commit "M4 scene builder: create asset folders through AssetDatabase").
 
 - 2026-11-06 Claude (jobs thread): use the shared NetBootstrap Supabase session for shift RPCs, and note the client-reported Pawa risk in 0042 (multiplayer thread review), files Assets/Scripts/Economy/ShiftServiceFactory.cs, supabase/migrations/0042_nl_job_shifts.sql (header comment only). Checked first: 2a0010f touches Network only. Status: DONE (commit "M4: shift service uses the shared NetBootstrap session").
+- 2026-11-06 Claude (Oshodi thread): M2.1/M2.2 QA capture runner (one batch method that builds, sets up Bootstrap and writes the V1 to V6 screenshots at every tier and QA hour plus a report under qa/M2.1/ and qa/M2.2/), files Assets/Editor/World/OshodiCaptureRunner.cs and small public ApplyNow/RefreshNow hooks in Assets/Scripts/World/TimeOfDay.cs, LampLightPool.cs, NightOnly.cs. Checked first: Ted's 3026a56 (player body) and the M3/M4/HUD/net commits since a2628f3 do not touch these files. Status: ACTIVE.
 
 ## Item format
 
