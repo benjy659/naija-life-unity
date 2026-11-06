@@ -437,7 +437,7 @@ UNVERIFIED.
   `NLHudStack` (+0/+52/+100/+148/+196, collapse upward), desktop key-hint
   chip. *Acceptance:* matches the mockups in `docs/specs/img/hud/` at the 4
   sizes; Profiler shows 0 B GC alloc per frame from the HUD.
-- **HUD-4. Prompts, toasts and the screen guard (Ted's team).** Status: Claude, IN PROGRESS: code on main 2026-11-06 (IN-16), screen guard and chooser sheet still to write;
+- **HUD-4. Prompts, toasts and the screen guard (Ted's team).** Status: Claude, IN PROGRESS: code on main 2026-11-06 (IN-16); screen guard, F9 overlay and +N chooser sheet on main 2026-11-06 (IN-22);
   Ted: captures. Spec §6-7. `NLPromptManager` (Offer/Withdraw/Accept; kinds
   action/exit/other; 2.5 m show, 3.0 m hide, 0.4 s min swap; "+N" chip and
   chooser sheet), `NLToastManager` (3 live, 2 in portrait, 5 queued, dedupe

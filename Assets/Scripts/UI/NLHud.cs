@@ -121,7 +121,8 @@ namespace NaijaLife.UI
             if (kb != null && NLPhone.LastChangeFrame != Time.frameCount)
             {
                 if (kb.pKey.wasPressedThisFrame) NLPhone.Instance?.Toggle();
-                else if (kb.escapeKey.wasPressedThisFrame && !NLPhone.IsOpen) NLPhone.Instance?.Open(NLPhone.App.Settings);
+                else if (kb.escapeKey.wasPressedThisFrame && !NLPhone.IsOpen && !NLPrompts.ChooserOpen && NLPrompts.ChooserFrame != Time.frameCount)
+                    NLPhone.Instance?.Open(NLPhone.App.Settings);
             }
         }
 

@@ -68,13 +68,17 @@ namespace NaijaLife.UI
             Hook(_btnPhone, () => NLPhone.Instance?.Toggle(), null);
 
             UI.LayoutChanged += OnLayoutChanged;
+            NLScreenGuard.Changed += OnGuardChanged;
         }
 
         protected override void OnUnbind()
         {
             if (UI != null) UI.LayoutChanged -= OnLayoutChanged;
+            NLScreenGuard.Changed -= OnGuardChanged;
             ReleaseAll();
         }
+
+        private void OnGuardChanged() { if (_stickId < 0) PlaceStickAtRest(); }
 
         private void OnLayoutChanged()
         {
@@ -147,8 +151,16 @@ namespace NaijaLife.UI
             if (_zone == null || float.IsNaN(_zone.layout.height)) return;
             float size = 124f;
             float left = UI != null && UI.Mode == NLScreenMode.Landscape ? 32f : 12f;
+            float top = Mathf.Max(0f, _zone.layout.height - 12f - size);
+            // keep-out (spec 5.2): if the player box touches the rest place, rest 24 px further left and down
+            var z = _zone.worldBound;
+            if (NLScreenGuard.Touches(new Rect(z.x + left, z.y + top, size, size)))
+            {
+                left = Mathf.Max(0f, left - 24f);
+                top = Mathf.Min(Mathf.Max(0f, _zone.layout.height - size), top + 24f);
+            }
             _base.style.left = left;
-            _base.style.top = Mathf.Max(0f, _zone.layout.height - 12f - size);
+            _base.style.top = top;
         }
 
         // ---------------- buttons ----------------

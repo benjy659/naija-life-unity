@@ -28,6 +28,8 @@ namespace NaijaLife.UI
         private readonly Queue<Toast> _queue = new Queue<Toast>();
         private readonly Dictionary<string, Toast> _recent = new Dictionary<string, Toast>();
         private VisualElement _lane;
+        private bool _guarded;
+        private Rect _laneHome; // where the lane last sat with toasts in it
 
         private void Awake() { Instance = this; }
         private void OnDestroy() { if (Instance == this) Instance = null; }
@@ -73,6 +75,23 @@ namespace NaijaLife.UI
         protected override void Tick()
         {
             float now = Time.unscaledTime;
+
+            // keep-out (spec 6.3): if the lane would touch the player, hide it and keep
+            // everything waiting; live toasts do not age while hidden.
+            bool guarded = _live.Count > 0 ? NLScreenGuard.Touches(_lane) : NLScreenGuard.Touches(_laneHome);
+            if (_live.Count > 0 && !guarded) _laneHome = _lane.worldBound;
+            if (guarded != _guarded)
+            {
+                _guarded = guarded;
+                _lane.style.opacity = guarded ? new StyleFloat(0f) : new StyleFloat(StyleKeyword.Null);
+            }
+            if (guarded)
+            {
+                float dt = Time.unscaledDeltaTime;
+                foreach (var t in _live) t.Until += dt;
+                return;
+            }
+
             for (int i = _live.Count - 1; i >= 0; i--)
                 if (now >= _live[i].Until) Remove(_live[i]);
 

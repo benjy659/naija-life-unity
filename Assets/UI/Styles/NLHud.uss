@@ -311,3 +311,47 @@
 }
 .nl-job-ok:active { background-color: var(--nl-accent-deep); }
 .nl-job-ok.is-hidden { display: none; }
+
+/* ---------- PROMPT CHOOSER (HUD-4, spec 6.2): every live offer as a 52 px row ---------- */
+.nl-chooser-wrap { position: absolute; left: 12px; right: 12px; top: 0; bottom: 12px; justify-content: flex-end; align-items: center; }
+.nl-chooser {
+    width: 100%; max-width: 420px; max-height: 45%;
+    padding-left: 12px; padding-right: 12px; padding-top: 10px; padding-bottom: 12px;
+    border-radius: var(--nl-radius-panel);
+    border-top-width: 2px; border-top-color: var(--nl-accent);
+    background-color: var(--nl-panel-bg);
+    opacity: 0; translate: 0 24px;
+    transition-property: opacity, translate; transition-duration: 0.22s; transition-timing-function: ease-out-cubic;
+}
+.nl-chooser.is-in { opacity: 1; translate: 0 0; }
+.nl-chooser.is-hidden { display: none; }
+.nl-chooser-open .nl-stick-zone, .nl-chooser-open .nl-buttons, .nl-chooser-open .nl-keyhints, .nl-chooser-open .nl-prompt { display: none; }
+.nl-chooser-head { flex-direction: row; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+.nl-chooser-title { -unity-font-style: bold; font-size: 15px; color: var(--nl-text); padding: 0; margin: 0; }
+.nl-chooser-list { flex-shrink: 1; }
+.nl-chooser-row {
+    flex-direction: row; align-items: center; height: 52px;
+    padding-left: 6px; padding-right: 10px; margin-top: 6px;
+    border-radius: var(--nl-radius-card);
+    background-color: var(--nl-card);
+    transition-property: background-color, scale; transition-duration: 0.12s;
+}
+.nl-chooser-row:hover { background-color: var(--nl-card-hi); }
+.nl-chooser-row:active { scale: 0.98 0.98; background-color: var(--nl-card-hi); }
+.nl-chooser-row .nl-icon-tile { width: 40px; height: 40px; }
+.nl-chooser-row.is-locked { opacity: 0.6; }
+.nl-chooser-text { margin-left: 10px; flex-grow: 1; flex-shrink: 1; }
+.nl-chooser-key { margin-left: 8px; }
+
+/* keep-out fallback: the prompt slides to top centre */
+.nl-prompt.is-fallback { border-left-width: 0; border-top-width: 3px; border-top-color: var(--nl-accent); }
+
+/* F9 QA overlay (debug builds only): every rect from spec 6.3 */
+.nl-guard-debug { position: absolute; left: 0; top: 0; right: 0; bottom: 0; }
+.nl-guard-box { position: absolute; border-width: 2px; background-color: rgba(0, 0, 0, 0); }
+.nl-guard-box--keepout { border-color: rgba(46, 229, 157, 0.95); background-color: rgba(46, 229, 157, 0.12); }
+.nl-guard-box--stick { border-color: rgba(79, 107, 255, 0.95); background-color: rgba(79, 107, 255, 0.10); }
+.nl-guard-box--button { border-color: rgba(79, 107, 255, 0.75); }
+.nl-guard-box--prompt { border-color: rgba(255, 255, 255, 0.85); }
+.nl-guard-box--toast { border-color: rgba(224, 97, 58, 0.85); }
+.nl-guard-box--chip { border-color: rgba(255, 255, 255, 0.4); }

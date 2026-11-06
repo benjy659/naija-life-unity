@@ -9,8 +9,11 @@ namespace UnityEngine.InputSystem.Controls {
 }
 namespace UnityEngine.InputSystem {
   using UnityEngine.InputSystem.Controls;
+  public enum Key { None = 0, Digit1 = 41, Digit2, Digit3, Digit4, Digit5, Digit6, Digit7, Digit8, Digit9, Digit0 }
   public class Keyboard {
     public static Keyboard current;
+    public KeyControl this[Key key] { get { return null; } }
+    public KeyControl f9Key;
     public ButtonControl anyKey;
     public KeyControl eKey, enterKey, spaceKey, escapeKey, pKey, tabKey, vKey,
       digit1Key, digit2Key, digit3Key, numpad1Key, numpad2Key, numpad3Key;
