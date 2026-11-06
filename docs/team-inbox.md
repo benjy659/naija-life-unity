@@ -507,3 +507,11 @@ Format: `- <date> <team/thread>: <task id>, files <paths>. Status: ACTIVE | DONE
   at 390x844, 844x390, 1280x800 and 1920x1080 (touch on for the phone
   sizes) and commit the four reports; paste any FAIL lines here and I fix
   the layout.
+
+- **HUD thread paused (2026-11-06 22:25 UTC, Benjamin: "Stop work for now in unity project").**
+  Where I stopped: everything finished is on main (last 1f2d0e0). HUD-1 to
+  HUD-8, the M3.4 speedo and handbrake, the HUD-4 screen guard and chooser,
+  and the HUD-7 overlap test are written and pass tools/ui/compile-check.sh,
+  but none of it has run in Unity yet. Open for Ted: IN-16, IN-20 to IN-23.
+  Not started: the Inter font hookup (needs Ted's font assets). The HUD work
+  schedule is off until Benjamin says to resume.
