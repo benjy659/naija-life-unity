@@ -46,7 +46,7 @@ namespace NaijaLife.UI
             _zone.RegisterCallback<PointerDownEvent>(OnPointerDown);
             _zone.RegisterCallback<PointerMoveEvent>(OnPointerMove);
             _zone.RegisterCallback<PointerUpEvent>(OnPointerUp);
-            _zone.RegisterCallback<PointerCancelEvent>(OnPointerUp);
+            _zone.RegisterCallback<PointerCancelEvent>(OnPointerCancel);
             _zone.RegisterCallback<GeometryChangedEvent>(_ => CacheRestPlace());
         }
 
@@ -69,7 +69,7 @@ namespace NaijaLife.UI
         private void OnPointerDown(PointerDownEvent e)
         {
             if (_pointerId >= 0) return;
-            if (e.pointerType == PointerType.mouse) return; // mouse drags look, it never drives the stick
+            if (e.pointerType == UnityEngine.UIElements.PointerType.mouse) return; // mouse drags look, it never drives the stick
             _pointerId = e.pointerId;
             _zone.CapturePointer(e.pointerId);
             if (_returnRoutine != null) { _host.StopCoroutine(_returnRoutine); _returnRoutine = null; }
@@ -90,12 +90,24 @@ namespace NaijaLife.UI
         private void OnPointerUp(PointerUpEvent e)
         {
             if (e.pointerId != _pointerId) return;
+            EndPointer(e.pointerId);
+            e.StopPropagation();
+        }
+
+        private void OnPointerCancel(PointerCancelEvent e)
+        {
+            if (e.pointerId != _pointerId) return;
+            EndPointer(e.pointerId);
+            e.StopPropagation();
+        }
+
+        private void EndPointer(int pointerId)
+        {
             _pointerId = -1;
-            _zone.ReleasePointer(e.pointerId);
+            _zone.ReleasePointer(pointerId);
             Output = Vector2.zero;
             _control?.SetValue(Vector2.zero);
             _returnRoutine = _host.StartCoroutine(ReturnBase());
-            e.StopPropagation();
         }
 
         private void UpdateOutput(Vector2 pointerLocal)

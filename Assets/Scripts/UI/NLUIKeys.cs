@@ -8,6 +8,7 @@
 
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Controls;
 
 namespace NaijaLife.UI
 {
@@ -54,7 +55,16 @@ namespace NaijaLife.UI
                 if (_gamepad.selectButton.wasPressedThisFrame) OnPhoneToggle?.Invoke();
                 if (_gamepad.buttonEast.wasPressedThisFrame) OnMenuToggle?.Invoke();
                 if (_gamepad.buttonSouth.wasPressedThisFrame) OnAccept?.Invoke();
-                if (_gamepad.anyKey.wasPressedThisFrame) uiRoot?.NoteInputDevice(NLDeviceKind.Gamepad);
+                // Gamepad has no anyKey (Keyboard-only). Any button press
+                // counts as gamepad use for the touch/desktop switch.
+                foreach (var control in _gamepad.allControls)
+                {
+                    if (control is ButtonControl button && button.wasPressedThisFrame)
+                    {
+                        uiRoot?.NoteInputDevice(NLDeviceKind.Gamepad);
+                        break;
+                    }
+                }
             }
         }
     }

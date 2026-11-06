@@ -28,7 +28,7 @@ namespace NaijaLife.UI
             _element = element;
             _element.RegisterCallback<PointerDownEvent>(OnPointerDown);
             _element.RegisterCallback<PointerUpEvent>(OnPointerUp);
-            _element.RegisterCallback<PointerCancelEvent>(OnPointerUp);
+            _element.RegisterCallback<PointerCancelEvent>(OnPointerCancel);
             _element.RegisterCallback<PointerLeaveEvent>(OnPointerLeave);
             _element.RegisterCallback<ClickEvent>(e => e.StopPropagation());
         }
@@ -45,6 +45,13 @@ namespace NaijaLife.UI
         }
 
         private void OnPointerUp(PointerUpEvent e)
+        {
+            if (e.pointerId != _pointerId) return;
+            Release();
+            e.StopPropagation();
+        }
+
+        private void OnPointerCancel(PointerCancelEvent e)
         {
             if (e.pointerId != _pointerId) return;
             Release();
