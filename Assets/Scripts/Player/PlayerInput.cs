@@ -108,9 +108,28 @@ namespace NaijaLife.Player
             _actionMap?.Disable();
         }
 
+        /// <summary>True while a full-screen UI (the phone) owns input. All outputs read zero.</summary>
+        public bool IsLocked { get; private set; }
+
+        /// <summary>
+        /// HUD-5: the phone locks the player so they stop walking while it is up.
+        /// Zeroes every output at once so nothing keeps moving from a stale read.
+        /// </summary>
+        public void SetLocked(bool locked)
+        {
+            IsLocked = locked;
+            if (!locked) return;
+            MoveInput = Vector2.zero;
+            LookInput = Vector2.zero;
+            OrbitDegrees = Vector2.zero;
+            SprintHeld = false;
+            WalkHeld = false;
+            _orbitTouchId = -1;
+        }
+
         private void Update()
         {
-            if (!IsReady)
+            if (!IsReady || IsLocked)
                 return;
 
             MoveInput = _moveAction.ReadValue<Vector2>();

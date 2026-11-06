@@ -1,0 +1,156 @@
+/*
+ * Naija Streets phone: shell, home and Bank (wallet).
+ * Spec: docs/specs/hud-and-phone.md section 8.
+ */
+
+.nl-phone-scrim {
+    position: absolute; left: 0; top: 0; right: 0; bottom: 0;
+    background-color: var(--nl-scrim);
+    display: none; opacity: 0;
+    transition-property: opacity; transition-duration: 0.22s;
+}
+.nl-phone-scrim.is-on { display: flex; }
+.nl-phone-scrim.is-in { opacity: 1; }
+.nl-landscape .nl-phone-scrim, .nl-desktop .nl-phone-scrim { background-color: rgba(0, 0, 0, 0); }
+
+.nl-phone {
+    position: absolute;
+    left: 0; top: 0; right: 0; bottom: 0;
+    background-color: #0B0D12;
+    display: none;
+    opacity: 0;
+    translate: 0 40px;
+    scale: 0.96 0.96;
+    transition-property: opacity, translate, scale;
+    transition-duration: 0.36s;
+    transition-timing-function: ease-out-cubic;
+    overflow: hidden;
+}
+.nl-phone.is-on { display: flex; }
+.nl-phone.is-in { opacity: 1; translate: 0 0; scale: 1 1; }
+/* landscape and desktop: phone-shaped panel on the right third */
+.nl-landscape .nl-phone, .nl-desktop .nl-phone {
+    left: auto; right: 24px; top: 24px; bottom: 24px;
+    width: 390px;
+    border-radius: 28px;
+    border-width: 1px; border-color: rgba(255, 255, 255, 0.08);
+}
+
+.nl-phone-status { flex-direction: row; justify-content: space-between; align-items: center; height: 32px; padding-left: 22px; padding-right: 22px; }
+.nl-phone-status-clock { -unity-font-style: bold; font-size: 13px; color: var(--nl-text); padding: 0; margin: 0; }
+
+.nl-phone-bar { flex-direction: row; align-items: center; justify-content: space-between; height: 56px; padding-left: 12px; padding-right: 12px; }
+.nl-phone-title { -unity-font-style: bold; font-size: 16px; color: var(--nl-text); -unity-text-align: middle-center; flex-grow: 1; }
+.nl-phone-bar .nl-sq-btn.is-hidden { opacity: 0; }
+
+.nl-phone-stack { flex-grow: 1; overflow: hidden; }
+.nl-screen {
+    position: absolute; left: 0; top: 0; right: 0; bottom: 0;
+    transition-property: translate, opacity;
+    transition-duration: 0.22s;
+    transition-timing-function: ease-out-cubic;
+}
+.nl-screen.is-right { translate: 100% 0; opacity: 0; }
+.nl-screen.is-left { translate: -30% 0; opacity: 0; }
+
+/* ---------- home ---------- */
+.nl-home-head { flex-direction: row; align-items: center; padding-left: 22px; padding-right: 22px; padding-top: 12px; }
+.nl-home-logo { width: 54px; height: 54px; background-image: url("../Brand/naija-life-mark.svg"); }
+.nl-home-clockwrap { margin-left: 12px; }
+.nl-home-day { -unity-font-style: bold; font-size: 11px; letter-spacing: 2px; color: var(--nl-text-dim); padding: 0; margin: 0; }
+.nl-home-clock { -unity-font-style: bold; font-size: 30px; color: var(--nl-text); padding: 0; margin: 0; }
+.nl-next {
+    flex-direction: row; align-items: center;
+    margin-left: 18px; margin-right: 18px; margin-top: 18px; margin-bottom: 18px;
+    padding-left: 14px; padding-right: 14px; padding-top: 14px; padding-bottom: 14px;
+    border-radius: 14px;
+    background-color: rgba(255, 255, 255, 0.05);
+}
+.nl-next.is-hidden { display: none; }
+.nl-next-text { margin-left: 10px; }
+.nl-next-title { -unity-font-style: bold; font-size: 14px; color: var(--nl-text); padding: 0; margin: 0; }
+.nl-next-line { font-size: 13px; color: var(--nl-text-dim); padding: 0; margin: 0; }
+.nl-apps { flex-direction: row; flex-wrap: wrap; padding-left: 12px; padding-right: 12px; }
+.nl-app { width: 25%; align-items: center; margin-bottom: 20px; }
+.nl-app-tile {
+    width: 60px; height: 60px; border-radius: 18px;
+    background-color: rgba(255, 255, 255, 0.07);
+    align-items: center; justify-content: center;
+    transition-property: scale; transition-duration: 0.12s;
+}
+.nl-app:active .nl-app-tile { scale: 0.92 0.92; }
+.nl-app-tile .nl-icon { width: 28px; height: 28px; }
+.nl-app--bank .nl-app-tile { background-color: var(--nl-accent); }
+.nl-app--bank .nl-app-tile .nl-icon { -unity-background-image-tint-color: var(--nl-accent-ink); }
+.nl-app-name { font-size: 11px; -unity-font-style: bold; color: var(--nl-text); margin-top: 6px; padding: 0; }
+
+/* ---------- bank ---------- */
+.nl-bank { padding-left: 16px; padding-right: 16px; }
+.nl-balance {
+    padding-left: 18px; padding-right: 18px; padding-top: 18px; padding-bottom: 18px;
+    border-radius: 18px;
+    background-color: var(--nl-accent-deep);
+    background-image: url("../Sprites/nl-balance-card.png");
+    -unity-background-scale-mode: stretch-to-fill;
+    margin-top: 4px;
+}
+.nl-balance-kicker { -unity-font-style: bold; font-size: 11px; letter-spacing: 2px; color: rgba(255, 255, 255, 0.8); padding: 0; margin: 0; }
+.nl-balance-value { -unity-font-style: bold; font-size: 38px; color: #FFFFFF; padding: 0; margin: 0; margin-top: 6px; margin-bottom: 6px; }
+.nl-balance-value.is-loading { color: rgba(255, 255, 255, 0.4); }
+.nl-balance-foot { flex-direction: row; justify-content: space-between; align-items: center; }
+.nl-balance-sync { font-size: 12px; color: rgba(255, 255, 255, 0.85); padding: 0; margin: 0; }
+.nl-refresh { flex-direction: row; align-items: center; min-height: 44px; padding-left: 8px; padding-right: 0; }
+.nl-refresh .nl-icon { width: 14px; height: 14px; -unity-background-image-tint-color: #FFFFFF; transition-property: rotate; transition-duration: 0.6s; }
+.nl-refresh.is-busy .nl-icon { rotate: 360deg; }
+.nl-refresh-label { font-size: 12px; color: #FFFFFF; margin: 0; margin-left: 4px; padding: 0; }
+
+.nl-tabs { flex-direction: row; margin-top: 14px; padding: 4px; border-radius: 12px; background-color: rgba(255, 255, 255, 0.05); }
+.nl-tab { flex-grow: 1; flex-basis: 0; min-height: 40px; border-radius: 9px; -unity-text-align: middle-center; -unity-font-style: bold; font-size: 13px; color: var(--nl-text-dim); }
+.nl-tab { border-width: 0; background-color: rgba(0, 0, 0, 0); margin: 0; }
+.nl-tab:hover { background-color: rgba(255, 255, 255, 0.04); }
+.nl-tab.is-on, .nl-tab.is-on:hover { background-color: var(--nl-accent); color: var(--nl-accent-ink); }
+
+.nl-list { flex-grow: 1; margin-top: 6px; }
+.nl-txn { flex-direction: row; align-items: center; height: 64px; border-bottom-width: 1px; border-bottom-color: rgba(255, 255, 255, 0.06); opacity: 0; translate: 0 8px; transition-property: opacity, translate; transition-duration: 0.22s; }
+.nl-txn.is-in { opacity: 1; translate: 0 0; }
+.nl-txn-text { flex-grow: 1; margin-left: 12px; }
+.nl-txn-title { -unity-font-style: bold; font-size: 14px; color: var(--nl-text); padding: 0; margin: 0; }
+.nl-txn-line { font-size: 12px; color: var(--nl-text-dim); padding: 0; margin: 0; }
+.nl-txn-amount { -unity-font-style: bold; font-size: 15px; color: var(--nl-text); padding: 0; margin: 0; }
+.nl-txn-amount.is-in-money { color: var(--nl-accent); }
+.nl-skel { height: 64px; flex-direction: row; align-items: center; }
+.nl-skel-tile { width: 40px; height: 40px; border-radius: 12px; background-color: rgba(255, 255, 255, 0.06); }
+.nl-skel-bar { height: 12px; width: 55%; margin-left: 12px; border-radius: 6px; background-color: rgba(255, 255, 255, 0.06); }
+
+.nl-week { padding-top: 10px; }
+.nl-week-row { flex-direction: row; justify-content: space-between; align-items: center; height: 52px; border-bottom-width: 1px; border-bottom-color: rgba(255, 255, 255, 0.06); }
+.nl-week-label { font-size: 14px; color: var(--nl-text-dim); padding: 0; margin: 0; }
+.nl-week-value { -unity-font-style: bold; font-size: 16px; color: var(--nl-text); padding: 0; margin: 0; }
+
+.nl-state { align-items: center; padding-top: 24px; padding-bottom: 24px; }
+.nl-state-line { font-size: 13px; color: var(--nl-text-dim); -unity-text-align: middle-center; white-space: normal; margin-bottom: 10px; }
+.nl-test-money {
+    align-self: flex-start;
+    margin-top: 10px;
+    padding-left: 8px; padding-right: 8px; padding-top: 3px; padding-bottom: 3px;
+    border-radius: 8px; background-color: rgba(224, 97, 58, 0.18);
+    color: var(--nl-danger); -unity-font-style: bold; font-size: 11px;
+}
+
+.nl-note { flex-direction: row; align-items: center; margin-top: 10px; margin-bottom: 16px; padding-left: 12px; padding-right: 12px; padding-top: 12px; padding-bottom: 12px; border-radius: 12px; background-color: rgba(255, 255, 255, 0.04); }
+.nl-note .nl-icon { width: 16px; height: 16px; -unity-background-image-tint-color: var(--nl-text-dim); }
+.nl-note-line { font-size: 12px; color: var(--nl-text-dim); margin: 0; margin-left: 8px; padding: 0; white-space: normal; flex-shrink: 1; }
+
+/* ---------- switch (Settings) ---------- */
+.nl-switch { width: 46px; height: 28px; border-radius: 14px; background-color: rgba(255, 255, 255, 0.14); justify-content: center; transition-property: background-color; transition-duration: 0.22s; }
+.nl-switch-knob { width: 22px; height: 22px; border-radius: 11px; background-color: #FFFFFF; translate: 3px 0; transition-property: translate; transition-duration: 0.22s; transition-timing-function: ease-out-cubic; }
+.nl-switch.is-on { background-color: var(--nl-accent); }
+.nl-switch.is-on .nl-switch-knob { translate: 21px 0; }
+
+/* the default runtime theme adds hover/focus looks to Button; keep ours */
+.nl-btn:hover { background-color: var(--nl-accent); }
+.nl-btn--ghost:hover { background-color: rgba(255, 255, 255, 0.06); }
+.nl-sq-btn:hover { background-color: var(--nl-hud-chip); }
+.nl-sq-btn--ghost:hover { background-color: rgba(255, 255, 255, 0.1); }
+.nl-btn, .nl-sq-btn, .nl-tab { -unity-font-style: bold; }
+.nl-state .nl-btn { margin-top: 4px; }

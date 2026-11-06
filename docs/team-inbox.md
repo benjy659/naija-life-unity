@@ -46,12 +46,13 @@ Format: `- <date> <team/thread>: <task id>, files <paths>. Status: ACTIVE | DONE
 - 2026-11-06 Claude (lead thread): M1.4 camera orbit input and M1.5 grounded check, files Assets/Scripts/Player/PlayerInput.cs, PlayerCamera.cs, PlayerController.cs. Checked first: Ted's commits 44d8428 to 2935a48 touch settings and the M1 harness only, not these lines. Status: DONE (code, see IN-13), UNVERIFIED until Ted's harness run.
 - 2026-11-06 Claude (multiplayer thread): M5.1b photon-auth and M5.1f migration 0041 drafts, files supabase/functions/photon-auth/*, supabase/migrations/0041_nl_street_card_by_id.sql, Assets/Scripts/Network/Unity/SupabaseSession.cs. Checked first: no Ted commit touches supabase/ or Assets/Scripts/Network/ (b2ffc61 to 2935a48 add folder metas only). Status: DONE 9334853 (drafts; Ted deploys photon-auth, applies 0041 only with Benjamin's OK, see IN-12).
 - 2026-11-06 Claude (Oshodi thread): M2.1 builder, build list and EditMode tests, files Assets/Editor/World/*, Assets/Tests/EditMode/World/*, Assets/Data/Oshodi/*, tools/oshodi/*, ProjectSettings/TagManager.asset (layers 8 to 13). Checked first: Ted's 44d8428 to 2935a48 do not touch these. Status: DONE bb5316f (never compiled; Ted runs it, IN-14).
-- 2026-11-06 Claude (Oshodi thread): M2.2 and M2.3 runtime code (TimeOfDay, lamp light pool, night emissives, DistrictTile, DistrictStreamer, FrameSpikeLogger, Bootstrap and Addressables setup script), files Assets/Scripts/World/*, Assets/Editor/World/OshodiBootstrapSetup.cs, Assets/Data/Oshodi/*, Assets/Settings/URP_Low|Medium|High.asset and the customRenderPipeline line of each level in ProjectSettings/QualitySettings.asset (spec 6.4 tier table). Checked first: nothing on main under Assets/Scripts/World/ but .gitkeep; no open claim on M2. Ted's part stays the Editor run and the evidence. Status: ACTIVE.
-- 2026-11-06 Claude (multiplayer thread): M5.1d scene builder (-executeMethod, builds Assets/Scenes/Net_M5.unity and Assets/Prefabs/Network/RemotePlayer.prefab) and M5.4 online heartbeat (live nl_online_touch / nl_heartbeat_leave), files Assets/Editor/Network/*, Assets/Scripts/Network/Unity/OnlineHeartbeat.cs, SupabaseSession.cs, NetBootstrap.cs. Checked first: Ted's 74482c6 and the Oshodi/lead commits since 0905ce9 do not touch these; no other claim on M5. Status: ACTIVE.
+- 2026-11-06 Claude (Oshodi thread): M2.2 and M2.3 runtime code (TimeOfDay, lamp light pool, night emissives, DistrictTile, DistrictStreamer, FrameSpikeLogger, Bootstrap and Addressables setup script), files Assets/Scripts/World/*, Assets/Editor/World/OshodiBootstrapSetup.cs, Assets/Data/Oshodi/*, Assets/Settings/URP_Low|Medium|High.asset and the customRenderPipeline line of each level in ProjectSettings/QualitySettings.asset (spec 6.4 tier table). Checked first: nothing on main under Assets/Scripts/World/ but .gitkeep; no open claim on M2. Ted's part stays the Editor run and the evidence. Also touched: the LOD bias line of each quality level, the World test asmdef, DistrictStreamingTests.cs and two lines of OshodiGreyboxBuilder.cs (TimeOfDay and LampLightPool on the playtest root). Status: DONE 8d3f39c (never compiled; Ted runs it, IN-17).
+- 2026-11-06 Claude (multiplayer thread): M5.1d scene builder (-executeMethod, builds Assets/Scenes/Net_M5.unity and Assets/Prefabs/Network/RemotePlayer.prefab) and M5.4 online heartbeat (live nl_online_touch / nl_heartbeat_leave), files Assets/Editor/Network/*, Assets/Scripts/Network/Unity/OnlineHeartbeat.cs, FaceCamera.cs, SupabaseSession.cs, NetBootstrap.cs. Checked first: Ted's 74482c6 and the Oshodi/lead commits since 0905ce9 do not touch these; no other claim on M5. Status: DONE (this push; never compiled).
 - 2026-11-06 Claude (multiplayer thread): M5 code review of anything Ted pushes under Assets/Scripts/Network/ and supabase/. No new files claimed. Status: ACTIVE.
 - 2026-11-06 Claude (vehicles thread): M3.1, M3.3, M3.5, M3.6, M3.7 code (VehicleDefinition, VehicleController, DriveSession, VehiclePlayerDriver, TrafficSense, LaneGraph, TrafficDriver, TrafficSpawner, damage and contact events, lane validator) plus the M3.2 Greybox_M3 scene builder and an M3 check harness, files Assets/Scripts/Vehicles/*, Assets/Editor/Vehicles/*, Assets/Tests/EditMode/Vehicles/*, Assets/Scripts/Verification/M3*, ProjectSettings/TagManager.asset (layers 14 to 16: Vehicle, DrivenVehicle, Pedestrian; road surfaces use the Oshodi thread's Ground layer), ProjectSettings/TimeManager.asset (fixed step 0.02). Checked first: Ted's commits up to 74482c6 and other claims do not touch these; Assets/Scripts/Vehicles held only .gitkeep. Ted keeps M3.4 touch controls and every Editor run. Status: ACTIVE.
 
 - 2026-11-06 Claude (jobs thread): M4.1, M4.2, M4.3 code (everything but the Editor steps) and the M4.4 migration DRAFT, files Assets/Scripts/Jobs/**, Assets/Scripts/Economy/*, Assets/Scripts/Player/PlayerNeeds.cs (new file only), Assets/Tests/EditMode/Jobs/*, Assets/Editor/Jobs/*, supabase/migrations/drafts/m4_job_shifts.sql, docs/specs/jobs-m4.md, tools/jobsim.js. Checked first: Ted's 44d8428 to 74482c6 touch settings, the M1 harness and Greybox materials only; no claim covers Jobs, Economy or these files. Ted keeps: running the tests and scene builder in the Editor, captures, applying the migration. Status: ACTIVE.
+- 2026-11-06 Claude (HUD and phone thread): HUD-1 to HUD-6 code (UI root, scaler, safe area, touch stick and buttons, HUD, radar, prompts, toasts, phone shell, Bank, NLMoney + tests, Editor setup menu), files Assets/Scripts/UI/*, Assets/Scripts/UI/Core/*, Assets/UI/UXML/*, Assets/UI/Styles/*, Assets/UI/Sprites/nl-balance-card.png, Assets/Plugins/WebGL/NLDevice.jslib, Assets/Editor/UI/*, Assets/Tests/EditMode/UI/*, plus one new method PlayerInput.SetLocked (phone stops the player). Checked first: Ted's commits up to 74482c6 do not touch these; no other claim on HUD; the lead's M1.4 already does the right-half touch look drag, so the HUD has no look zone of its own. Status: DONE (this commit), never compiled; Ted runs it (IN-16).
 
 ## Item format
 
@@ -62,6 +63,51 @@ Format: `- <date> <team/thread>: <task id>, files <paths>. Status: ACTIVE | DONE
 ```
 
 ## To Ted's team (from Claude's team)
+
+- **IN-17. Oshodi lighting, quality tiers and streaming code is written; please run it (M2.2, M2.3).** From: Claude. To: Ted. Date: 2026-11-06. Status: OPEN.
+  Ask: Claude took every M2.2 and M2.3 part that does not need the Editor
+  (commit 8d3f39c). What Claude wrote: Assets/Scripts/World/ (new assembly
+  NaijaLife.World: TimeOfDay, LampLightPool, DistrictTile, DistrictStreamer,
+  FrameSpikeLogger), Assets/Editor/World/OshodiBootstrapSetup.cs,
+  Assets/Settings/URP_Low|Medium|High.asset wired into each quality level
+  (spec 6.4 values; Medium stays the default), and DistrictStreamingTests.
+  The greybox builder now puts TimeOfDay and LampLightPool on the playtest
+  root. None of it has been compiled. Editor steps left for you, in order:
+  (1) after IN-14, open the project and fix or report any compile error here
+  (do not patch scenes by hand); (2) rebuild with Naija Streets > Build
+  Oshodi greybox; (3) run Naija Streets > Set up Oshodi streaming (Bootstrap)
+  (batch: `-executeMethod NaijaLife.World.Editor.OshodiBootstrapSetup.SetupBatch`),
+  which makes the Addressables group, the tile asset and Bootstrap.unity;
+  (4) add a global Volume with Bloom per tier (off on Low, low on Medium, on
+  on High), which is easier in the Editor than in code; (5) run all
+  NaijaLife.World.Tests; (6) M2.2 evidence: V1 and V6 at 07:00, 13:00,
+  17:30 and 21:00 (TimeOfDay buttons, top left) on all three tiers, under
+  qa/M2.2/; (7) M2.3 evidence: WebGL development build from Bootstrap, walk
+  north from z -790 until the overlay says Oshodi_Core Awake, then back south
+  past 700 m until Asleep; screenshot the overlay lines and the console
+  [FrameSpike] lines under qa/M2.3/. Skyline shell (spec 6.5) is still to do
+  and stays in Claude's layout script.
+- **IN-16. HUD, joystick, phone and Bank code is on main: please compile and capture (HUD-1 to HUD-6).** From: Claude. To: Ted. Date: 2026-11-06. Status: OPEN.
+  Claude wrote all the code for HUD-1 to HUD-6 (UI Toolkit; files in the
+  Claims line above). Nothing has been compiled. Only Editor steps are left
+  for you:
+  1. Open the project, fix or report compile errors here (paste them).
+  2. Run the Edit Mode tests (NaijaLife.UI.Tests, NLMoney). All must pass.
+  3. Open Greybox_M1, menu Naija Streets > UI > Add HUD to open scene, save.
+     (Batch: -executeMethod NaijaLife.UI.Editor.NLUISetup.AddToGreyboxBatch.)
+  4. Check the SVG icons import as images (wallet, phone, camera icons show
+     on the HUD). If they show blank, tell us here; do not add a package
+     without saying which.
+  5. Play at 390x844, 844x390, 1280x800, 1920x1080 (Device Simulator for the
+     phone sizes). Use Naija Streets > UI > Test menus: pay a shift (wallet
+     counts up, money toast), offer 3 prompts (one prompt and a +2 chip),
+     go offline then open the Bank (timeout state at 8 s), low vitals.
+     Open the phone (P key or phone button), open Bank, Back, close.
+  6. Capture screenshots of each size and a short clip of the joystick on a
+     real phone in a WebGL build, under qa/hud-1/ to qa/hud-6/.
+  Known limits: Inter font assets are not made yet (default font for now,
+  check the naira sign shows); the M1.6 stock stick is not needed any more,
+  NLTouchControls replaces it.
 
 - **IN-15. M1 harness reviewed: camera fix proven; three things left for M1.** From: Claude. To: Ted. Date: 2026-11-06. Status: OPEN.
   Reviewed 74482c6 and qa/m1/results-desktop-gui.txt. Proven in the Editor:
@@ -116,6 +162,13 @@ Format: `- <date> <team/thread>: <task id>, files <paths>. Status: ACTIVE | DONE
   Test Runner > EditMode > Run All, and post the result under qa/M5.1/
   (NaijaLife.Network.Tests, 27 tests). Your first Editor open already showed
   the Network code compiles; thank you.
+  Update (Claude, 2026-11-06 run 2): M5.1d no longer needs hand wiring. Run
+  -executeMethod NetM5SceneBuilder.Build (or menu Naija Streets > Network >
+  Build Net_M5 scene); it makes Assets/Scenes/Net_M5.unity and
+  Assets/Prefabs/Network/RemotePlayer.prefab. NetM5SceneBuilder.BuildWebGL
+  builds it to Builds/WebGL-Net_M5. Paste the Supabase anon key on Net >
+  NetBootstrap locally; do not commit it. Also new: M5.4 OnlineHeartbeat
+  (players online count, live RPCs). Please post compile errors here if any.
 
 - **IN-11. Everything is on main now; push yours every check-in.** From: Claude. To: Ted. Date: 2026-11-05. Status: OPEN.
   Benjamin said on 2026-11-05 (this project's chat) that your team cannot see

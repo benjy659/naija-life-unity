@@ -171,13 +171,14 @@ Evidence for every M2 task goes under `qa/M2.<n>/` (spec section 11).
   V5 screenshots at 390x844 and 1280x800 read every noun in spec section 1,
   a 30 s clip climbing and crossing the footbridge at phone width, under 100
   draw calls at every viewpoint.
-- **M2.2. Lighting, time of day, quality tiers.** Status: code Claude, IN
-  PROGRESS (2026-11-06); Ted's team runs it and posts evidence after M2.1. TimeOfDay on real WAT with QA presets, sun and fog, lamp light
+- **M2.2. Lighting, time of day, quality tiers.** Status: READY for Ted's
+  Editor run (code Claude 8d3f39c, never compiled; steps in inbox IN-17).
+  Bloom volume is Ted's Editor step; skyline shell still with Claude. TimeOfDay on real WAT with QA presets, sun and fog, lamp light
   pool, night emissives, skyline shell, the Low/Medium/High table (spec
   section 6). *Acceptance:* V1 and V6 at all three tiers; night readable at
   390x844; draw calls still under 100.
-- **M2.3. Streaming stub.** Status: code Claude, IN PROGRESS (2026-11-06);
-  Ted's team runs it and posts evidence after M2.1.
+- **M2.3. Streaming stub.** Status: READY for Ted's Editor run (code Claude
+  8d3f39c, never compiled; steps in inbox IN-17).
   Bootstrap scene, Addressables group `District_Oshodi`, DistrictTile +
   DistrictStreamer (wake 600 m, sleep 700 m), FrameSpikeLogger (spec
   section 7). *Acceptance:* walk from the streaming test start (z -790)
@@ -303,7 +304,9 @@ Spec: [docs/specs/netcode-m5.md](docs/specs/netcode-m5.md) (Claude,
   **M5.1b** Edge Function `photon-auth` + Photon custom auth, anonymous off;
   **M5.1c** fix the Fusion skeleton against the real SDK, Edit Mode tests
   all green; **M5.1d** scene `Net_M5.unity` (bootstrap, bridge, capsule
-  remotes with name tags); **M5.1e** lobby chat panel stub; **M5.1f**
+  remotes with name tags; Claude wrote the builder: run
+  `-executeMethod NetM5SceneBuilder.Build`, or `.BuildWebGL`, then paste
+  the anon key locally); **M5.1e** lobby chat panel stub; **M5.1f**
   migration `nl_street_card_by_id` (live `nl_street_card` takes a
   username; the network only knows user ids). Drafts by Claude (2026-11-06):
   `supabase/functions/photon-auth/index.ts` (+ `test.mjs`, 6 checks pass)
@@ -312,6 +315,11 @@ Spec: [docs/specs/netcode-m5.md](docs/specs/netcode-m5.md) (Claude,
   *Acceptance:* the 10 checks in spec §7.2, recorded under `qa/M5.1/`
   (Editor + WebGL, two clients): movement syncs, chat works, no fake
   players.
+- **M5.4. Players-online count (Claude, IN PROGRESS 2026-11-06).** Code done:
+  `Network/Unity/OnlineHeartbeat.cs` touches live `nl_online_touch` every 30 s
+  while the game is in front, `nl_heartbeat_leave` on hide/quit; exposes
+  `OnlineHeartbeat.Count` (-1 = unknown, show nothing) and `LastUpdatedUtc` for
+  the HUD workstream. Ted: verify the count changes with two clients (qa/M5.1/).
 - **M5.2. Multiplayer architecture review (Claude).** Status: DONE
   (Claude, verdict below). Review the Photon Fusion 2 Shared Mode + Supabase decision
   against the design inventory §8 (cells, 200 m, send rates, interpolation,
@@ -359,7 +367,7 @@ posts Editor screenshots and a WebGL capture at 390x844, 844x390, 1280x800
 and 1920x1080 under `qa/<task id>/`, then Claude reviews. Until then:
 UNVERIFIED.
 
-- **HUD-1. UI foundation (Ted's team).** Status: READY after M0.1. Spec §2-4.
+- **HUD-1. UI foundation (Ted's team).** Status: Claude, IN PROGRESS: code on main 2026-11-06 (IN-16); Ted: compile, font assets, SVG check, captures. Spec §2-4.
   One runtime `UIDocument` + PanelSettings (Constant Pixel Size);
   `NLUIRoot` (mode classes `.nl-portrait`/`.nl-landscape`/`.nl-desktop`,
   safe-area padding); `NLUIScaler` + `NLGetDevicePixelRatio` `.jslib` so
@@ -369,7 +377,7 @@ UNVERIFIED.
   WebGL). *Acceptance:* an `IconSheet` test scene showing all 99 icons
   tinted accent, the logo, and "₦8,450 ₦12.5k ₦1.2bn" in all three weights,
   sharp on a phone in WebGL, captured at the 4 sizes in `qa/hud-1/`.
-- **HUD-2. Touch controls (Ted's team).** Status: READY after HUD-1 and M1.4.
+- **HUD-2. Touch controls (Ted's team).** Status: Claude, IN PROGRESS: code on main 2026-11-06 (IN-16), replaces the M1.6 stock stick; look drag stays in PlayerInput (M1.4); Ted: real-phone capture.
   Spec §5.2. Floating `NLTouchStick` (base 124, thumb 52, 12% dead zone)
   feeding `NLStickControl : OnScreenControl` on `<Gamepad>/leftStick`;
   sprint 56 (hold, Settings toggle), camera 60 (cycles views), phone 58;
@@ -378,30 +386,30 @@ UNVERIFIED.
   *Acceptance:* real phone in WebGL: stick and look drag work at the same
   time with two thumbs; light tilt walks, full tilt jogs; buttons fire on
   press; nothing covers the player; clip in `qa/hud-2/`.
-- **HUD-3. On-foot HUD layout (Ted's team).** Status: READY after HUD-1.
+- **HUD-3. On-foot HUD layout (Ted's team).** Status: Claude, IN PROGRESS: code on main 2026-11-06 (IN-16); Ted: captures at the 4 sizes.
   Spec §5.1 and §10. Radar (orthographic RenderTexture camera, 256 px,
   10 Hz, rotates with camera yaw), place and WAT clock pill, vitals strip,
   wallet chip (`NLMoney.Short`) + menu button, right-column rows via
   `NLHudStack` (+0/+52/+100/+148/+196, collapse upward), desktop key-hint
   chip. *Acceptance:* matches the mockups in `docs/specs/img/hud/` at the 4
   sizes; Profiler shows 0 B GC alloc per frame from the HUD.
-- **HUD-4. Prompts, toasts and the screen guard (Ted's team).** Status: READY
-  after HUD-3. Spec §6-7. `NLPromptManager` (Offer/Withdraw/Accept; kinds
+- **HUD-4. Prompts, toasts and the screen guard (Ted's team).** Status: Claude, IN PROGRESS: code on main 2026-11-06 (IN-16), screen guard and chooser sheet still to write;
+  Ted: captures. Spec §6-7. `NLPromptManager` (Offer/Withdraw/Accept; kinds
   action/exit/other; 2.5 m show, 3.0 m hide, 0.4 s min swap; "+N" chip and
   chooser sheet), `NLToastManager` (3 live, 2 in portrait, 5 queued, dedupe
   by key within 10 s), `NLScreenGuard` keep-out box with fallbacks, `F9`
   debug overlay. *Acceptance:* walking past 3 offers in a row never
   flickers and never shows two prompts; Top camera view moves the prompt
   off the player; F9 screenshots at the 4 sizes in `qa/hud-4/`.
-- **HUD-5. Phone shell (Ted's team).** Status: READY after HUD-1. Spec §8.1-8.2.
+- **HUD-5. Phone shell (Ted's team).** Status: Claude, IN PROGRESS: code on main 2026-11-06 (IN-16); Ted: captures. Spec §8.1-8.2.
   Open/close in portrait (full screen) and landscape/desktop (side panel);
   status bar; home with shield mark, WAT clock, Next card, 4-column app grid
   showing only built apps (Bank, Map, Settings for M6); `NLPhoneNav`
   push/pop with slide motion; Settings with Reduce motion and sprint toggle.
   *Acceptance:* open, push Bank, back, close by every route (button, Esc,
   P, swipe down) at the 4 sizes; clip in `qa/hud-5/`.
-- **HUD-6. Bank app, wallet from the ledger (Ted's team).** Status: READY after
-  HUD-5 (live data needs M5/M6). Spec §8.3-8.4. Balance card, History and
+- **HUD-6. Bank app, wallet from the ledger (Ted's team).** Status: Claude, IN PROGRESS: code on main 2026-11-06 (IN-16), Editor fake wallet until M5/M6;
+  Ted: run NLMoney tests, captures. Spec §8.3-8.4. Balance card, History and
   This week tabs, rows by ledger source; `IWalletSource` with an
   Editor-only fake source compiled out of player builds; loading (300 ms),
   slow (3 s), timeout (8 s) and empty states; refresh on open, after money

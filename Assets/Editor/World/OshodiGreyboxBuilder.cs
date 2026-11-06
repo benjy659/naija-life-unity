@@ -17,8 +17,9 @@
 //
 // "Oshodi_Playtest" (core scene only) holds a sun, a main camera, the Player
 // prefab at the spawn and a PlayerCamera, so the scene can be played and
-// screenshotted on its own for M2.1 QA. When Bootstrap streams the tile in
-// (M2.3), the streamer disables this root.
+// screenshotted on its own for M2.1 and M2.2 QA (the sun carries TimeOfDay,
+// the root a LampLightPool). When Bootstrap streams the tile in (M2.3), the
+// streamer disables this root.
 
 using System;
 using System.Collections.Generic;
@@ -216,12 +217,14 @@ namespace NaijaLife.World.Editor
 
             var sun = new GameObject("Sun");
             sun.transform.SetParent(root.transform, false);
-            sun.transform.rotation = Quaternion.Euler(55f, -35f, 0f); // early afternoon, M2.2 replaces with TimeOfDay
+            sun.transform.rotation = Quaternion.Euler(55f, -35f, 0f); // TimeOfDay sets the real angle on the first frame
             var light = sun.AddComponent<Light>();
             light.type = LightType.Directional;
             light.intensity = 1.2f;
             light.color = new Color(1f, 0.96f, 0.88f);
             light.shadows = LightShadows.Soft;
+            sun.AddComponent<TimeOfDay>();          // M2.2: live WAT, QA buttons 07:00 / 13:00 / 17:30 / 21:00
+            root.AddComponent<LampLightPool>();     // M2.2: real lights on the nearest lamps at night
 
             var cam = new GameObject("Main Camera") { tag = "MainCamera" };
             cam.transform.SetParent(root.transform, false);

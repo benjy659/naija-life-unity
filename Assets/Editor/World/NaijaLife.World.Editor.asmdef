@@ -1,7 +1,12 @@
 {
     "name": "NaijaLife.World.Editor",
     "rootNamespace": "NaijaLife.World.Editor",
-    "references": [],
+    "references": [
+        "NaijaLife.World",
+        "Unity.Addressables",
+        "Unity.Addressables.Editor",
+        "Unity.ResourceManager"
+    ],
     "includePlatforms": [
         "Editor"
     ],

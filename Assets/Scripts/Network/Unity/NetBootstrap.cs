@@ -41,6 +41,10 @@ namespace NaijaLife.NetworkGlue
             string token = await _sb.GetAccessTokenAsync();
             if (token == null) { Debug.Log("[net] no sign-in; playing offline"); return; }
 
+            // Players-online count across all districts (live nl_online_touch).
+            if (!TryGetComponent(out OnlineHeartbeat hb)) hb = gameObject.AddComponent<OnlineHeartbeat>(); // not ??: Unity fake-null
+            hb.Init(_sb);
+
             NetResult r = await Session.JoinAsync(new NetJoinRequest
             {
                 AccessToken = token,
