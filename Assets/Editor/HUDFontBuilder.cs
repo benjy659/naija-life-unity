@@ -10,6 +10,7 @@ using TMPro;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.TextCore;
+using UnityEngine.TextCore.LowLevel;
 
 public static class HUDFontBuilder
 {
