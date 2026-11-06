@@ -158,8 +158,13 @@ public static class HUDVerifyRunner
                         group = getGroup.Invoke(sizes, new object[] { EditorUserBuildSettings.selectedBuildTargetGroup });
                 }
                 if (group == null) { Debug.LogWarning("[HUDVerify] GameView size group is null; viewport may be wrong size"); return; }
-                var builtinMethod = group.GetType().GetMethod("GetBuiltinCount");
-                var customMethod = group.GetType().GetMethod("GetCustomSizes");
+                // GetBuiltinCount / GetCustomSizes are INTERNAL on
+                // GameViewSizeGroup — GetMethod without NonPublic misses them
+                // (the "methods not found" failure from the last run).
+                var builtinMethod = group.GetType().GetMethod("GetBuiltinCount",
+                    BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+                var customMethod = group.GetType().GetMethod("GetCustomSizes",
+                    BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
                 if (builtinMethod == null || customMethod == null) { Debug.LogWarning("[HUDVerify] GameView size group methods not found"); return; }
                 int builtin = (int)builtinMethod.Invoke(group, null);
                 var customs = (IList)customMethod.Invoke(group, null);
