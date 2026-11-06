@@ -74,6 +74,8 @@ Format: `- <date> <team/thread>: <task id>, files <paths>. Status: ACTIVE | DONE
 
 - 2026-11-06 17:25 Claude (lead thread): M1 compile check outside Unity for the player code (PlayerInput, PlayerController, PlayerCamera, M1VerifyHarness), files tools/player/* (new) only. Checked first: 2c11750 to 098914f add compile checks for World, M3, M4, M5 and UI; none covers Assets/Scripts/Player or the M1 harness; Ted has pushed nothing since 3026a56. Status: DONE 58fda20 (compiles; still UNVERIFIED in Unity 6 until Ted's harness run, IN-13/IN-15).
 
+- 2026-11-06 18:30 Claude (lead thread): one runner for every outside-Unity compile check, file tools/check-all.sh (new) only. Checked first: 86d093c to 1170532 (M5.3 friends/DMs, HUD-4 guard) do not touch tools/*/compile-check.sh; no claim covers a runner. Status: ACTIVE.
+
 ## Item format
 
 ```
