@@ -18,10 +18,26 @@ public static class AssetImportPlayerWire
     [MenuItem("Naija Life/Asset Import/Wire body_m into Player prefab")]
     public static void WirePlayer()
     {
+        // The 72 meshopt character GLBs failed their FIRST import (before the
+        // com.unity.meshopt.decompress package was added); Unity does not
+        // retry failed imports on its own, so force-reimport them all now.
+        // (The reimport postprocessor applies the material pass to the
+        // freshly imported materials as they land.)
+        string[] charGlbs = System.IO.Directory.GetFiles(
+            "Assets/Imported/Characters", "*.glb", System.IO.SearchOption.AllDirectories);
+        int reimported = 0;
+        foreach (string p in charGlbs)
+        {
+            AssetDatabase.ImportAsset(p, ImportAssetOptions.ForceUpdate);
+            reimported++;
+        }
+        Debug.Log($"[AssetImport] force-reimported {reimported} character GLBs (meshopt decode via com.unity.meshopt.decompress)");
+
         var bodyM = AssetDatabase.LoadAssetAtPath<GameObject>(BodyMPath);
         if (bodyM == null)
         {
             Debug.LogError("[AssetImport] body_m model asset not found at " + BodyMPath + " — run the first import first.");
+            EditorApplication.Exit(1);
             return;
         }
 
@@ -92,6 +108,7 @@ public static class AssetImportPlayerWire
 
             PrefabUtility.SaveAsPrefabAsset(contents, PrefabPath);
             Debug.Log("[AssetImport] Player prefab saved with BodyM.");
+            EditorApplication.Exit(0);
         }
         finally
         {

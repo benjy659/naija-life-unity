@@ -3,15 +3,14 @@
 // set (landmark building, terminal, Makoko shack, Lagos kit, v2 player body, the
 // wired Player prefab, danfo, okada, police pickup, BRT bus, Red Line train).
 // Checks ALL 235 GLBs load as GameObjects, logs each sample's renderers / bounds /
-// materials + shaders, then enters play mode and screenshots three angles.
+// materials + shaders, then screenshots three angles IN EDIT MODE (no play mode —
+// see section 4 note) and exits.
 // Entry: -executeMethod AssetImportVerify.Run (GUI mode under Xvfb; exits the Editor).
 // Output: /var/cache/apt/archives/unity/asset-import/{results.txt, done.txt, shots/}.
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -21,14 +20,14 @@ public static class AssetImportVerify
 {
     private const string OutRoot = "/var/cache/apt/archives/unity/asset-import";
     private static string _outDir;
-    private static double _watchdogStart;
-    private const double TimeoutSeconds = 300;
 
     // Open the project (resolves packages, imports assets, compiles scripts),
     // then quit. Used for the first-open pass: -executeMethod AssetImportVerify.QuitAfterLoad
-    // (batchmode is NOT usable on this VM — the Personal license lacks the
-    // com.unity.editor.headless entitlement — so all Editor runs are GUI mode
-    // under Xvfb and must exit via EditorApplication.Exit).
+    // GUI mode under Xvfb (the earlier batchmode attempts died on license
+    // validation while the VM-refresh machine-id issue was unresolved; the
+    // license is re-activated now, but GUI mode is the proven path on this VM).
+    // Every GUI Editor launch as root stops at a "running Unity as root"
+    // dialog — dismiss it by clicking "Continue anyway" (button at ~236,98 on :99).
     public static void QuitAfterLoad()
     {
         Debug.Log("[AssetImport] first open complete (packages resolved, assets imported, scripts compiled) — quitting.");
@@ -68,28 +67,34 @@ public static class AssetImportVerify
         RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Skybox;
         RenderSettings.ambientIntensity = 1.0f;
 
-        var ground = GameObject.CreatePrimitive(PrimitiveType.Plane);
-        ground.name = "Ground";
-        ground.transform.localScale = new Vector3(8f, 1f, 8f);
-        var groundMat = new Material(Shader.Find("Universal Render Pipeline/Lit"));
-        groundMat.color = new Color(0.16f, 0.16f, 0.18f);
-        ground.GetComponent<Renderer>().sharedMaterial = groundMat;
+        // No ground plane: the throwaway plane's URP/Lit material renders
+        // MAGENTA in the edit-mode capture (shader not compiled for the
+        // RenderTexture path) — a test-scene artifact, not an imported asset.
+        // The skybox gradient is the background instead (as in the mosque shot).
 
         var camGo = new GameObject("ShotCamera");
         camGo.tag = "MainCamera";
         var cam = camGo.AddComponent<Camera>();
         cam.clearFlags = CameraClearFlags.Skybox;
         cam.fieldOfView = 55f;
-        SetGameViewSize(1280, 800);
+        // NOTE: no GameView sizing — GameViewSizes/GameViewSize are internal in
+        // Unity 6000.3 (the M1VerifyRunner's reflection approach does not compile
+        // here). Screenshots are taken by rendering the camera to a 1280x800
+        // RenderTexture (see AssetImportVerifyHarness), independent of window size.
 
         // ---- 3. Samples: one per set, spread over a 60x30 m yard. ----
-        Place("Assets/Imported/Buildings/abuja/national_mosque.glb", new Vector3(-16f, 0f, -2f), 0f, log);
+        // The National Mosque is 121 m wide / 64 m tall — it DWARFS the yard
+        // and swallows any camera placed near it (shots 01/02 of the first
+        // verify run were taken from inside it). Park it far away so the
+        // yard cameras frame the terminal/shack/kit/character/vehicles, and
+        // give it its own distant shot instead.
+        Place("Assets/Imported/Buildings/abuja/national_mosque.glb", new Vector3(-140f, 0f, -40f), 0f, log);
         Place("Assets/Imported/Buildings/terminal_1.glb", new Vector3(0f, 0f, -8f), 0f, log);
         Place("Assets/Imported/Buildings/makoko/stilt_shack_a.glb", new Vector3(12f, 0f, -6f), 0f, log);
         Place("Assets/Imported/Buildings/Lagos-kit.glb", new Vector3(20f, 0f, 4f), 0f, log);
-        Place("Assets/Imported/Characters/Player/body_m.glb", new Vector3(0f, 0f, 5f), 180f, log);
-        Place("Assets/Imported/Vehicles/Transit/danfo.glb", new Vector3(-7f, 0f, 7f), 0f, log);
-        Place("Assets/Imported/Vehicles/okada.glb", new Vector3(-11f, 0f, 4f), 0f, log);
+        Place("Assets/Imported/Characters/Player/body_m.glb", new Vector3(28f, 0f, 2f), 180f, log);
+        Place("Assets/Imported/Vehicles/Transit/danfo.glb", new Vector3(25f, 0f, 8f), 0f, log);
+        Place("Assets/Imported/Vehicles/okada.glb", new Vector3(33f, 0f, 6f), 0f, log);
         Place("Assets/Imported/Vehicles/police_pickup.glb", new Vector3(-3f, 0f, 9f), 0f, log);
         Place("Assets/Imported/Vehicles/Transit/brt-12m.glb", new Vector3(-18f, 0f, 10f), 90f, log);
         Place("Assets/Imported/Vehicles/Transit/redline-dmu.glb", new Vector3(10f, 0f, 12f), 90f, log);
@@ -105,7 +110,7 @@ public static class AssetImportVerify
         {
             var inst = (GameObject)PrefabUtility.InstantiatePrefab(prefab);
             inst.name = "PlayerPrefabInstance";
-            inst.transform.position = new Vector3(3f, 0f, 5f);
+            inst.transform.position = new Vector3(31f, 0f, 2f);
             inst.transform.rotation = Quaternion.Euler(0f, 180f, 0f);
             int childCount = inst.transform.childCount;
             string bodyM = inst.transform.Find("BodyM") != null ? "BodyM present" : "BodyM MISSING";
@@ -115,27 +120,58 @@ public static class AssetImportVerify
 
         File.WriteAllLines(Path.Combine(_outDir, "results.txt"), log);
 
-        // ---- 4. Screenshot harness (3 angles), then exit. ----
-        var harnessGo = new GameObject("AssetImportVerifyHarness");
-        var harness = harnessGo.AddComponent<AssetImportVerifyHarness>();
-        harness.outDir = _outDir;
-        harness.shotCam = cam;
-        harness.camPositions = new[]
+        // ---- 4. Screenshots (3 angles), then exit. ----
+        // NOTE: done WITHOUT entering play mode. The first verify run used
+        // a play-mode harness; its EnterPlaymode() hit the Input System
+        // "Enable & Restart / Don't Enable" modal (the project hasn't set
+        // Active Input Handling) and the second run's Editor shut down
+        // during play-mode entry under VM saturation (load ~45, three
+        // Editors) with no screenshots. Camera.Render() works in edit mode
+        // and renders the same URP scene — no dialog, no domain reload.
+        var positions = new[]
         {
-            new Vector3(0f, 9f, -22f),   // wide: whole yard
-            new Vector3(6f, 2.2f, -1f),  // close: character + danfo
-            new Vector3(-22f, 7f, 10f),  // buildings: mosque + terminal
+            // Yard cameras must stay OUTSIDE terminal_1's footprint (70.75 m
+            // wide, x -44..+27, z -26..+10): the first re-run's cameras were
+            // inside the terminal and shot mostly interior white + glass.
+            new Vector3(30f, 14f, -35f),   // wide: whole yard + terminal facade
+            new Vector3(29f, 3f, -6f),     // close: character cluster (east clear area, outside terminal + train)
+            new Vector3(-95f, 30f, -75f),  // landmark: National Mosque from a distance
         };
-        harness.camTargets = new[]
+        var targets = new[]
         {
-            new Vector3(0f, 2f, 2f),
-            new Vector3(1.5f, 1.0f, 5f),
-            new Vector3(-8f, 3f, -4f),
+            new Vector3(-5f, 3f, 5f),
+            new Vector3(29f, 1f, 3f),
+            new Vector3(-140f, 25f, -45f),
         };
+        for (int i = 0; i < positions.Length; i++)
+        {
+            cam.transform.position = positions[i];
+            cam.transform.LookAt(targets[i]);
+            string path = Path.Combine(_outDir, "shots", $"0{i + 1}-asset-import.png");
+            CaptureToPng(cam, 1280, 800, path);
+            Debug.Log("[AssetImport] screenshot: " + path);
+        }
+        File.WriteAllText(Path.Combine(_outDir, "done.txt"), DateTime.UtcNow.ToString("o"));
+        Debug.Log("[AssetImport] verify done.");
+        EditorApplication.Exit(0);
+    }
 
-        _watchdogStart = EditorApplication.timeSinceStartup;
-        EditorApplication.update += PollDone;
-        EditorApplication.EnterPlaymode();
+    private static void CaptureToPng(Camera cam, int w, int h, string path)
+    {
+        var rt = new RenderTexture(w, h, 24, RenderTextureFormat.ARGB32);
+        var prevTarget = cam.targetTexture;
+        cam.targetTexture = rt;
+        cam.Render();
+        RenderTexture.active = rt;
+        var tex = new Texture2D(w, h, TextureFormat.RGB24, false);
+        tex.ReadPixels(new Rect(0, 0, w, h), 0, 0);
+        tex.Apply();
+        RenderTexture.active = null;
+        cam.targetTexture = prevTarget;
+        File.WriteAllBytes(path, tex.EncodeToPNG());
+        UnityEngine.Object.DestroyImmediate(tex);
+        rt.Release();
+        UnityEngine.Object.DestroyImmediate(rt);
     }
 
     private static void Place(string path, Vector3 pos, float rotY, List<string> log)
@@ -168,67 +204,4 @@ public static class AssetImportVerify
         Debug.Log($"[AssetImport] placed {inst.name}: {renderers.Length} renderers, bounds {b.size}");
     }
 
-    private static void PollDone()
-    {
-        string done = Path.Combine(_outDir, "done.txt");
-        double elapsed = EditorApplication.timeSinceStartup - _watchdogStart;
-        if (File.Exists(done))
-        {
-            Debug.Log("[AssetImport] Done marker found, exiting play mode.");
-            EditorApplication.update -= PollDone;
-            EditorApplication.ExitPlaymode();
-            EditorApplication.delayCall += () => EditorApplication.Exit(0);
-            return;
-        }
-        if (elapsed > TimeoutSeconds)
-        {
-            Debug.LogError($"[AssetImport] TIMEOUT after {elapsed:0}s — no done marker. Quitting.");
-            try { File.WriteAllText(Path.Combine(_outDir, "TIMEOUT.txt"), $"timeout after {elapsed:0}s"); } catch { }
-            EditorApplication.update -= PollDone;
-            if (EditorApplication.isPlaying) EditorApplication.ExitPlaymode();
-            EditorApplication.delayCall += () => EditorApplication.Exit(0);
-        }
-    }
-
-    // Same GameView sizing trick as M1VerifyRunner (reflection over internal API).
-    private static void SetGameViewSize(int w, int h)
-    {
-        try
-        {
-            var sizes = GameViewSizes.instance;
-            var size = new GameViewSize(GameViewSizeType.FixedResolution, w, h, "AssetImport");
-            sizes.AddCustomSize(size);
-            Type gvType = Type.GetType("UnityEditor.GameView,UnityEditor");
-            if (gvType == null) { Debug.LogWarning("[AssetImport] UnityEditor.GameView type not found"); return; }
-            var gv = EditorWindow.GetWindow(gvType);
-            gv.Show();
-            int index = -1;
-            try
-            {
-                var group = sizes.currentGroup;
-                int builtin = (int)group.GetType().GetMethod("GetBuiltinCount").Invoke(group, null);
-                var customs = (IList)group.GetType().GetMethod("GetCustomSizes").Invoke(group, null);
-                index = builtin + customs.Count - 1;
-            }
-            catch (Exception e) { Debug.LogWarning("[AssetImport] size index lookup failed: " + e.Message); }
-            if (index >= 0)
-            {
-                var prop = gvType.GetProperty("currentSizeIndex",
-                    BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-                if (prop != null && prop.CanWrite) prop.SetValue(gv, index);
-                else
-                {
-                    var field = gvType.GetField("m_currentSizeIndex",
-                        BindingFlags.NonPublic | BindingFlags.Instance);
-                    if (field != null) field.SetValue(gv, index);
-                }
-                gv.Repaint();
-            }
-            Debug.Log($"[AssetImport] GameView size set to {w}x{h}");
-        }
-        catch (Exception e)
-        {
-            Debug.LogWarning("[AssetImport] SetGameViewSize failed (viewport may be wrong size): " + e);
-        }
-    }
 }
