@@ -49,6 +49,8 @@ Format: `- <date> <team/thread>: <task id>, files <paths>. Status: ACTIVE | DONE
 - 2026-11-06 Claude (multiplayer thread): M5.1d scene builder (-executeMethod, builds Assets/Scenes/Net_M5.unity and Assets/Prefabs/Network/RemotePlayer.prefab) and M5.4 online heartbeat (live nl_online_touch / nl_heartbeat_leave), files Assets/Editor/Network/*, Assets/Scripts/Network/Unity/OnlineHeartbeat.cs, SupabaseSession.cs, NetBootstrap.cs. Checked first: Ted's 74482c6 and the Oshodi/lead commits since 0905ce9 do not touch these; no other claim on M5. Status: ACTIVE.
 - 2026-11-06 Claude (multiplayer thread): M5 code review of anything Ted pushes under Assets/Scripts/Network/ and supabase/. No new files claimed. Status: ACTIVE.
 
+- 2026-11-06 Claude (jobs thread): M4.1, M4.2, M4.3 code (everything but the Editor steps) and the M4.4 migration DRAFT, files Assets/Scripts/Jobs/**, Assets/Scripts/Economy/*, Assets/Scripts/Player/PlayerNeeds.cs (new file only), Assets/Tests/EditMode/Jobs/*, Assets/Editor/Jobs/*, supabase/migrations/drafts/m4_job_shifts.sql, docs/specs/jobs-m4.md, tools/jobsim.js. Checked first: Ted's 44d8428 to 74482c6 touch settings, the M1 harness and Greybox materials only; no claim covers Jobs, Economy or these files. Ted keeps: running the tests and scene builder in the Editor, captures, applying the migration. Status: ACTIVE.
+
 ## Item format
 
 ```
