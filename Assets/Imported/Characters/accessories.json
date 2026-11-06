@@ -1,0 +1,183 @@
+{
+  "coral_necklace": {
+    "file": {
+      "m": "coral_necklace_m.glb",
+      "f": "coral_necklace_f.glb"
+    },
+    "tris": {
+      "m": 2208,
+      "f": 2208
+    },
+    "sexes": [
+      "m",
+      "f"
+    ],
+    "materials": [
+      "coral_bead"
+    ],
+    "slot": "neck",
+    "bone": "neck",
+    "notes": "Edo coral: choker + long chest drape"
+  },
+  "coral_bracelet": {
+    "file": {
+      "m": "coral_bracelet_m.glb",
+      "f": "coral_bracelet_f.glb"
+    },
+    "tris": {
+      "m": 672,
+      "f": 672
+    },
+    "sexes": [
+      "m",
+      "f"
+    ],
+    "materials": [
+      "coral_bead"
+    ],
+    "slot": "wrist",
+    "bone": "forearmR",
+    "notes": "coral bead ring, right wrist"
+  },
+  "wristwatch": {
+    "file": {
+      "m": "wristwatch_m.glb",
+      "f": "wristwatch_f.glb"
+    },
+    "tris": {
+      "m": 536,
+      "f": 536
+    },
+    "sexes": [
+      "m",
+      "f"
+    ],
+    "materials": [
+      "gold",
+      "leather_black",
+      "watch_face"
+    ],
+    "slot": "wrist",
+    "bone": "forearmL",
+    "notes": "band + gold case + dark face, left wrist"
+  },
+  "glasses": {
+    "file": {
+      "m": "glasses_m.glb",
+      "f": "glasses_f.glb"
+    },
+    "tris": {
+      "m": 504,
+      "f": 504
+    },
+    "sexes": [
+      "m",
+      "f"
+    ],
+    "materials": [
+      "frame_dark"
+    ],
+    "slot": "face",
+    "bone": "head",
+    "notes": "thin dark frames, no lenses"
+  },
+  "sunglasses": {
+    "file": {
+      "m": "sunglasses_m.glb",
+      "f": "sunglasses_f.glb"
+    },
+    "tris": {
+      "m": 532,
+      "f": 532
+    },
+    "sexes": [
+      "m",
+      "f"
+    ],
+    "materials": [
+      "frame_dark",
+      "lens_dark"
+    ],
+    "slot": "face",
+    "bone": "head",
+    "notes": "bold frames + dark lenses"
+  },
+  "crossbody_bag": {
+    "file": {
+      "m": "crossbody_bag_m.glb",
+      "f": "crossbody_bag_f.glb"
+    },
+    "tris": {
+      "m": 516,
+      "f": 516
+    },
+    "sexes": [
+      "m",
+      "f"
+    ],
+    "materials": [
+      "bag_fabric",
+      "gold",
+      "leather_brown"
+    ],
+    "slot": "torso",
+    "bone": "spine1",
+    "notes": "strap R-shoulder to L-hip + soft red bag"
+  },
+  "handbag": {
+    "file": {
+      "f": "handbag_f.glb"
+    },
+    "tris": {
+      "f": 576
+    },
+    "sexes": [
+      "f"
+    ],
+    "materials": [
+      "gold",
+      "leather_brown"
+    ],
+    "slot": "hand",
+    "bone": "handR",
+    "notes": "structured leather bag + handles, right hand"
+  },
+  "earrings": {
+    "file": {
+      "f": "earrings_f.glb"
+    },
+    "tris": {
+      "f": 384
+    },
+    "sexes": [
+      "f"
+    ],
+    "materials": [
+      "gold"
+    ],
+    "slot": "ear",
+    "bone": "head",
+    "notes": "gold studs + hoops"
+  },
+  "walking_stick": {
+    "file": {
+      "m": "walking_stick_m.glb",
+      "f": "walking_stick_f.glb"
+    },
+    "tris": {
+      "m": 320,
+      "f": 320
+    },
+    "sexes": [
+      "m",
+      "f"
+    ],
+    "materials": [
+      "leather_black",
+      "wood"
+    ],
+    "slot": "hand",
+    "bone": "handR",
+    "notes": "wooden cane to the ground, right hand (older presets)"
+  }
+}

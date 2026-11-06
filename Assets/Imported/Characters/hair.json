@@ -1,0 +1,664 @@
+{
+  "lowfade": {
+    "file": {
+      "m": "lowfade_m.glb",
+      "f": "lowfade_f.glb"
+    },
+    "tris": {
+      "m": 1440,
+      "f": 1440
+    },
+    "sexes": [
+      "m",
+      "f"
+    ],
+    "materials": [
+      "cap_fade"
+    ],
+    "textures": [
+      "scalp_fade.png"
+    ],
+    "covers": "full",
+    "covers_hair": true,
+    "notes": "thin scalp cap; runtime maps scalp_fade.png (spherical UVs)"
+  },
+  "waves": {
+    "file": {
+      "m": "waves_m.glb",
+      "f": "waves_f.glb"
+    },
+    "tris": {
+      "m": 1440,
+      "f": 1440
+    },
+    "sexes": [
+      "m",
+      "f"
+    ],
+    "materials": [
+      "cap_waves"
+    ],
+    "textures": [
+      "scalp_waves.png"
+    ],
+    "covers": "full",
+    "covers_hair": true,
+    "notes": "thin scalp cap, glossier (roughness 0.35); runtime maps scalp_waves.png"
+  },
+  "bald": {
+    "file": {
+      "m": "bald_m.glb",
+      "f": "bald_f.glb"
+    },
+    "tris": {
+      "m": 1440,
+      "f": 1440
+    },
+    "sexes": [
+      "m",
+      "f"
+    ],
+    "materials": [
+      "cap_bald"
+    ],
+    "textures": [
+      "scalp_bald.png"
+    ],
+    "covers": "full",
+    "covers_hair": true,
+    "notes": "thin scalp cap, skin-tone shine (roughness 0.40); runtime maps scalp_bald.png"
+  },
+  "afro_short": {
+    "file": {
+      "m": "afro_short_m.glb",
+      "f": "afro_short_f.glb"
+    },
+    "tris": {
+      "m": 1152,
+      "f": 1152
+    },
+    "sexes": [
+      "m",
+      "f"
+    ],
+    "materials": [
+      "hair_card",
+      "scalp_dark"
+    ],
+    "textures": [
+      "hair_cards_alpha_512.png",
+      "hair_cards_normal_512.png"
+    ],
+    "covers": "full",
+    "covers_hair": true,
+    "notes": "dark under-cap + 3 shells of MASK alpha cards (~1.35x head volume)"
+  },
+  "afro_big": {
+    "file": {
+      "m": "afro_big_m.glb",
+      "f": "afro_big_f.glb"
+    },
+    "tris": {
+      "m": 1472,
+      "f": 1472
+    },
+    "sexes": [
+      "m",
+      "f"
+    ],
+    "materials": [
+      "hair_card",
+      "scalp_dark"
+    ],
+    "textures": [
+      "hair_cards_alpha_512.png",
+      "hair_cards_normal_512.png"
+    ],
+    "covers": "full",
+    "covers_hair": true,
+    "notes": "dark under-cap + 4 shells of MASK alpha cards (~1.8x head volume)"
+  },
+  "cornrows": {
+    "file": {
+      "m": "cornrows_m.glb",
+      "f": "cornrows_f.glb"
+    },
+    "tris": {
+      "m": 2304,
+      "f": 2304
+    },
+    "sexes": [
+      "m",
+      "f"
+    ],
+    "materials": [
+      "hair_strand",
+      "scalp_dark"
+    ],
+    "textures": [],
+    "covers": "full",
+    "covers_hair": true,
+    "notes": "8 braid-bump tubes front-to-back converging at back, over dark under-cap"
+  },
+  "dreads_short": {
+    "file": {
+      "m": "dreads_short_m.glb",
+      "f": "dreads_short_f.glb"
+    },
+    "tris": {
+      "m": 1584,
+      "f": 1584
+    },
+    "sexes": [
+      "m",
+      "f"
+    ],
+    "materials": [
+      "hair_strand",
+      "scalp_dark"
+    ],
+    "textures": [],
+    "covers": "full",
+    "covers_hair": true,
+    "notes": "14 short locs (~0.06) from crown, over dark under-cap"
+  },
+  "dreads_long": {
+    "file": {
+      "m": "dreads_long_m.glb",
+      "f": "dreads_long_f.glb"
+    },
+    "tris": {
+      "m": 2520,
+      "f": 2520
+    },
+    "sexes": [
+      "m",
+      "f"
+    ],
+    "materials": [
+      "hair_strand",
+      "scalp_dark"
+    ],
+    "textures": [],
+    "covers": "full",
+    "covers_hair": true,
+    "notes": "18 long locs (~0.16) with sway, over dark under-cap"
+  },
+  "twistout": {
+    "file": {
+      "m": "twistout_m.glb",
+      "f": "twistout_f.glb"
+    },
+    "tris": {
+      "m": 1896,
+      "f": 1896
+    },
+    "sexes": [
+      "m",
+      "f"
+    ],
+    "materials": [
+      "hair_strand",
+      "scalp_dark"
+    ],
+    "textures": [],
+    "covers": "full",
+    "covers_hair": true,
+    "notes": "22 short twisted clusters in swirl, over dark under-cap"
+  },
+  "hijab": {
+    "file": {
+      "m": "hijab_m.glb",
+      "f": "hijab_f.glb"
+    },
+    "tris": {
+      "m": 2196,
+      "f": 2196
+    },
+    "sexes": [
+      "m",
+      "f"
+    ],
+    "materials": [
+      "hijab"
+    ],
+    "textures": [],
+    "covers": "full",
+    "covers_hair": true,
+    "notes": "shell + drape past chin; elliptical face opening brow-to-chin, ear-to-ear; forehead edge embedded 1mm into head (no gap)"
+  },
+  "gele_fan": {
+    "file": {
+      "f": "gele_fan_f.glb"
+    },
+    "tris": {
+      "f": 792
+    },
+    "sexes": [
+      "f"
+    ],
+    "materials": [
+      "gele_fan"
+    ],
+    "textures": [],
+    "covers": "full",
+    "covers_hair": true,
+    "notes": "puffed wrap band + tall 6-pleat fan fold at top-front"
+  },
+  "gele_rose": {
+    "file": {
+      "f": "gele_rose_f.glb"
+    },
+    "tris": {
+      "f": 1170
+    },
+    "sexes": [
+      "f"
+    ],
+    "materials": [
+      "gele_rose"
+    ],
+    "textures": [],
+    "covers": "full",
+    "covers_hair": true,
+    "notes": "puffed wrap band + spiral rose knot at top-side"
+  },
+  "gele_side": {
+    "file": {
+      "f": "gele_side_f.glb"
+    },
+    "tris": {
+      "f": 1060
+    },
+    "sexes": [
+      "f"
+    ],
+    "materials": [
+      "gele_side"
+    ],
+    "textures": [],
+    "covers": "full",
+    "covers_hair": true,
+    "notes": "puffed wrap band + asymmetric side bow with tails"
+  },
+  "fila": {
+    "file": {
+      "m": "fila_m.glb"
+    },
+    "tris": {
+      "m": 1048
+    },
+    "sexes": [
+      "m"
+    ],
+    "materials": [
+      "fila"
+    ],
+    "textures": [],
+    "covers": "partial",
+    "covers_hair": false,
+    "notes": "abeti-aja style rounded cap + characteristic side flap"
+  },
+  "zanna": {
+    "file": {
+      "m": "zanna_m.glb"
+    },
+    "tris": {
+      "m": 832
+    },
+    "sexes": [
+      "m"
+    ],
+    "materials": [
+      "zanna"
+    ],
+    "textures": [],
+    "covers": "partial",
+    "covers_hair": false,
+    "notes": "low Hausa crown cap; base follows the skull, edge embedded (no gap)"
+  },
+  "cap_baseball": {
+    "file": {
+      "m": "cap_baseball_m.glb",
+      "f": "cap_baseball_f.glb"
+    },
+    "tris": {
+      "m": 1448,
+      "f": 1448
+    },
+    "sexes": [
+      "m",
+      "f"
+    ],
+    "materials": [
+      "cap_baseball"
+    ],
+    "textures": [],
+    "covers": "partial",
+    "covers_hair": false,
+    "notes": "crown cap + forward brim with side droop, top button"
+  },
+  "fila_straight": {
+    "file": {
+      "m": "fila_straight_m.glb"
+    },
+    "tris": {
+      "m": 1312
+    },
+    "sexes": [
+      "m"
+    ],
+    "materials": [
+      "fila_straight"
+    ],
+    "textures": [
+      "fila_straight.png"
+    ],
+    "covers": "partial",
+    "covers_hair": false,
+    "notes": "straight-sided Yoruba fila: straight wall, flat top, slight tilt; existing fila_m is the abeti-aja (rounded cap + side flap) variant"
+  },
+  "boxbraids": {
+    "file": {
+      "m": "boxbraids_m.glb",
+      "f": "boxbraids_f.glb"
+    },
+    "tris": {
+      "m": 2176,
+      "f": 2656
+    },
+    "sexes": [
+      "m",
+      "f"
+    ],
+    "materials": [
+      "hair_strand",
+      "scalp_dark"
+    ],
+    "textures": [],
+    "covers": "full",
+    "covers_hair": true,
+    "notes": "hanging box braids: 5-sided plaited tubes with ripple profile, over dark under-cap; f: 26 braids ~0.24 long, m: 20 braids ~0.12 long"
+  },
+  "wig": {
+    "file": {
+      "f": "wig_f.glb"
+    },
+    "tris": {
+      "f": 1012
+    },
+    "sexes": [
+      "f"
+    ],
+    "materials": [
+      "hair_card",
+      "scalp_dark"
+    ],
+    "textures": [
+      "hair_cards_alpha_512.png",
+      "hair_cards_normal_512.png"
+    ],
+    "covers": "full",
+    "covers_hair": true,
+    "notes": "shoulder-length weave: top volume cards + 17 hanging side/back cards, over dark under-cap"
+  },
+  "puff": {
+    "file": {
+      "f": "puff_f.glb"
+    },
+    "tris": {
+      "f": 864
+    },
+    "sexes": [
+      "f"
+    ],
+    "materials": [
+      "hair_card",
+      "hair_strand",
+      "scalp_dark"
+    ],
+    "textures": [
+      "hair_cards_alpha_512.png"
+    ],
+    "covers": "full",
+    "covers_hair": true,
+    "notes": "single high puff ball at crown-back + edge cards along the hairline, over dark under-cap"
+  },
+  "beard_stubble": {
+    "file": {
+      "m": "beard_stubble_m.glb"
+    },
+    "tris": {
+      "m": 540
+    },
+    "sexes": [
+      "m"
+    ],
+    "materials": [
+      "cap_stubble"
+    ],
+    "textures": [
+      "scalp_stubble.png"
+    ],
+    "covers": "full",
+    "covers_hair": true,
+    "notes": "short style: thin jaw/cheek shell, no cards; runtime maps scalp_stubble.png (mouth at spherical UV u~0.50, v~0.84)"
+  },
+  "beard_goatee": {
+    "file": {
+      "m": "beard_goatee_m.glb"
+    },
+    "tris": {
+      "m": 508
+    },
+    "sexes": [
+      "m"
+    ],
+    "materials": [
+      "beard_card",
+      "scalp_dark"
+    ],
+    "textures": [
+      "beard_cards_alpha_512.png"
+    ],
+    "covers": "full",
+    "covers_hair": true,
+    "notes": "chin + mustache + soul-patch MASK cards over a small dark chin shell"
+  },
+  "beard_full": {
+    "file": {
+      "m": "beard_full_m.glb"
+    },
+    "tris": {
+      "m": 930
+    },
+    "sexes": [
+      "m"
+    ],
+    "materials": [
+      "beard_card",
+      "scalp_dark"
+    ],
+    "textures": [
+      "beard_cards_alpha_512.png",
+      "hair_cards_normal_512.png"
+    ],
+    "covers": "full",
+    "covers_hair": true,
+    "notes": "dark jaw shell + cheek/jaw cards + hanging chin cards + mustache, MASK alpha, double-sided"
+  },
+  "knotless_braids": {
+    "file": {
+      "f": "knotless_braids_f.glb"
+    },
+    "tris": {
+      "f": 2916
+    },
+    "sexes": [
+      "f"
+    ],
+    "materials": [
+      "hair_strand",
+      "scalp_dark"
+    ],
+    "textures": [],
+    "covers": "full",
+    "covers_hair": true,
+    "notes": "long sleek knotless braids ~0.30 with middle part, over dark under-cap"
+  },
+  "goddess_locs": {
+    "file": {
+      "f": "goddess_locs_f.glb"
+    },
+    "tris": {
+      "f": 2688
+    },
+    "sexes": [
+      "f"
+    ],
+    "materials": [
+      "hair_strand",
+      "scalp_dark"
+    ],
+    "textures": [],
+    "covers": "full",
+    "covers_hair": true,
+    "notes": "16 locs ~0.22 with wavy goddess ends + 2 face-framing tendrils, over dark under-cap"
+  },
+  "ghana_weaving": {
+    "file": {
+      "f": "ghana_weaving_f.glb"
+    },
+    "tris": {
+      "f": 1936
+    },
+    "sexes": [
+      "f"
+    ],
+    "materials": [
+      "hair_strand",
+      "scalp_dark"
+    ],
+    "textures": [],
+    "covers": "full",
+    "covers_hair": true,
+    "notes": "feed-in cornrows converging to a low nape bun, over dark under-cap"
+  },
+  "bob_wig": {
+    "file": {
+      "f": "bob_wig_f.glb"
+    },
+    "tris": {
+      "f": 980
+    },
+    "sexes": [
+      "f"
+    ],
+    "materials": [
+      "hair_card",
+      "scalp_dark"
+    ],
+    "textures": [
+      "hair_cards_alpha_512.png"
+    ],
+    "covers": "full",
+    "covers_hair": true,
+    "notes": "chin-length blunt bob: top volume cards + hanging side/back cards, over dark under-cap"
+  },
+  "curly_wig": {
+    "file": {
+      "f": "curly_wig_f.glb"
+    },
+    "tris": {
+      "f": 2496
+    },
+    "sexes": [
+      "f"
+    ],
+    "materials": [
+      "hair_strand",
+      "scalp_dark"
+    ],
+    "textures": [],
+    "covers": "full",
+    "covers_hair": true,
+    "notes": "shoulder-length tight curl clusters (2 layers), over dark under-cap"
+  },
+  "short_twists": {
+    "file": {
+      "m": "short_twists_m.glb"
+    },
+    "tris": {
+      "m": 2424
+    },
+    "sexes": [
+      "m"
+    ],
+    "materials": [
+      "hair_strand",
+      "scalp_dark"
+    ],
+    "textures": [],
+    "covers": "full",
+    "covers_hair": true,
+    "notes": "18 short two-strand twists standing up, over dark under-cap"
+  },
+  "high_top": {
+    "file": {
+      "m": "high_top_m.glb"
+    },
+    "tris": {
+      "m": 756
+    },
+    "sexes": [
+      "m"
+    ],
+    "materials": [
+      "hair_strand",
+      "scalp_dark"
+    ],
+    "textures": [],
+    "covers": "full",
+    "covers_hair": true,
+    "notes": "high-top fade: short sides + tall flat-topped box volume"
+  },
+  "headwrap_turban": {
+    "file": {
+      "f": "headwrap_turban_f.glb"
+    },
+    "tris": {
+      "f": 1050
+    },
+    "sexes": [
+      "f"
+    ],
+    "materials": [
+      "headwrap_turban"
+    ],
+    "textures": [],
+    "covers": "full",
+    "covers_hair": true,
+    "notes": "turban: wrap band + twisted front knot + side tail (headwear slot)"
+  },
+  "bucket_hat": {
+    "file": {
+      "m": "bucket_hat_m.glb",
+      "f": "bucket_hat_f.glb"
+    },
+    "tris": {
+      "m": 1568,
+      "f": 1568
+    },
+    "sexes": [
+      "m",
+      "f"
+    ],
+    "materials": [
+      "bucket_hat"
+    ],
+    "textures": [],
+    "covers": "partial",
+    "covers_hair": false,
+    "notes": "crown + wide drooping 360 brim, top button (headwear slot)"
+  }
+}
