@@ -78,6 +78,8 @@ Format: `- <date> <team/thread>: <task id>, files <paths>. Status: ACTIVE | DONE
 
 - 2026-11-06 18:30 Claude (lead thread): one runner for every outside-Unity compile check, file tools/check-all.sh (new) only. Checked first: 86d093c to 1170532 (M5.3 friends/DMs, HUD-4 guard) do not touch tools/*/compile-check.sh; no claim covers a runner. Status: DONE 80699ee (all six areas plus net-boundary PASS in 8 s; Ted can run it before pushing).
 
+- 2026-11-06 21:30 Claude (lead thread): CI that runs tools/check-all.sh on every push and pull request, file .github/workflows/checks.yml (new) only. Checked first: d8f8883 to 1f2d0e0 (M5.3 receive, HUD stack/HUD-7) do not touch .github/ or tools/check-all.sh; no .github/workflows exists yet; no claim covers CI. Status: ACTIVE.
+
 ## Item format
 
 ```
