@@ -91,12 +91,12 @@ namespace NaijaLife.UI
                 if (others > 0) _more.text = "+" + others;
             }
 
-            if (NLPhone.IsOpen) return;
+            if (NLPhone.IsOpen || NLJobHud.HoldsInput) return; // the job HUD owns E / South while its card or button is up
             var kb = Keyboard.current;
             if (kb != null && kb.eKey.wasPressedThisFrame) Accept();
             if (kb != null && kb.tabKey.wasPressedThisFrame) NextOffer();
             var pad = Gamepad.current;
-            if (pad != null && pad.buttonSouth.wasPressedThisFrame) Accept();
+            if (pad != null && pad.buttonSouth.wasPressedThisFrame && !NLJobHud.HoldsSouth) Accept();
         }
 
         private NLPromptOffer Pick()
@@ -161,7 +161,7 @@ namespace NaijaLife.UI
         public void Accept()
         {
             var o = _shown;
-            if (o == null || NLPhone.IsOpen) return;
+            if (o == null || NLPhone.IsOpen || NLJobHud.HoldsInput) return;
             NLDevice.Tap();
             if (o.Kind == NLPromptKind.Other)
             {

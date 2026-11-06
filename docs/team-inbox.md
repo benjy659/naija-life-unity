@@ -56,7 +56,7 @@ Format: `- <date> <team/thread>: <task id>, files <paths>. Status: ACTIVE | DONE
 
 - 2026-11-06 Claude (jobs thread): M4.1, M4.2, M4.3 code (everything but the Editor steps) and the M4.4 migration DRAFT, files Assets/Scripts/Jobs/**, Assets/Scripts/Economy/*, Assets/Scripts/Player/PlayerNeeds.cs (new file only), Assets/Tests/EditMode/Jobs/*, Assets/Editor/Jobs/*, supabase/migrations/drafts/m4_job_shifts.sql, docs/specs/jobs-m4.md, tools/jobsim.js. Checked first: Ted's 44d8428 to 74482c6 touch settings, the M1 harness and Greybox materials only; no claim covers Jobs, Economy or these files. Ted keeps: running the tests and scene builder in the Editor, captures, applying the migration. Status: DONE d1ded08 + HUD hookup (see IN-18), UNVERIFIED until Ted's run.
 - 2026-11-06 Claude (HUD and phone thread): HUD-1 to HUD-6 code (UI root, scaler, safe area, touch stick and buttons, HUD, radar, prompts, toasts, phone shell, Bank, NLMoney + tests, Editor setup menu), files Assets/Scripts/UI/*, Assets/Scripts/UI/Core/*, Assets/UI/UXML/*, Assets/UI/Styles/*, Assets/UI/Sprites/nl-balance-card.png, Assets/Plugins/WebGL/NLDevice.jslib, Assets/Editor/UI/*, Assets/Tests/EditMode/UI/*, plus one new method PlayerInput.SetLocked (phone stops the player). Checked first: Ted's commits up to 74482c6 do not touch these; no other claim on HUD; the lead's M1.4 already does the right-half touch look drag, so the HUD has no look zone of its own. Status: DONE (this commit), never compiled; Ted runs it (IN-16).
-- 2026-11-06 Claude (HUD and phone thread): HUD-8 job UI pieces for the jobs thread (shift chip, shout ring on the action button, change sheet at most 35% height, end-of-shift card) in the HUD kit, swapped into Assets/Scripts/Jobs/NLJobUiBridge.cs by agreement with the jobs thread; plus the Editor fake wallet following WalletCache balances, files Assets/Scripts/UI/*, Assets/UI/*, NLJobUiBridge.cs (bridge lines only). Checked first: jobs thread 79228ae owns Assets/Scripts/Jobs and agreed in its note to me. Status: ACTIVE (fake wallet part DONE this commit).
+- 2026-11-06 Claude (HUD and phone thread): HUD-8 job UI pieces for the jobs thread (shift chip, shout ring on the action button, change sheet at most 35% height, end-of-shift card) in the HUD kit, swapped into Assets/Scripts/Jobs/NLJobUiBridge.cs by agreement with the jobs thread; plus the Editor fake wallet following WalletCache balances, files Assets/Scripts/UI/*, Assets/UI/*, NLJobUiBridge.cs (bridge lines only). Checked first: jobs thread 79228ae owns Assets/Scripts/Jobs and agreed in its note to me. Status: DONE (fake wallet 3b42af9; job pieces NLJobHud in the HUD-8 commit, also touched NLPrompts.cs and NLUISetup.cs), never compiled.
 - 2026-11-06 Claude (Oshodi thread): M2.2 skyline shell (spec 6.5), files tools/oshodi/*, docs/specs/oshodi-greybox*, Assets/Data/Oshodi/*, Assets/Editor/World/OshodiGreyboxBuilder.cs and OshodiGreyboxData.cs, Assets/Scripts/World/NightOnly.cs. Checked first: Ted has pushed nothing since 74482c6; bcb0293, 3b42af9, 79228ae, d1ded08 (M3, M4, HUD threads) do not touch these files. Status: DONE 74cf0cd (never compiled; Ted rebuilds, IN-17).
 
 - 2026-11-06 Claude (jobs thread, 08:37 run): M4 self-review fix in the test scene builder (asset folders made through AssetDatabase), files Assets/Editor/Jobs/M4ConductorSceneBuilder.cs. Checked first: commits since 79228ae (3b42af9 HUD wallet, bcb0293 M3, 74cf0cd skyline, d7bb77d drive HUD) do not touch jobs files; no Ted commit yet. Status: DONE (this run's commit "M4 scene builder: create asset folders through AssetDatabase").
@@ -420,3 +420,19 @@ Format: `- <date> <team/thread>: <task id>, files <paths>. Status: ACTIVE | DONE
   stays. Re-run Naija Streets > UI > Add HUD to open scene on Greybox_M3 to
   pick up the new component. For M3.4 captures: 390x844 WebGL, driving, show
   that nothing crosses the centre third. Never compiled; paste errors here.
+
+- **IN-21 (HUD thread to Ted and the jobs thread, 2026-11-06): HUD-8 job UI is in code.**
+  From: Claude. To: Ted. Status: OPEN.
+  New Assets/Scripts/UI/NLJobHud.cs, styles at the end of NLHud.uss. The
+  conductor shift now draws through it (NLJobUiBridge forwards the shift chip,
+  shout ring, change sheet, busy line and end-of-shift card; JobDebugUi is
+  only a fallback when NLJobHud is missing). Shift chip and busy line sit
+  under the wallet; the shout button takes the on-foot buttons' corner; the
+  change sheet and shift card are a bottom sheet, at most 35% of the screen
+  height. Keys: Space or gamepad South shouts, 1 2 3 (West, North, East)
+  pick change, E / Enter / South close the card. NLPrompts waits while a
+  sheet is up. Steps for Ted: re-run Naija Streets > UI > Add HUD to open
+  scene (adds NLJobHud), then in Play use the new Test menus (job shout,
+  job change sheet, job shift card, job busy line, clear job UI) and capture
+  each at 390x844, 844x390, 1280x800, 1920x1080 under qa/hud-8/. Never
+  compiled; paste any errors here.

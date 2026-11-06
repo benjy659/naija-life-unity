@@ -229,3 +229,85 @@
 .nl-speedo-unit { -unity-font-style: bold; font-size: 10px; letter-spacing: 1px; color: var(--nl-text-dim); padding: 0; margin: 0; margin-left: 4px; margin-bottom: 5px; }
 .nl-round-btn--handbrake { position: relative; width: 64px; height: 64px; border-radius: 32px; margin-top: 10px; }
 .nl-handbrake-label { -unity-font-style: bold; font-size: 11px; letter-spacing: 1px; color: var(--nl-text); padding: 0; margin: 0; }
+
+/* ---------- JOBS (HUD-8, jobs-m4.md 6.1) ---------- */
+/* shift chip and busy row: rows under the wallet in the right column */
+.nl-shift { flex-direction: column; align-items: flex-end; padding-top: 6px; padding-bottom: 6px; }
+.nl-shift.is-hidden, .nl-busy.is-hidden { display: none; }
+.nl-shift-top { flex-direction: row; align-items: center; }
+.nl-shift-time { -unity-font-style: bold; font-size: 15px; color: var(--nl-text); padding: 0; margin: 0; margin-left: 6px; min-width: 40px; }
+.nl-shift.is-low .nl-shift-time { color: var(--nl-danger); }
+.nl-shift-trips { font-size: 12px; color: var(--nl-text-dim); padding: 0; margin: 0; margin-left: 10px; }
+.nl-shift-pay { -unity-font-style: bold; font-size: 13px; color: var(--nl-accent-soft); padding: 0; margin: 0; margin-left: 10px; }
+.nl-shift-note { font-size: 11px; color: var(--nl-text-faint); padding: 0; margin: 0; margin-top: 2px; white-space: normal; max-width: 200px; -unity-text-align: upper-right; }
+.nl-shift-note.is-hidden { display: none; }
+.nl-busy-text { font-size: 12px; color: var(--nl-text-dim); padding: 0; margin: 0; margin-left: 8px; }
+
+/* shout: takes the on-foot buttons' corner, bottom-right */
+.nl-job-shout .nl-buttons, .nl-job-shout .nl-keyhints { display: none; }
+.nl-shout { position: absolute; right: 12px; bottom: 12px; align-items: flex-end; }
+.nl-shout.is-hidden { display: none; }
+.nl-shout-info { flex-direction: row; align-items: center; margin-bottom: 6px; padding-left: 10px; padding-right: 10px; height: 28px; border-radius: 14px; background-color: var(--nl-hud-chip); }
+.nl-seats { flex-direction: row; flex-wrap: wrap; width: 98px; }
+.nl-seat { width: 5px; height: 10px; border-radius: 2px; margin-right: 2px; background-color: rgba(255, 255, 255, 0.18); }
+.nl-seat.is-full { background-color: var(--nl-accent); }
+.nl-shout-time { -unity-font-style: bold; font-size: 12px; color: var(--nl-text); padding: 0; margin: 0; margin-left: 6px; min-width: 24px; -unity-text-align: middle-right; }
+.nl-shout-say { font-size: 12px; color: var(--nl-text); padding-left: 10px; padding-right: 10px; padding-top: 4px; padding-bottom: 4px; margin: 0; margin-bottom: 6px; border-radius: 10px; background-color: var(--nl-panel-bg); white-space: normal; max-width: 200px; -unity-text-align: middle-right; }
+.nl-shout-say.is-hidden { display: none; }
+/* 130 px pad: ring 2x of the 64 px band = 128 px, so it never grows past the pad */
+.nl-shout-pad { width: 130px; height: 130px; align-items: center; justify-content: center; }
+.nl-shout-band, .nl-shout-ring, .nl-shout-btn { position: absolute; }
+.nl-shout-band { width: 64px; height: 64px; border-radius: 32px; border-width: 6px; border-color: rgba(46, 229, 157, 0.28); }
+.nl-shout-band.is-band { border-color: rgba(46, 229, 157, 0.7); }
+.nl-shout-ring { border-width: 3px; border-color: rgba(225, 232, 238, 0.7); }
+.nl-shout-ring.is-band { border-color: var(--nl-accent); }
+.nl-shout-btn { width: 52px; height: 52px; border-radius: 26px; background-color: var(--nl-accent); align-items: center; justify-content: center; transition-property: scale, background-color; transition-duration: 0.09s; }
+.nl-shout-btn.is-down { scale: 0.9 0.9; background-color: var(--nl-accent-deep); }
+.nl-shout-key { position: absolute; bottom: 0; right: 0; }
+
+/* bottom sheet: change and the end-of-shift card; at most 35% of the screen height */
+/* the wrap fills the safe area and only lays the sheet out (picking ignored) */
+.nl-job-sheet-wrap { position: absolute; left: 12px; right: 12px; top: 0; bottom: 12px; justify-content: flex-end; align-items: center; }
+.nl-job-sheet {
+    width: 100%; max-width: 420px; max-height: 35%;
+    padding-left: 14px; padding-right: 14px; padding-top: 12px; padding-bottom: 12px;
+    border-radius: var(--nl-radius-panel);
+    border-top-width: 2px; border-top-color: var(--nl-accent);
+    background-color: var(--nl-panel-bg);
+    overflow: hidden;
+    opacity: 0; translate: 0 24px;
+    transition-property: opacity, translate; transition-duration: 0.22s; transition-timing-function: ease-out-cubic;
+}
+.nl-job-sheet.is-in { opacity: 1; translate: 0 0; }
+.nl-job-sheet.is-hidden { display: none; }
+.nl-job-sheet-open .nl-stick-zone, .nl-job-sheet-open .nl-buttons, .nl-job-sheet-open .nl-shout, .nl-job-sheet-open .nl-keyhints { display: none; }
+.nl-job-sheet-title { -unity-font-style: bold; font-size: 15px; color: var(--nl-text); padding: 0; margin: 0; }
+.nl-job-timer { height: 4px; border-radius: 2px; margin-top: 6px; background-color: rgba(255, 255, 255, 0.12); overflow: hidden; }
+.nl-job-timer.is-hidden { display: none; }
+.nl-job-timer-fill { height: 100%; width: 100%; background-color: var(--nl-accent); }
+.nl-job-timer-fill.is-low { background-color: var(--nl-danger); }
+.nl-job-sheet-line { font-size: 13px; color: var(--nl-text-dim); padding: 0; margin: 0; margin-top: 8px; white-space: normal; }
+.nl-job-options { flex-direction: row; margin-top: 10px; }
+.nl-job-options.is-hidden { display: none; }
+.nl-job-option {
+    flex-grow: 1; flex-basis: 0; height: 48px; margin: 0; margin-right: 8px;
+    -unity-font-style: bold; font-size: 16px; color: var(--nl-text);
+    border-radius: var(--nl-radius-btn); border-width: 1px; border-color: rgba(255, 255, 255, 0.16);
+    background-color: var(--nl-card);
+    transition-property: scale, background-color; transition-duration: 0.12s;
+}
+.nl-job-option--last { margin-right: 0; }
+.nl-job-option:active { scale: 0.96 0.96; background-color: var(--nl-card-hi); }
+.nl-job-option.is-hidden { display: none; }
+.nl-job-option:disabled { opacity: 0.45; }
+.nl-job-sheet-result { -unity-font-style: bold; font-size: 14px; color: var(--nl-danger); padding: 0; margin: 0; margin-top: 8px; }
+.nl-job-sheet-result.is-good { color: var(--nl-accent); }
+.nl-job-sheet-result.is-hidden { display: none; }
+.nl-job-ok {
+    height: 46px; margin: 0; margin-top: 12px;
+    -unity-font-style: bold; font-size: 15px;
+    color: var(--nl-accent-ink); background-color: var(--nl-accent);
+    border-width: 0; border-radius: var(--nl-radius-btn);
+}
+.nl-job-ok:active { background-color: var(--nl-accent-deep); }
+.nl-job-ok.is-hidden { display: none; }

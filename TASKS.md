@@ -452,7 +452,8 @@ UNVERIFIED.
   thread (jobs-m4.md section 6.1, IJobUi): shift chip in the right column,
   shout ring on the action button, change sheet (at most 35% of the screen
   height), end-of-shift card; replace the IMGUI JobDebugUi parts in
-  NLJobUiBridge. Ted: captures at the 4 sizes once built.
+  NLJobUiBridge. Code on main 2026-11-06 (NLJobHud, IN-21); Ted: compile
+  and captures at the 4 sizes under qa/hud-8/.
 - **HUD-7. HUD QA pass (Ted's team, Claude reviews).** Status: TODO after
   HUD-2 to HUD-6. Spec §5.1, §6.3, §10. All 32 right-column combinations at
   the 4 sizes with no overlap (script it), two-thumb test on a real phone,

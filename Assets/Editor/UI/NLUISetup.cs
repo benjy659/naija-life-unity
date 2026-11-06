@@ -10,6 +10,10 @@
 //   Test: go offline / online Bank timeout and retry states
 //   Test: offer 3 prompts     one prompt + "+2" chip; Tab or tap +2 cycles
 //   Test: low vitals          red bars
+//   Test: job shout (20 s)    shift chip + shout button with a moving ring (HUD-8)
+//   Test: job change sheet    fare change sheet; pick an amount, then the result line
+//   Test: job shift card      end-of-shift card; Okay closes it
+//   Test: clear job UI        hides every job piece
 // Batch (CI / harness):
 //   -executeMethod NaijaLife.UI.Editor.NLUISetup.AddToGreyboxBatch
 //   opens Assets/Scenes/Greybox_M1.unity, adds the UI and saves the scene.
@@ -69,6 +73,7 @@ namespace NaijaLife.UI.Editor
             Get<NLPhone>(go);
             Get<NLRadar>(go);
             Get<NLDriveHud>(go);
+            Get<NLJobHud>(go);
 
             if (Object.FindFirstObjectByType<EventSystem>() == null)
             {
@@ -138,6 +143,83 @@ namespace NaijaLife.UI.Editor
 
         [MenuItem("Naija Streets/UI/Test: low vitals")]
         private static void TestLowVitals() => NLHud.SetVitals(0.18f, 0.5f, 0.2f);
+
+        // ---------------- HUD-8 job pieces (no jobs code needed) ----------------
+
+        private static double _shoutEnd;
+        private static int _testSeats;
+
+        private static NLJobHud Job()
+        {
+            if (!Application.isPlaying) { Debug.LogWarning("Enter Play mode first."); return null; }
+            if (NLJobHud.Instance == null) Debug.LogWarning("No NLJobHud in the scene. Run Add HUD to open scene again.");
+            return NLJobHud.Instance;
+        }
+
+        [MenuItem("Naija Streets/UI/Test: job shout (20 s)")]
+        private static void TestShout()
+        {
+            if (Job() == null) return;
+            _testSeats = 3;
+            _shoutEnd = EditorApplication.timeSinceStartup + 20.0;
+            EditorApplication.update -= ShoutTick;
+            EditorApplication.update += ShoutTick;
+        }
+
+        private static void ShoutTick()
+        {
+            var hud = NLJobHud.Instance;
+            double left = _shoutEnd - EditorApplication.timeSinceStartup;
+            if (hud == null || !Application.isPlaying || left <= 0 || _testSeats >= 14)
+            {
+                EditorApplication.update -= ShoutTick;
+                if (hud != null) { hud.HideShout(); hud.ShiftChip(false, 0, 0, 0, null); }
+                return;
+            }
+            const double period = 1.35;
+            double t = (EditorApplication.timeSinceStartup % period) / period;
+            float scale = (float)(2.0 - 1.6 * t);            // 2x down to 0.4x each cycle
+            bool band = Mathf.Abs(scale - 1f) <= 0.16f;       // level 0 band half-width
+            hud.ShiftChip(true, 1500f + (float)left, 2, 2400, null);
+            hud.Shout(scale, band, _testSeats, 14, (float)left, _testSeats < 6 ? "Oshodi! Ikeja! Enter with your change!" : null,
+                () =>
+                {
+                    if (band) _testSeats++;
+                    else NLToasts.Show("shout-early", NLToastKind.Job, "Too early!", "Passengers dey look you.");
+                });
+        }
+
+        [MenuItem("Naija Streets/UI/Test: job change sheet")]
+        private static void TestChange()
+        {
+            var hud = Job(); if (hud == null) return;
+            int[] options = { 1500, 500, 1000 };
+            hud.Change(false, 1, 4, 2000, 500, options, 6f, null, pick =>
+            {
+                string result = options[pick] == 1500 ? "Correct." : options[pick] < 1500 ? "My change no complete!" : "You don dash am " + NLMoney.Full(options[pick] - 1500) + "!";
+                hud.Change(false, 1, 4, 2000, 500, options, 0f, result, null);
+            });
+        }
+
+        [MenuItem("Naija Streets/UI/Test: job shift card")]
+        private static void TestSummary()
+        {
+            var hud = Job(); if (hud == null) return;
+            hud.Busy(null);
+            hud.Summary("Shift paid", "4 trips\nPaid ₦4,800\nWallet ₦13,250  (TEST)",
+                () => NLToasts.Show("shift-done", NLToastKind.Job, "Shift closed", "The bot conductor takes over"));
+        }
+
+        [MenuItem("Naija Streets/UI/Test: job busy line")]
+        private static void TestBusy() { var hud = Job(); if (hud != null) hud.Busy("Saving your pay..."); }
+
+        [MenuItem("Naija Streets/UI/Test: clear job UI")]
+        private static void TestClearJob()
+        {
+            var hud = Job(); if (hud == null) return;
+            EditorApplication.update -= ShoutTick;
+            hud.ClearAll();
+        }
 
         private static NLEditorFakeWallet Fake()
         {
