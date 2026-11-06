@@ -101,6 +101,22 @@ namespace NaijaLife.NetworkGlue
             }
         }
 
+        /// <summary>
+        /// Call a Supabase RPC as the signed-in player. Returns (ok, body). Never throws
+        /// for network reasons. Body is the raw JSON reply (or null on failure).
+        /// </summary>
+        public async Task<(bool ok, long status, string body)> RpcAsync(string name, string jsonArgs)
+        {
+            string token = await GetAccessTokenAsync();
+            if (token == null) return (false, 0, null);
+            using (var req = Post("/rest/v1/rpc/" + name, string.IsNullOrEmpty(jsonArgs) ? "{}" : jsonArgs, token))
+            {
+                await req.SendWebRequest();
+                bool ok = req.result == UnityWebRequest.Result.Success;
+                return (ok, req.responseCode, ok ? req.downloadHandler.text : null);
+            }
+        }
+
         UnityWebRequest Post(string path, string json, string bearer)
         {
             var req = new UnityWebRequest(_cfg.Url.TrimEnd('/') + path, "POST");

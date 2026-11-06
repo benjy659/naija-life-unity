@@ -295,7 +295,9 @@ Spec: [docs/specs/netcode-m5.md](docs/specs/netcode-m5.md) (Claude,
   **M5.1b** Edge Function `photon-auth` + Photon custom auth, anonymous off;
   **M5.1c** fix the Fusion skeleton against the real SDK, Edit Mode tests
   all green; **M5.1d** scene `Net_M5.unity` (bootstrap, bridge, capsule
-  remotes with name tags); **M5.1e** lobby chat panel stub; **M5.1f**
+  remotes with name tags; Claude wrote the builder: run
+  `-executeMethod NetM5SceneBuilder.Build`, or `.BuildWebGL`, then paste
+  the anon key locally); **M5.1e** lobby chat panel stub; **M5.1f**
   migration `nl_street_card_by_id` (live `nl_street_card` takes a
   username; the network only knows user ids). Drafts by Claude (2026-11-06):
   `supabase/functions/photon-auth/index.ts` (+ `test.mjs`, 6 checks pass)
@@ -304,6 +306,11 @@ Spec: [docs/specs/netcode-m5.md](docs/specs/netcode-m5.md) (Claude,
   *Acceptance:* the 10 checks in spec §7.2, recorded under `qa/M5.1/`
   (Editor + WebGL, two clients): movement syncs, chat works, no fake
   players.
+- **M5.4. Players-online count (Claude, IN PROGRESS 2026-11-06).** Code done:
+  `Network/Unity/OnlineHeartbeat.cs` touches live `nl_online_touch` every 30 s
+  while the game is in front, `nl_heartbeat_leave` on hide/quit; exposes
+  `OnlineHeartbeat.Count` (-1 = unknown, show nothing) and `LastUpdatedUtc` for
+  the HUD workstream. Ted: verify the count changes with two clients (qa/M5.1/).
 - **M5.2. Multiplayer architecture review (Claude).** Status: DONE
   (Claude, verdict below). Review the Photon Fusion 2 Shared Mode + Supabase decision
   against the design inventory §8 (cells, 200 m, send rates, interpolation,

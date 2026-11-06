@@ -46,7 +46,7 @@ Format: `- <date> <team/thread>: <task id>, files <paths>. Status: ACTIVE | DONE
 - 2026-11-06 Claude (multiplayer thread): M5.1b photon-auth and M5.1f migration 0041 drafts, files supabase/functions/photon-auth/*, supabase/migrations/0041_nl_street_card_by_id.sql, Assets/Scripts/Network/Unity/SupabaseSession.cs. Checked first: no Ted commit touches supabase/ or Assets/Scripts/Network/ (b2ffc61 to 2935a48 add folder metas only). Status: DONE 9334853 (drafts; Ted deploys photon-auth, applies 0041 only with Benjamin's OK, see IN-12).
 - 2026-11-06 Claude (Oshodi thread): M2.1 builder, build list and EditMode tests, files Assets/Editor/World/*, Assets/Tests/EditMode/World/*, Assets/Data/Oshodi/*, tools/oshodi/*, ProjectSettings/TagManager.asset (layers 8 to 13). Checked first: Ted's 44d8428 to 2935a48 do not touch these. Status: DONE bb5316f (never compiled; Ted runs it, IN-14).
 - 2026-11-06 Claude (Oshodi thread): M2.2 and M2.3 runtime code (TimeOfDay, lamp light pool, night emissives, DistrictTile, DistrictStreamer, FrameSpikeLogger, Bootstrap and Addressables setup script), files Assets/Scripts/World/*, Assets/Editor/World/OshodiBootstrapSetup.cs, Assets/Data/Oshodi/*, Assets/Settings/URP_Low|Medium|High.asset and the customRenderPipeline line of each level in ProjectSettings/QualitySettings.asset (spec 6.4 tier table). Checked first: nothing on main under Assets/Scripts/World/ but .gitkeep; no open claim on M2. Ted's part stays the Editor run and the evidence. Status: ACTIVE.
-- 2026-11-06 Claude (multiplayer thread): M5.1d scene builder (-executeMethod, builds Assets/Scenes/Net_M5.unity and Assets/Prefabs/Network/RemotePlayer.prefab) and M5.4 online heartbeat (live nl_online_touch / nl_heartbeat_leave), files Assets/Editor/Network/*, Assets/Scripts/Network/Unity/OnlineHeartbeat.cs, SupabaseSession.cs, NetBootstrap.cs. Checked first: Ted's 74482c6 and the Oshodi/lead commits since 0905ce9 do not touch these; no other claim on M5. Status: ACTIVE.
+- 2026-11-06 Claude (multiplayer thread): M5.1d scene builder (-executeMethod, builds Assets/Scenes/Net_M5.unity and Assets/Prefabs/Network/RemotePlayer.prefab) and M5.4 online heartbeat (live nl_online_touch / nl_heartbeat_leave), files Assets/Editor/Network/*, Assets/Scripts/Network/Unity/OnlineHeartbeat.cs, FaceCamera.cs, SupabaseSession.cs, NetBootstrap.cs. Checked first: Ted's 74482c6 and the Oshodi/lead commits since 0905ce9 do not touch these; no other claim on M5. Status: DONE (this push; never compiled).
 - 2026-11-06 Claude (multiplayer thread): M5 code review of anything Ted pushes under Assets/Scripts/Network/ and supabase/. No new files claimed. Status: ACTIVE.
 
 ## Item format
@@ -97,6 +97,13 @@ Format: `- <date> <team/thread>: <task id>, files <paths>. Status: ACTIVE | DONE
   Test Runner > EditMode > Run All, and post the result under qa/M5.1/
   (NaijaLife.Network.Tests, 27 tests). Your first Editor open already showed
   the Network code compiles; thank you.
+  Update (Claude, 2026-11-06 run 2): M5.1d no longer needs hand wiring. Run
+  -executeMethod NetM5SceneBuilder.Build (or menu Naija Streets > Network >
+  Build Net_M5 scene); it makes Assets/Scenes/Net_M5.unity and
+  Assets/Prefabs/Network/RemotePlayer.prefab. NetM5SceneBuilder.BuildWebGL
+  builds it to Builds/WebGL-Net_M5. Paste the Supabase anon key on Net >
+  NetBootstrap locally; do not commit it. Also new: M5.4 OnlineHeartbeat
+  (players online count, live RPCs). Please post compile errors here if any.
 
 - **IN-11. Everything is on main now; push yours every check-in.** From: Claude. To: Ted. Date: 2026-11-05. Status: OPEN.
   Benjamin said on 2026-11-05 (this project's chat) that your team cannot see
