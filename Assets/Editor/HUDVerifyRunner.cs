@@ -133,12 +133,31 @@ public static class HUDVerifyRunner
             object sizes = sizesType.GetProperty("instance",
                 BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.FlattenHierarchy)?.GetValue(null);
             if (sizes == null) { Debug.LogWarning("[HUDVerify] GameViewSizes.instance is null"); return; }
+            // AddCustomSize lives on the GROUP, not on GameViewSizes (the
+            // earlier sizes.AddCustomSize call silently no-opped — the
+            // method does not exist there). The count method is
+            // GetCustomCount; there is no GetCustomSizes. API verified by
+            // dumping the types (HUDGameViewDebug).
+            object group = sizesType.GetProperty("currentGroup",
+                BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)?.GetValue(sizes);
+            if (group == null)
+            {
+                var getGroup = sizesType.GetMethod("GetGroup",
+                    BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+                var groupType = sizesType.GetProperty("currentGroupType",
+                    BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)?.GetValue(sizes);
+                if (getGroup != null && groupType != null)
+                    group = getGroup.Invoke(sizes, new[] { groupType });
+            }
+            if (group == null) { Debug.LogWarning("[HUDVerify] GameView size group is null; viewport may be wrong size"); return; }
             object fixedRes = Enum.Parse(sizeTypeEnum, "FixedResolution");
             object size = Activator.CreateInstance(sizeType,
                 BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance, null,
                 new object[] { fixedRes, w, h, "HUDVerify" }, null);
-            sizesType.GetMethod("AddCustomSize",
-                BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)?.Invoke(sizes, new[] { size });
+            var addCustom = group.GetType().GetMethod("AddCustomSize",
+                BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+            if (addCustom == null) { Debug.LogWarning("[HUDVerify] AddCustomSize not found on group"); return; }
+            addCustom.Invoke(group, new[] { size });
             Type gvType = Type.GetType("UnityEditor.GameView,UnityEditor");
             if (gvType == null) { Debug.LogWarning("[HUDVerify] UnityEditor.GameView type not found"); return; }
             var gv = EditorWindow.GetWindow(gvType);
@@ -146,29 +165,14 @@ public static class HUDVerifyRunner
             int index = -1;
             try
             {
-                object group = sizesType.GetProperty("currentGroup",
-                    BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)?.GetValue(sizes);
-                if (group == null)
-                {
-                    // currentGroup can be null before the GameView initializes
-                    // its group; ask for the selected build target's group.
-                    var getGroup = sizesType.GetMethod("GetGroup",
-                        BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-                    if (getGroup != null)
-                        group = getGroup.Invoke(sizes, new object[] { EditorUserBuildSettings.selectedBuildTargetGroup });
-                }
-                if (group == null) { Debug.LogWarning("[HUDVerify] GameView size group is null; viewport may be wrong size"); return; }
-                // GetBuiltinCount / GetCustomSizes are INTERNAL on
-                // GameViewSizeGroup — GetMethod without NonPublic misses them
-                // (the "methods not found" failure from the last run).
                 var builtinMethod = group.GetType().GetMethod("GetBuiltinCount",
                     BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-                var customMethod = group.GetType().GetMethod("GetCustomSizes",
+                var customMethod = group.GetType().GetMethod("GetCustomCount",
                     BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-                if (builtinMethod == null || customMethod == null) { Debug.LogWarning("[HUDVerify] GameView size group methods not found"); return; }
+                if (builtinMethod == null || customMethod == null) { Debug.LogWarning("[HUDVerify] GameView size count methods not found"); return; }
                 int builtin = (int)builtinMethod.Invoke(group, null);
-                var customs = (IList)customMethod.Invoke(group, null);
-                index = builtin + customs.Count - 1;
+                int customs = (int)customMethod.Invoke(group, null);
+                index = builtin + customs - 1;
             }
             catch (Exception e) { Debug.LogWarning("[HUDVerify] size index lookup failed: " + e.Message); }
             if (index >= 0)
