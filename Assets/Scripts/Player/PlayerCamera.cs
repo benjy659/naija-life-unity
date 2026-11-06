@@ -200,6 +200,19 @@ namespace NaijaLife.Player
                  "that should NOT take over during normal play.")]
         public int cameraPriority = 10;
 
+        [Header("Close lift (M1.7, review R8)")]
+        [Tooltip("Extra downward pitch (deg) while a wall pulls the camera in, so the lens " +
+                 "looks over the player's head instead of filling the screen with it.")]
+        [Range(0f, 35f)]
+        public float closeLiftDegrees = 22f;
+
+        [Tooltip("How fast the lift rises when the camera is pulled in (1/s).")]
+        public float closeLiftInRate = 4f;
+
+        [Tooltip("How fast the lift eases back once clear (1/s). It only eases back while " +
+                 "the player is moving, so a player standing still never sees the lens move by itself.")]
+        public float closeLiftOutRate = 0.8f;
+
         // ------------------------------------------------------------------
         // Public read state — for the player controller (camera-relative
         // movement) and for M3 driving.
@@ -309,7 +322,8 @@ namespace NaijaLife.Player
             float targetPivot = _driving ? _activeDrivingPivot : pivotHeight;
             _currentPivotHeight = Damp(_currentPivotHeight, targetPivot, distanceDampRate, dt);
             _pivot.position = followTarget.position + Vector3.up * _currentPivotHeight;
-            _pivot.rotation = Quaternion.Euler(_pitch, _followYaw, 0f);
+            UpdateCloseLift(horizontalSpeed, dt);
+            _pivot.rotation = Quaternion.Euler(Mathf.Min(_pitch + _closeLift, 50f), _followYaw, 0f);
 
             // 4. Ease the follow distance (walk <-> drive) and push it to CM.
             float targetDistance = _driving ? _activeDrivingDistance : walkDistance;
@@ -431,6 +445,7 @@ namespace NaijaLife.Player
             float facingYaw = FacingYaw(facing);
             _followYaw = facingYaw;
             _pitch = pitchDegrees;
+            _closeLift = 0f;
 
             _currentPivotHeight = _driving ? _activeDrivingPivot : pivotHeight;
             _pivot.position = followTarget.position + Vector3.up * _currentPivotHeight;
@@ -535,6 +550,26 @@ namespace NaijaLife.Player
                 return;
 
             _followYaw = DampAngle(_followYaw, facingYaw, drivingRecenterRate, dt);
+        }
+
+        // ------------------------------------------------------------------
+        // Close lift (M1.7, review R8): Ted's M1 harness (qa/m1/08-occlusion.png)
+        // showed the occlusion pull-in working, but at 2 m the player's head
+        // filled the screen. While pulled in, tilt the lens down over the head.
+        // Rises fast when occluded; eases back only while the player moves,
+        // so it never changes the angle on its own while the player is idle,
+        // and never cycles against a wall.
+        // ------------------------------------------------------------------
+
+        private float _closeLift; // extra pitch, degrees
+
+        private void UpdateCloseLift(float horizontalSpeed, float dt)
+        {
+            if (IsOccluded)
+                _closeLift = Damp(_closeLift, closeLiftDegrees, closeLiftInRate, dt);
+            else if (horizontalSpeed >= minMoveSpeed)
+                _closeLift = Damp(_closeLift, 0f, closeLiftOutRate, dt);
+            if (_closeLift < 0.01f) _closeLift = 0f;
         }
 
         // ------------------------------------------------------------------
