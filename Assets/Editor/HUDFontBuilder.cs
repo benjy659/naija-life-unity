@@ -7,9 +7,9 @@
 
 using System.IO;
 using TMPro;
-using TMPro.EditorUtilities;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.TextCore;
 
 public static class HUDFontBuilder
 {
@@ -45,14 +45,18 @@ public static class HUDFontBuilder
                 Debug.Log($"[HUDFontBuilder] {outPath} already exists — rebuilding.");
                 AssetDatabase.DeleteAsset(outPath);
             }
-            var fontAsset = FontAssetCreator.CreateFontAsset(
+            // TMP 5/6 (Unity 6.3, com.unity.ugui): FontAssetCreator is gone.
+            // TMP_FontAsset.CreateFontAsset is the creator now; AtlasPopulationMode
+            // has no Custom — Static + TryAddCharacters pre-populates the atlas.
+            var fontAsset = TMP_FontAsset.CreateFontAsset(
                 font, 90, 5, GlyphRenderMode.SDFAA, 1024, 1024,
-                AtlasPopulationMode.Custom, false, CharacterSet());
+                AtlasPopulationMode.Static, false);
             if (fontAsset == null)
             {
                 Debug.LogError($"[HUDFontBuilder] CreateFontAsset failed for Inter-{weight}");
                 continue;
             }
+            fontAsset.TryAddCharacters(CharacterSet());
             AssetDatabase.CreateAsset(fontAsset, outPath);
             Debug.Log($"[HUDFontBuilder] Created {outPath} (glyphs: {fontAsset.characterTable.Count})");
         }

@@ -110,9 +110,27 @@ public static class HUDVerifyRunner
     {
         try
         {
-            var sizes = GameViewSizes.instance;
-            var size = new GameViewSize(GameViewSizeType.FixedResolution, w, h, "HUDVerify");
-            sizes.AddCustomSize(size);
+            // GameViewSizes / GameViewSize / GameViewSizeType are INTERNAL in
+            // Unity 6 — everything here goes through reflection (the direct
+            // calls do not compile). Mirrors the M1 runner's pattern, but
+            // fully reflected: the M1 runner's direct calls fail the same way.
+            Type sizesType = Type.GetType("UnityEditor.GameViewSizes,UnityEditor");
+            Type sizeType = Type.GetType("UnityEditor.GameViewSize,UnityEditor");
+            Type sizeTypeEnum = Type.GetType("UnityEditor.GameViewSizeType,UnityEditor");
+            if (sizesType == null || sizeType == null || sizeTypeEnum == null)
+            {
+                Debug.LogWarning("[HUDVerify] GameViewSizes types not found (viewport may be wrong size)");
+                return;
+            }
+            object sizes = sizesType.GetProperty("instance",
+                BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic)?.GetValue(null);
+            if (sizes == null) { Debug.LogWarning("[HUDVerify] GameViewSizes.instance is null"); return; }
+            object fixedRes = Enum.Parse(sizeTypeEnum, "FixedResolution");
+            object size = Activator.CreateInstance(sizeType,
+                BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance, null,
+                new object[] { fixedRes, w, h, "HUDVerify" }, null);
+            sizesType.GetMethod("AddCustomSize",
+                BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)?.Invoke(sizes, new[] { size });
             Type gvType = Type.GetType("UnityEditor.GameView,UnityEditor");
             if (gvType == null) { Debug.LogWarning("[HUDVerify] UnityEditor.GameView type not found"); return; }
             var gv = EditorWindow.GetWindow(gvType);
@@ -120,7 +138,8 @@ public static class HUDVerifyRunner
             int index = -1;
             try
             {
-                var group = sizes.currentGroup;
+                object group = sizesType.GetProperty("currentGroup",
+                    BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)?.GetValue(sizes);
                 int builtin = (int)group.GetType().GetMethod("GetBuiltinCount").Invoke(group, null);
                 var customs = (IList)group.GetType().GetMethod("GetCustomSizes").Invoke(group, null);
                 index = builtin + customs.Count - 1;
