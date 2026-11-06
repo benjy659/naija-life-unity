@@ -44,7 +44,7 @@ cp "$NUNIT" "$LITE" "$OUT/"
 (cd "$OUT" && mono jobs-tests.exe --noresult --labels=Off >/dev/null)
 
 # 2. Runtime glue (Assembly-CSharp in Unity).
-$M -target:library -nowarn:0414,0169,0649 -out:"$OUT/jobs-glue.dll" $REFS -r:"$OUT/NaijaLife.Jobs.Core.dll" \
+$M -target:library -nowarn:0414,0169,0649,0162,0429 -out:"$OUT/jobs-glue.dll" $REFS -r:"$OUT/NaijaLife.Jobs.Core.dll" \
   "$OUT/stubs.cs" "$J"/*.cs "$J"/Conductor/*.cs "$ROOT"/Assets/Scripts/Economy/*.cs "$ROOT/Assets/Scripts/Player/PlayerNeeds.cs"
 
 # 3. Editor scene builder. The reference UnityEditor is 2018.1; errors for

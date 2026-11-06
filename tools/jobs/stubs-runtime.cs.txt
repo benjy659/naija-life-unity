@@ -4,6 +4,13 @@
 using System;
 using System.Threading.Tasks;
 using UnityEngine;
+namespace UnityEngine {
+  // Unity 2023.1+ (so Unity 6) awaits an AsyncOperation directly; the 2021.3
+  // reference dlls do not, so this stands in for Unity's own GetAwaiter.
+  public static class NLAsyncOpAwaitStub {
+    public static System.Runtime.CompilerServices.TaskAwaiter GetAwaiter(this AsyncOperation op) { return Task.CompletedTask.GetAwaiter(); }
+  }
+}
 namespace UnityEngine.InputSystem {
   public class KeyControl { public bool wasPressedThisFrame; }
   public class Keyboard {
