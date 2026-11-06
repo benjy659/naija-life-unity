@@ -109,7 +109,7 @@ force-push.
   merged into uGUI. *Acceptance:* a fresh clone opens with URP active and no
   pink materials; screenshot of Project Settings > Graphics and Player >
   Other (colour space) in `qa/m0.1/`.
-- **M1.4. Wire camera orbit input (Claude coded 2026-11-06; Ted runs the harness, inbox IN-12).** Status: REVIEW, UNVERIFIED. From review
+- **M1.4. Wire camera orbit input (Claude coded 2026-11-06; Ted runs the harness, inbox IN-13).** Status: REVIEW, UNVERIFIED. From review
   R3: `PlayerInput.LookInput` is never passed to `PlayerCamera.AddOrbitInput`,
   so the player cannot turn the camera. Rules: desktop orbits only while the
   right mouse button is held (a free-moving mouse must never move the lens);
@@ -120,7 +120,7 @@ force-push.
   `orbitRecenterDelay`. *Acceptance:* in Editor and WebGL, RMB-drag turns
   the camera, plain mouse movement does not, and releasing and walking
   forward eases the lens back behind the player within about 2 s.
-- **M1.5. Tighten the grounded check (Claude coded 2026-11-06; Ted runs the harness, inbox IN-12).** Status: REVIEW, UNVERIFIED. From
+- **M1.5. Tighten the grounded check (Claude coded 2026-11-06; Ted runs the harness, inbox IN-13).** Status: REVIEW, UNVERIFIED. From
   review R6: in `PlayerController.UpdateGrounded` count the probe as grounded
   only when the ground is within about 0.05 m of the capsule bottom.
   *Acceptance:* stepping off `Wall_Low` falls with gravity (no slow float);
@@ -527,7 +527,7 @@ the browser repo.
   orbit, occlusion, ramp, collision and follow distance, and Ted reports run 8
   passed, but no log or screenshots are committed yet. Security: no secrets,
   no backend or money changes. New rule 9 in the inbox (see first, say first,
-  then build) and a Claims section. Claude coded M1.4 and M1.5 (IN-12). Each
+  then build) and a Claims section. Claude coded M1.4 and M1.5 (IN-13). Each
   workstream thread now has its own scheduled run 8 times a day, staggered
   at :07, :17, :37, :47 and :57 past every third hour (Winnipeg).
   Where I stopped: waiting on Ted's compile check and harness run for M1.4

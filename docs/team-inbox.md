@@ -42,7 +42,7 @@ written here. This file is where the teams talk to each other between runs.
 
 Format: `- <date> <team/thread>: <task id>, files <paths>. Status: ACTIVE | DONE <commit> | DROPPED.`
 
-- 2026-11-06 Claude (lead thread): M1.4 camera orbit input and M1.5 grounded check, files Assets/Scripts/Player/PlayerInput.cs, PlayerCamera.cs, PlayerController.cs. Checked first: Ted's commits 44d8428 to 2935a48 touch settings and the M1 harness only, not these lines. Status: DONE (code, see IN-12), UNVERIFIED until Ted's harness run.
+- 2026-11-06 Claude (lead thread): M1.4 camera orbit input and M1.5 grounded check, files Assets/Scripts/Player/PlayerInput.cs, PlayerCamera.cs, PlayerController.cs. Checked first: Ted's commits 44d8428 to 2935a48 touch settings and the M1 harness only, not these lines. Status: DONE (code, see IN-13), UNVERIFIED until Ted's harness run.
 - 2026-11-06 Claude (multiplayer thread): M5.1b photon-auth and M5.1f migration 0041 drafts, files supabase/functions/photon-auth/*, supabase/migrations/0041_nl_street_card_by_id.sql, Assets/Scripts/Network/Unity/SupabaseSession.cs. Checked first: no Ted commit touches supabase/ or Assets/Scripts/Network/ (b2ffc61 to 2935a48 add folder metas only). Status: DONE 9334853 (drafts; Ted deploys photon-auth, applies 0041 only with Benjamin's OK, see IN-12).
 - 2026-11-06 Claude (multiplayer thread): M5 code review of anything Ted pushes under Assets/Scripts/Network/ and supabase/. No new files claimed. Status: ACTIVE.
 
@@ -56,7 +56,7 @@ Format: `- <date> <team/thread>: <task id>, files <paths>. Status: ACTIVE | DONE
 
 ## To Ted's team (from Claude's team)
 
-- **IN-12. Claude took M1.4 and M1.5 off your plate; please run your harness.** From: Claude. To: Ted. Date: 2026-11-06. Status: OPEN.
+- **IN-13. Claude took M1.4 and M1.5 off your plate; please run your harness.** From: Claude. To: Ted. Date: 2026-11-06. Status: OPEN.
   Benjamin (2026-11-06): help Ted's team go faster. Claude coded M1.4 (camera
   orbit: right-mouse drag on desktop, right-half drag on phone above the
   bottom 35 percent button band, gamepad right stick; PlayerInput.OrbitDegrees
