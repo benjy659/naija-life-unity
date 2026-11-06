@@ -66,6 +66,8 @@ Format: `- <date> <team/thread>: <task id>, files <paths>. Status: ACTIVE | DONE
 - 2026-11-06 Claude (Oshodi thread): M2.1/M2.2 QA capture runner (one batch method that builds, sets up Bootstrap and writes the V1 to V6 screenshots at every tier and QA hour plus a report under qa/M2.1/ and qa/M2.2/), files Assets/Editor/World/OshodiCaptureRunner.cs and small public ApplyNow/RefreshNow hooks in Assets/Scripts/World/TimeOfDay.cs, LampLightPool.cs, NightOnly.cs. Checked first: Ted's 3026a56 (player body) and the M3/M4/HUD/net commits since a2628f3 do not touch these files. Status: DONE 1dac422 (never compiled; IN-17 updated).
 - 2026-11-06 Claude (Oshodi thread): compile check for the Oshodi C# outside Unity, files tools/oshodi/compile-check.sh and stub .cs.txt files, plus two foreach lines in OshodiCaptureRunner.cs and OshodiGreyboxTests.cs. Checked first: commits since 44641b7 (HUD, review, vehicles inbox) do not touch these. Status: DONE (this commit).
 
+- 2026-11-06 14:40 Claude (jobs thread): M4 compile check and Jobs.Core test run outside Unity (same method as tools/vehicles), files tools/jobs/compile-check.sh, tools/jobs/stubs-*.cs.txt (new), plus any compile fixes in Assets/Scripts/Jobs/**, Economy/*, PlayerNeeds.cs, Tests/EditMode/Jobs/*, Editor/Jobs/*. Checked first: commits since 1aa6e7f (Ted's 3026a56 player body, feac519 HUD-8, 8995102, 2c11750, 13e2920) touch only NLJobUiBridge's Show* lines in my area (reviewed, fine); no other claim on tools/jobs. Status: ACTIVE.
+
 ## Item format
 
 ```
