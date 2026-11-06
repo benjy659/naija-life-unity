@@ -22,6 +22,12 @@
 -- client shows a line for each); exceptions only for "sign-in required".
 -- Codes: pawa_low, cap_reached, busy, too_fast, too_many, not_open, bad_input.
 --
+-- ACCEPTED M4 RISK (multiplayer thread review, 2026-11-06): p_pawa comes from
+-- the client, so a modified client can skip the Pawa 25 gate. Impact is low:
+-- the server still caps 3 paid shifts a WAT day, 6 trips a shift, 150 s
+-- between trips, and prices every trip itself. Fix when needs move server
+-- side: read Pawa from that row here instead of p_pawa.
+--
 -- GRANTS (Supabase change of 2026-10-30): explicit. Tables: select own rows
 -- only, nothing else for anon/authenticated. RPCs: EXECUTE to authenticated.
 -- ============================================================================

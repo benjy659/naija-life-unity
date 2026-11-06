@@ -11,9 +11,27 @@ namespace NaijaLife.Economy
     {
         static IShiftService _current;
 
-        public static IShiftService Current => _current ?? (_current = CreateStub());
+        /// <summary>
+        /// Flip to true in the same commit that records migration 0042 as applied
+        /// (Ted's team). Until then shifts use the Editor stub even when signed in.
+        /// </summary>
+        public const bool ServerShiftsLive = false;
 
-        /// <summary>Called once sign-in works (M5 bootstrap): switch to the server.</summary>
+        public static IShiftService Current
+        {
+            get
+            {
+                if (_current != null) return _current;
+                // One shared Supabase session (NetBootstrap): a second session would sign in
+                // anonymously again and make a second account.
+                if (ServerShiftsLive && NetBootstrap.Supabase != null && NetBootstrap.SupabaseCfg != null)
+                    UseServer(NetBootstrap.SupabaseCfg, NetBootstrap.Supabase);
+                else _current = CreateStub();
+                return _current;
+            }
+        }
+
+        /// <summary>Switch to the server. Pass NetBootstrap.SupabaseCfg and NetBootstrap.Supabase, never a new session.</summary>
         public static void UseServer(SupabaseConfig cfg, SupabaseSession session) { _current = new SupabaseShiftService(cfg, session); }
 
         static IShiftService CreateStub()
