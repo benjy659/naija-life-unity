@@ -116,8 +116,9 @@ namespace NaijaLife.World.Tests
         public void SceneMatchesLayout()
         {
             var problems = new List<string>();
-            foreach (var (path, key) in new[] { (OshodiGreyboxBuilder.CoreScenePath, "core"), (OshodiGreyboxBuilder.ApproachScenePath, "approach") })
+            foreach (var pair in new[] { (path: OshodiGreyboxBuilder.CoreScenePath, key: "core"), (path: OshodiGreyboxBuilder.ApproachScenePath, key: "approach") })
             {
+                string path = pair.path, key = pair.key;
                 var scene = EditorSceneManager.OpenScene(path, OpenSceneMode.Single);
                 var byName = new Dictionary<string, Transform>();
                 foreach (var root in scene.GetRootGameObjects())

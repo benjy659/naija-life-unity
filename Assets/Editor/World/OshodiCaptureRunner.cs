@@ -117,8 +117,9 @@ namespace NaijaLife.World.Editor
                 Header(r1, "M2.1 viewpoint captures", "Medium tier, 13:00 WAT. Check each shot against spec section 1 and the viewpoint notes in docs/specs/oshodi-greybox-layout.json.");
                 SetTier(1);
                 foreach (var v in views.Where(v => v.id != "V6"))
-                    foreach (var (w, h) in Sizes)
+                    foreach (var size in Sizes)
                     {
+                        int w = size.w, h = size.h;
                         string file = $"{v.id}-{w}x{h}.png";
                         var est = Shoot(cam, v, 13f, w, h, tod, pool, nightOnly, Path.Combine(dir1, file));
                         r1.AppendLine($"| {file} | {v.id} | ({v.x:F1}, {v.y:F2}, {v.z:F1}) facing {v.ry:F0} | {est.renderers} | {est.pairs} |");

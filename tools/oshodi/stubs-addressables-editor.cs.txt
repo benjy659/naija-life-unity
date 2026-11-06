@@ -1,0 +1,15 @@
+using System;
+namespace UnityEditor.AddressableAssets.Settings {
+  public class AddressableAssetGroupSchema : UnityEngine.ScriptableObject {}
+  public class AddressableAssetGroup {}
+  public class AddressableAssetEntry { public string address; }
+  public class AddressableAssetSettings {
+    public enum ModificationEvent { EntryMoved }
+    public AddressableAssetGroup FindGroup(string n) => null;
+    public AddressableAssetGroup CreateGroup(string groupName, bool setAsDefaultGroup, bool readOnly, bool postEvent, System.Collections.Generic.List<AddressableAssetGroupSchema> schemasToCopy, params Type[] types) => null;
+    public AddressableAssetEntry CreateOrMoveEntry(string guid, AddressableAssetGroup targetParent, bool readOnly = false, bool postEvent = true) => null;
+    public void SetDirty(ModificationEvent e, object o, bool postEvent, bool settingsModified = false) {}
+  }
+}
+namespace UnityEditor.AddressableAssets.Settings.GroupSchemas { public class BundledAssetGroupSchema : UnityEditor.AddressableAssets.Settings.AddressableAssetGroupSchema {} public class ContentUpdateGroupSchema : UnityEditor.AddressableAssets.Settings.AddressableAssetGroupSchema {} }
+namespace UnityEditor.AddressableAssets { public static class AddressableAssetSettingsDefaultObject { public static UnityEditor.AddressableAssets.Settings.AddressableAssetSettings GetSettings(bool create) => null; } }

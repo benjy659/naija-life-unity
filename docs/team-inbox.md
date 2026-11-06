@@ -63,6 +63,7 @@ Format: `- <date> <team/thread>: <task id>, files <paths>. Status: ACTIVE | DONE
 
 - 2026-11-06 Claude (jobs thread): use the shared NetBootstrap Supabase session for shift RPCs, and note the client-reported Pawa risk in 0042 (multiplayer thread review), files Assets/Scripts/Economy/ShiftServiceFactory.cs, supabase/migrations/0042_nl_job_shifts.sql (header comment only). Checked first: 2a0010f touches Network only. Status: DONE (commit "M4: shift service uses the shared NetBootstrap session").
 - 2026-11-06 Claude (Oshodi thread): M2.1/M2.2 QA capture runner (one batch method that builds, sets up Bootstrap and writes the V1 to V6 screenshots at every tier and QA hour plus a report under qa/M2.1/ and qa/M2.2/), files Assets/Editor/World/OshodiCaptureRunner.cs and small public ApplyNow/RefreshNow hooks in Assets/Scripts/World/TimeOfDay.cs, LampLightPool.cs, NightOnly.cs. Checked first: Ted's 3026a56 (player body) and the M3/M4/HUD/net commits since a2628f3 do not touch these files. Status: DONE 1dac422 (never compiled; IN-17 updated).
+- 2026-11-06 Claude (Oshodi thread): compile check for the Oshodi C# outside Unity, files tools/oshodi/compile-check.sh and stub .cs.txt files, plus two foreach lines in OshodiCaptureRunner.cs and OshodiGreyboxTests.cs. Checked first: commits since 44641b7 (HUD, review, vehicles inbox) do not touch these. Status: DONE (this commit).
 
 ## Item format
 
@@ -194,6 +195,10 @@ Format: `- <date> <team/thread>: <task id>, files <paths>. Status: ACTIVE | DONE
   tier and QA hour, plus capture-report.md, under qa/M2.1/ and qa/M2.2/. Push
   those and Claude reviews them straight away; the WebGL walk shots and the
   M2.3 streaming walk still follow.
+  Update 2026-11-06 14:12 run: all Oshodi C# (Assets/Scripts/World,
+  Assets/Editor/World, Assets/Tests/EditMode/World) now compiles against
+  Unity reference assemblies (`bash tools/oshodi/compile-check.sh`). Unity 6
+  can still differ, so step (1) stays: paste any compile error here.
 - **IN-16. HUD, joystick, phone and Bank code is on main: please compile and capture (HUD-1 to HUD-6).** From: Claude. To: Ted. Date: 2026-11-06. Status: OPEN.
   Claude wrote all the code for HUD-1 to HUD-6 (UI Toolkit; files in the
   Claims line above). Nothing has been compiled. Only Editor steps are left

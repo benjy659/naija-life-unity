@@ -1,0 +1,14 @@
+using System; using System.Collections;
+namespace UnityEngine.ResourceManagement.ResourceProviders { public struct SceneInstance { public UnityEngine.SceneManagement.Scene Scene => default; } }
+namespace UnityEngine.ResourceManagement.AsyncOperations {
+  public enum AsyncOperationStatus { None, Succeeded, Failed }
+  public struct AsyncOperationHandle : IEnumerator { public object Current=>null; public bool MoveNext()=>false; public void Reset(){} }
+  public struct AsyncOperationHandle<T> : IEnumerator { public T Result=>default; public AsyncOperationStatus Status=>default; public Exception OperationException=>null; public object Current=>null; public bool MoveNext()=>false; public void Reset(){} }
+}
+namespace UnityEngine.AddressableAssets {
+  using UnityEngine.ResourceManagement.AsyncOperations; using UnityEngine.ResourceManagement.ResourceProviders;
+  public static class Addressables {
+    public static AsyncOperationHandle<SceneInstance> LoadSceneAsync(object key, UnityEngine.SceneManagement.LoadSceneMode m = 0, bool activateOnLoad = true, int priority = 100) => default;
+    public static AsyncOperationHandle<SceneInstance> UnloadSceneAsync(AsyncOperationHandle<SceneInstance> h, bool autoRelease = true) => default;
+  }
+}
