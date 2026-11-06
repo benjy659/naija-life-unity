@@ -87,6 +87,11 @@ force-push.
   of the 4.2 m/s jog. Both UNVERIFIED until played. Ted's fixes: M0.1,
   M1.4 to M1.6 below.
 - **M0.1. Commit the locked project settings (Ted's team).** Status: READY.
+  **Checked 2026-11-06 on e58209c:** still needed. The first Editor open
+  committed defaults: `GraphicsSettings.m_CustomRenderPipeline` and every
+  Quality level's `customRenderPipeline` are `{fileID: 0}` (no URP asset,
+  so the scene renders with the built-in fallback), `m_ActiveColorSpace: 0`
+  (Gamma, not Linear), and `EditorBuildSettings` lists no scenes.
   From review R4/R5. Open the project once in 6000.3.28f1 and commit
   `ProjectSettings/` with: a URP 17.3 asset + Forward renderer in
   `Assets/Settings/` assigned in Graphics and every Quality level; three
@@ -476,3 +481,32 @@ the browser repo.
 - UX checklist on every slice: easy to control? Nothing blocking the
   screen? Possible in real life (real Lagos)? No notification spam?
   Could it be better — and if yes, do it now, not in a rebuild.
+
+---
+
+## Lessons for Ted's team
+
+- **L-1. Never hand-write Unity YAML.** (2026-11-06, commits b2ffc61,
+  e33fa82, e58209c.) The M1 prefab and scene were written as text without an
+  Editor. Three bugs came from that: the CharacterController was saved as a
+  BoxCollider2D (class 61 instead of 143), the scene's Player instance was an
+  empty shell, and the input actions reference was malformed, so the player
+  could never move. Create and edit `.prefab`, `.unity`, `.controller` and
+  `.asset` files only in the Editor, then commit what the Editor saved.
+- **L-2. "Locked on day one" means committed.** (2026-11-06.) Pipeline,
+  colour space and build scenes must be committed settings files, checked by
+  reading them back, not a step someone does on first open (see M0.1).
+
+## Review log
+
+- **2026-11-06 02:30 UTC, Claude review run.** Reviewed Ted's b2ffc61,
+  e33fa82 and e58209c (first Editor open). Good news: the Unity Editor now
+  runs on Ted's side, the one compile error (CM3 `AddComponent`) is fixed,
+  and three hand-written-YAML bugs that stopped the player moving are fixed
+  (lesson L-1). Claude's camera fix R1 survived the merge
+  (`moveVsCamera` in PlayerCamera.cs). Security: no secrets in the diff; no
+  backend or payment changes. Still open: M0.1 (no URP asset, Gamma colour,
+  no build scenes; details under M0.1), inbox IN-4 to IN-11 unanswered, no
+  qa/ captures yet, so M1 stays UNVERIFIED.
+  Where I stopped: waiting on Ted's M0.1 and the first M1 play captures under
+  qa/m1/; next run reviews them and answers any inbox replies.
