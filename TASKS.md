@@ -49,6 +49,13 @@ terms.
 Harcourt first city after Lagos. Multiplayer at launch. Quality first over
 quantity. **No launch date yet** — do not promise one until M6 is played.
 
+**See first, say first, then build (Benjamin, 2026-11-06):** before
+building anything, every team pulls main, reads the new commits since its
+last run plus the inbox and this board, then writes a claim (task id + files)
+under "Claims" in [docs/team-inbox.md](docs/team-inbox.md) and checks that no
+one else is on the same task or files. Ted's team has been building on its
+own; never redo or overwrite their work.
+
 **How this board works:** Claude writes specs, assigns, verifies and fixes.
 Ted's team builds what is written here. Ted's team checks this file at
 ~6 AM, ~12 PM, ~6 PM, ~10 PM Winnipeg time. Claude reviews about 90
@@ -102,7 +109,7 @@ force-push.
   merged into uGUI. *Acceptance:* a fresh clone opens with URP active and no
   pink materials; screenshot of Project Settings > Graphics and Player >
   Other (colour space) in `qa/m0.1/`.
-- **M1.4. Wire camera orbit input (Ted's team).** Status: READY. From review
+- **M1.4. Wire camera orbit input (Claude, IN PROGRESS 2026-11-06; taken off Ted's plate, Ted runs the harness after).** Status: IN PROGRESS. From review
   R3: `PlayerInput.LookInput` is never passed to `PlayerCamera.AddOrbitInput`,
   so the player cannot turn the camera. Rules: desktop orbits only while the
   right mouse button is held (a free-moving mouse must never move the lens);
@@ -113,7 +120,7 @@ force-push.
   `orbitRecenterDelay`. *Acceptance:* in Editor and WebGL, RMB-drag turns
   the camera, plain mouse movement does not, and releasing and walking
   forward eases the lens back behind the player within about 2 s.
-- **M1.5. Tighten the grounded check (Ted's team).** Status: READY. From
+- **M1.5. Tighten the grounded check (Claude, IN PROGRESS 2026-11-06; Ted runs the harness after).** Status: IN PROGRESS. From
   review R6: in `PlayerController.UpdateGrounded` count the probe as grounded
   only when the ground is within about 0.05 m of the capsule bottom.
   *Acceptance:* stepping off `Wall_Low` falls with gravity (no slow float);
