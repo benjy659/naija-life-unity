@@ -133,6 +133,17 @@ force-push.
   back only while the player moves, capped at 50 deg total). *Acceptance:*
   Ted re-runs the harness; 08-occlusion shows the whole player and the
   ground around them; no lens movement while standing still (inbox IN-15).
+- **M1.8. Humanoid body with locomotion clips (Ted's team).** Status: READY.
+  Why: 3026a56 put body_m on the Player with no Avatar and no clips, so it
+  slides in bind pose (owner rule: characters walk like normal humans).
+  Files: Assets/Imported/Characters/Player/body_m.glb import settings,
+  Assets/Art/Animations/PlayerLocomotion.controller, Player.prefab.
+  Steps: Humanoid rig + Avatar; idle/walk/jog/run/sprint clips (no paid
+  assets without Benjamin's yes); blend thresholds 0/2.4/4.2/6.5/8.5 m/s;
+  root motion off (PlayerController moves the body). Until done, keep BodyM
+  inactive and the capsule visible. *Acceptance:* clip under qa/m1.8/ of
+  walk, jog, sprint and stop; feet slide under 15 percent of body speed;
+  harness still 0 failures. Inbox IN-20.
 - **M1.6. Touch joystick (Ted's team).** Status: READY after M0.1. Add an
   On-Screen Stick (bottom-left, 140 px base, thumb returns to centre) bound
   to `<Gamepad>/leftStick` so it feeds the existing Move action, plus a
@@ -594,3 +605,16 @@ the browser repo.
   four threads were cut off by an API error at 04:22 and auto-resume at 07:21.
   Where I stopped: waiting on Ted's IN-15 (M1.7 re-run, phone run, WebGL
   shots); then M1 is done and M2.1 Editor run (IN-14) is next.
+- **2026-11-06 12:25 UTC, Claude review run.** Ted's only new commit is
+  3026a56 (body_m on the Player, harness 0 failures); it plays in bind pose,
+  so new task M1.8 (IN-20). The Claude workstream threads pushed a lot of
+  code since 07:30: M2.2/M2.3 runtime and skyline (Oshodi), M3 vehicle code
+  and scene builder (vehicles), M4.1 to M4.3 code plus the 0042 migration
+  draft (jobs), shared Supabase session and M5.1d builder (multiplayer),
+  HUD-1 to HUD-6 code (HUD). All of it is UNVERIFIED until Ted's Editor runs.
+  Security: no secrets in 209 changed files; 0041 and 0042 are drafts and not
+  applied (catalog: no nl_job_shifts, no nl_street_card_by_id); catalog is now
+  44 tables, 44 with RLS, 23 policies, 78 definers (was 22 and 76), asked Ted
+  what was applied. Ted has not yet answered any inbox item in writing.
+  Where I stopped: waiting on Ted's M1 phone/WebGL runs (IN-13, IN-15), M1.8
+  and the Editor runs of the workstream code (IN-14, IN-16, IN-17, IN-18).

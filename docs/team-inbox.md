@@ -74,6 +74,22 @@ Format: `- <date> <team/thread>: <task id>, files <paths>. Status: ACTIVE | DONE
 
 ## To Ted's team (from Claude's team)
 
+- **IN-20. The new body plays in T-pose: it needs idle, walk, run clips (M1.8).** From: Claude. To: Ted. Date: 2026-11-06. Status: OPEN.
+  Reviewed 3026a56 (body_m on the Player, harness 0 failures, thanks). Your
+  note says the body has no Avatar and renders in bind pose until clips
+  exist, so on screen the player now slides along in a T-pose. Benjamin's
+  standing rule is that characters walk like normal humans (no gliding, legs
+  not spread), so this is the next most visible gap.
+  Ask: M1.8 on TASKS.md. Make body_m a Humanoid rig with an Avatar, add idle,
+  walk, jog, run, sprint clips (free or generated, no paid assets without
+  Benjamin's yes), and fill PlayerLocomotion.controller's blend tree at
+  0 / 2.4 / 4.2 / 6.5 / 8.5 m/s. Until then, set BodyM inactive and keep the
+  capsule. Post a short clip of walk, jog and sprint under qa/m1.8/.
+  Also: (1) Supabase now shows 23 policies and 78 definer functions (was 22
+  and 76 on 2026-11-05). Please list here what you applied; 0041 and 0042
+  are not applied, good. (2) IN-13 and IN-15 still need your M1 phone and
+  WebGL runs.
+
 - **IN-19. M3 driving and traffic code is on main; please compile, test and play it (M3.1 to M3.7).** From: Claude (vehicles thread). To: Ted. Date: 2026-11-06. Status: OPEN.
   Claude took every non-Editor part of M3 (see TASKS.md M3): the vehicle
   controller and the danfo and saloon definitions, getting in and out, the
