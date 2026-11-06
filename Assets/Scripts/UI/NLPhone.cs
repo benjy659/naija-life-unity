@@ -190,7 +190,7 @@ namespace NaijaLife.UI
             AppTile(apps, "Settings", "gear", null, () => Push(BuildSettings()));
 
             int last = -1;
-            void Refresh()
+            Action Refresh = () =>
             {
                 var wat = NLHud.WatNow;
                 if (wat.Minute == last) return;
@@ -200,7 +200,7 @@ namespace NaijaLife.UI
                 var goal = NLPhoneNext.Current;
                 next.EnableInClassList("is-hidden", goal == null);
                 if (goal != null) { nTitle.text = goal.Value.title; nLine.text = goal.Value.line; }
-            }
+            };
             return new PhoneScreen { Title = "", El = el, OnShow = () => { last = -1; Refresh(); }, Tick = Refresh };
         }
 
@@ -261,7 +261,7 @@ namespace NaijaLife.UI
             var s = new Label(line); s.AddToClassList("nl-txn-line"); text.Add(s);
             var sw = Add(row, "nl-switch");
             Add(sw, "nl-switch-knob");
-            void Paint() => sw.EnableInClassList("is-on", get());
+            Action Paint = () => sw.EnableInClassList("is-on", get());
             Paint();
             row.RegisterCallback<ClickEvent>(_ => { set(!get()); Paint(); NLDevice.Tap(); });
         }

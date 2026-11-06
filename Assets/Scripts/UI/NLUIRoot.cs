@@ -107,14 +107,14 @@ namespace NaijaLife.UI
 
         private void OnAnyPointerDown(PointerDownEvent e)
         {
-            if (e.pointerType == PointerType.touch || e.pointerType == PointerType.pen)
+            if (e.pointerType == UnityEngine.UIElements.PointerType.touch || e.pointerType == UnityEngine.UIElements.PointerType.pen)
             {
                 // a finger on the glass is unambiguous: show touch controls at once
                 _keyVotes = 0;
                 _keyHideAt = -1f;
                 SetTouch(true);
             }
-            else if (e.pointerType == PointerType.mouse)
+            else if (e.pointerType == UnityEngine.UIElements.PointerType.mouse)
             {
                 // a mouse click hides them, but only on the second click in a row (no flicker)
                 if (TouchActive && ++_keyVotes >= 2) _keyHideAt = Time.unscaledTime + 0.22f;

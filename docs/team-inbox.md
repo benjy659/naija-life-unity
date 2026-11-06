@@ -53,7 +53,7 @@ Format: `- <date> <team/thread>: <task id>, files <paths>. Status: ACTIVE | DONE
 - 2026-11-06 Claude (multiplayer thread): M5 compile check and Core test run outside Unity (same method as tools/jobs), files tools/network/* (new), plus fixes in Assets/Scripts/Network/** and Assets/Tests/EditMode/Network/** if it finds errors. Checked first: no other claim on these paths. Status: DONE (this push: 27/27 Core tests pass under NUnitLite, glue and builder type-check; fixed two test-file compile errors).
 - 2026-11-06 Claude (multiplayer thread): M5 code review of anything Ted pushes under Assets/Scripts/Network/ and supabase/. No new files claimed. Status: ACTIVE.
 - 2026-11-06 Claude (HUD thread): M3.4 speedo and handbrake button (vehicles thread asked), files Assets/Scripts/UI/NLDriveHud.cs (new), Assets/UI/UXML/NLHud.uxml (nl-drive block), Assets/UI/Styles/NLHud.uss (driving section), one line in Assets/Editor/UI/NLUISetup.cs. Checked first: Ted has pushed nothing under Assets/UI or Assets/Scripts/UI; the vehicles thread's code only reads DriveSession, no overlap. Status: DONE (this commit), never compiled.
-- 2026-11-06 15:00 Claude (HUD thread): compile check outside Unity for the UI code (same method as tools/jobs and tools/vehicles), files tools/ui/* (new), plus compile fixes in Assets/Scripts/UI/*, Assets/Editor/UI/* if it finds any. Checked first: the jobs, vehicles, Oshodi and M5 checks (13e2920 to af73629) do not cover Assets/Scripts/UI; no Ted commit in UI. Status: ACTIVE.
+- 2026-11-06 15:00 Claude (HUD thread): compile check outside Unity for the UI code (same method as tools/jobs and tools/vehicles), files tools/ui/* (new), plus compile fixes in Assets/Scripts/UI/*, Assets/Editor/UI/* if it finds any. Checked first: the jobs, vehicles, Oshodi and M5 checks (13e2920 to af73629) do not cover Assets/Scripts/UI; no Ted commit in UI. Status: DONE (this commit): PASS, NLMoney 20/20; one real fix (PointerType ambiguous in NLUIRoot), see IN-16 note.
 - 2026-11-06 Claude (vehicles thread): M3.1, M3.3, M3.5, M3.6, M3.7 code (VehicleDefinition, VehicleController, DriveSession, VehiclePlayerDriver, VehiclePromptBridge, TrafficSense, LaneGraph, TrafficDriver, TrafficSpawner, damage and contact events, lane validator) plus the M3.2 Greybox_M3 scene builder and an M3 self-check, files Assets/Scripts/Vehicles/*, Assets/Editor/Vehicles/*, Assets/Tests/EditMode/Vehicles/*, Assets/Scripts/Verification/M3*, ProjectSettings/TagManager.asset (layers 14 to 16: Vehicle, DrivenVehicle, Pedestrian; road surfaces use the Oshodi thread's Ground layer). TimeManager not changed (fixed step was already 0.02). Checked first: Ted's commits up to 74482c6 and the other threads' commits up to 3b42af9 do not touch these; the bridge uses only NLPrompts.Offer/Withdraw from the HUD thread. Ted keeps M3.4 handbrake button and speedo and every Editor run. Status: DONE (this commit, IN-19), never run in the Editor.
 
 - 2026-11-06 14:20 Claude (vehicles thread): M3 compile check and logic test run outside Unity, files tools/vehicles/compile-check.sh, tools/vehicles/stubs-runtime.cs.txt (new). Checked first: commits since 6274ff9 (feac519 HUD-8, 8995102 review log, 2c11750 Oshodi compile check) and Ted's 3026a56 do not touch M3 files; no other claim on tools/vehicles. Result: 16/16 logic tests pass under real NUnit, runtime and editor code compile (only SaveAsPrefabAsset is newer than the 2018.1 editor reference). Status: DONE (this commit).
@@ -430,6 +430,15 @@ Format: `- <date> <team/thread>: <task id>, files <paths>. Status: ACTIVE | DONE
   stays. Re-run Naija Streets > UI > Add HUD to open scene on Greybox_M3 to
   pick up the new component. For M3.4 captures: 390x844 WebGL, driving, show
   that nothing crosses the centre third. Never compiled; paste errors here.
+
+- **IN-16 note (HUD thread, 2026-11-06 15:20): UI code now passes a compile check outside Unity.**
+  `bash tools/ui/compile-check.sh` (mono; same method as tools/jobs) compiles
+  Assets/Scripts/UI (player and Editor builds) and Assets/Editor/UI against
+  the 2021.3 reference dlls and runs the NLMoney tests (20/20 pass). It found
+  one real error: `PointerType` in NLUIRoot.cs was ambiguous between
+  UnityEngine and UnityEngine.UIElements (now fully named). Three local
+  functions became lambdas and NLMoney lost its digit separators only
+  because mcs cannot read them. Unity 6 is still the real check (IN-16 steps).
 
 - **IN-21 (HUD thread to Ted and the jobs thread, 2026-11-06): HUD-8 job UI is in code.**
   From: Claude. To: Ted. Status: OPEN.

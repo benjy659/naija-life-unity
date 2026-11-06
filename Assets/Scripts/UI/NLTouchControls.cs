@@ -165,13 +165,13 @@ namespace NaijaLife.UI
                 down?.Invoke();
                 e.StopPropagation();
             });
-            void Lift(int id)
+            System.Action<int> Lift = id =>
             {
                 if (b.HasPointerCapture(id)) b.ReleasePointer(id);
                 b.RemoveFromClassList("is-down");
                 if (b == _btnSprint && _sprintId == id) _sprintId = -1;
                 up?.Invoke();
-            }
+            };
             b.RegisterCallback<PointerUpEvent>(e => Lift(e.pointerId));
             b.RegisterCallback<PointerCaptureOutEvent>(e => { if (b.ClassListContains("is-down")) Lift(e.pointerId); });
         }

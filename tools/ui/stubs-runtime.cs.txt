@@ -1,0 +1,65 @@
+// Compile-check stubs for tools/ui/compile-check.sh only (.txt so Unity never
+// compiles them). They mirror the signatures the UI kit calls; keep them in
+// step with the real Input System, URP, Player and Vehicles code.
+using UnityEngine;
+namespace UnityEngine.InputSystem.Controls {
+  public class ButtonControl { public bool wasPressedThisFrame; public bool isPressed; }
+  public class KeyControl : ButtonControl {}
+  public class TouchControl { public ButtonControl press; }
+}
+namespace UnityEngine.InputSystem {
+  using UnityEngine.InputSystem.Controls;
+  public class Keyboard {
+    public static Keyboard current;
+    public ButtonControl anyKey;
+    public KeyControl eKey, enterKey, spaceKey, escapeKey, pKey, tabKey, vKey,
+      digit1Key, digit2Key, digit3Key, numpad1Key, numpad2Key, numpad3Key;
+  }
+  public class Gamepad {
+    public static Gamepad current;
+    public ButtonControl buttonSouth, buttonEast, buttonWest, buttonNorth, selectButton;
+  }
+  public class Mouse { public static Mouse current; }
+  public class Touchscreen { public static Touchscreen current; public TouchControl primaryTouch; }
+}
+namespace UnityEngine.InputSystem.Layouts {
+  public sealed class InputControlAttribute : System.Attribute { public string layout; }
+}
+namespace UnityEngine.InputSystem.OnScreen {
+  public abstract class OnScreenControl : MonoBehaviour {
+    public string controlPath { get { return controlPathInternal; } set { controlPathInternal = value; } }
+    protected abstract string controlPathInternal { get; set; }
+    protected void SendValueToControl<T>(T value) where T : struct {}
+    protected virtual void OnEnable() {}
+    protected virtual void OnDisable() {}
+  }
+}
+namespace UnityEngine.EventSystems { // com.unity.ugui, not a module dll
+  public class EventSystem : MonoBehaviour { public static EventSystem current; }
+  public abstract class BaseInputModule : MonoBehaviour { public abstract void Process(); }
+  public class StandaloneInputModule : BaseInputModule { public override void Process() {} }
+}
+namespace UnityEngine.InputSystem.UI {
+  public class InputSystemUIInputModule : UnityEngine.EventSystems.BaseInputModule { public override void Process() {} }
+}
+namespace UnityEngine.Rendering.Universal {
+  public class UniversalAdditionalCameraData : MonoBehaviour {
+    public bool renderShadows; public bool renderPostProcessing; public bool requiresDepthTexture; public bool requiresColorTexture;
+    public AntialiasingMode antialiasing;
+  }
+  public enum AntialiasingMode { None, FastApproximateAntialiasing, SubpixelMorphologicalAntiAliasing }
+  public static class CameraExtensions { public static UniversalAdditionalCameraData GetUniversalAdditionalCameraData(this Camera c) { return null; } }
+}
+namespace NaijaLife.Player {
+  public class PlayerController : MonoBehaviour {}
+  public class PlayerInput : MonoBehaviour { public bool IsLocked { get; private set; } public void SetLocked(bool locked) {} }
+  public class PlayerCamera : MonoBehaviour { public float walkDistance = 4.5f; public float FollowYawDegrees { get { return 0f; } } }
+}
+namespace NaijaLife.Vehicles {
+  public enum DriveState { OnFoot, WalkingToDoor, Driving }
+  public class VehicleController : MonoBehaviour { public float SpeedKmh { get { return 0f; } } }
+  public class DriveSession : MonoBehaviour {
+    public DriveState State { get; private set; }
+    public VehicleController CurrentVehicle { get; private set; }
+  }
+}

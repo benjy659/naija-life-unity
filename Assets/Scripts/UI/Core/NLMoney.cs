@@ -21,7 +21,8 @@ namespace NaijaLife.UI
     {
         public const string Sign = "₦"; // ₦
 
-        private static readonly long[] UnitValues = { 1_000_000_000_000L, 1_000_000_000L, 1_000_000L, 1_000L };
+        // no digit separators here: mcs (the cloud compile check) misreads them
+        private static readonly long[] UnitValues = { 1000000000000L, 1000000000L, 1000000L, 1000L };
         private static readonly string[] UnitNames = { "tn", "bn", "m", "k" };
 
         /// <summary>Short HUD format: ₦12.5k, ₦1.2bn.</summary>
