@@ -65,3 +65,8 @@ Desktop.ini
 
 # Local Unity license activation material (machine-specific, never commit)
 .unity-license/
+
+# Supabase Edge Functions (local dev)
+node_modules/
+supabase/functions/node_modules/
+supabase/.temp/

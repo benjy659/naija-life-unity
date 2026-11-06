@@ -1,0 +1,8 @@
+# Supabase CLI config — Naija Life Unity backend.
+# Project: naija-life (jdumcxvqjtgnbeuvlufq, ca-central-1).
+# NOTE: this file only configures the CLI (link / deploy / local dev).
+# Live Auth settings (anonymous + email providers) are dashboard settings
+# — see README.md "Live dashboard settings". Nothing in this file changes
+# the live project.
+
+project_id = "jdumcxvqjtgnbeuvlufq"
