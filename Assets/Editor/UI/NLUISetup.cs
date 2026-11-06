@@ -68,6 +68,7 @@ namespace NaijaLife.UI.Editor
             Get<NLPrompts>(go);
             Get<NLPhone>(go);
             Get<NLRadar>(go);
+            Get<NLDriveHud>(go);
 
             if (Object.FindFirstObjectByType<EventSystem>() == null)
             {

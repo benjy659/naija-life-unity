@@ -72,6 +72,17 @@
                 <ui:VisualElement name="nl-btn-sprint" class="nl-round-btn nl-round-btn--sprint"><ui:VisualElement class="nl-icon nl-icon--ink nl-ico-onfoot" picking-mode="Ignore" /></ui:VisualElement>
             </ui:VisualElement>
 
+            <!-- DRIVING (M3.4): speedo + handbrake, only while driving, bottom-right, never in the centre third -->
+            <ui:VisualElement name="nl-drive" class="nl-drive" picking-mode="Ignore">
+                <ui:VisualElement name="nl-speedo" class="nl-speedo" picking-mode="Ignore">
+                    <ui:Label name="nl-speedo-value" class="nl-speedo-value" text="0" picking-mode="Ignore" />
+                    <ui:Label class="nl-speedo-unit" text="KM/H" picking-mode="Ignore" />
+                </ui:VisualElement>
+                <ui:VisualElement name="nl-btn-handbrake" class="nl-round-btn nl-round-btn--handbrake nl-touch-only">
+                    <ui:Label class="nl-handbrake-label" text="BRAKE" picking-mode="Ignore" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+
             <!-- DESKTOP key hints (first 3 sessions) -->
             <ui:VisualElement name="nl-keyhints" class="nl-chip nl-keyhints nl-desktop-only" picking-mode="Ignore">
                 <ui:Label class="nl-key" text="P" /><ui:Label class="nl-keyhint" text="Phone" />

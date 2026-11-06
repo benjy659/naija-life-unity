@@ -213,3 +213,19 @@
 
 /* reduced motion: no transitions anywhere */
 .nl-reduced-motion * { transition-duration: 0s; }
+
+/* ---------- driving (M3.4, vehicles-m3.md section 12) ---------- */
+.nl-drive { position: absolute; right: 12px; bottom: 12px; align-items: flex-end; display: none; }
+.nl-driving .nl-drive { display: flex; }
+/* while driving: no on-foot buttons (spec 12: no other buttons in M3) */
+.nl-driving .nl-buttons { display: none; }
+.nl-driving .nl-keyhints { display: none; }
+.nl-speedo {
+    flex-direction: row; align-items: flex-end;
+    padding-left: 12px; padding-right: 12px; padding-top: 6px; padding-bottom: 6px;
+    border-radius: 12px; background-color: var(--nl-hud-chip);
+}
+.nl-speedo-value { -unity-font-style: bold; font-size: 28px; color: var(--nl-text); padding: 0; margin: 0; min-width: 52px; -unity-text-align: lower-right; }
+.nl-speedo-unit { -unity-font-style: bold; font-size: 10px; letter-spacing: 1px; color: var(--nl-text-dim); padding: 0; margin: 0; margin-left: 4px; margin-bottom: 5px; }
+.nl-round-btn--handbrake { position: relative; width: 64px; height: 64px; border-radius: 32px; margin-top: 10px; }
+.nl-handbrake-label { -unity-font-style: bold; font-size: 11px; letter-spacing: 1px; color: var(--nl-text); padding: 0; margin: 0; }
