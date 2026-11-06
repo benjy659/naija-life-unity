@@ -273,6 +273,9 @@ Pacing check: `node tools/jobsim.js`. Build in this order; each task needs its
 `qa/m4.<n>/` evidence (spec section 11) before it counts. Uses the
 `LocalShiftStub` until M4.4 is applied, so M4.1 to M4.3 do not wait on the
 backend.
+Compile check outside Unity (2026-11-06, 5e1f906): `bash tools/jobs/compile-check.sh`
+passes: 28/28 Jobs.Core tests under real NUnit; runtime glue and scene builder
+compile against reference assemblies. Unity 6 Editor run is still Ted's check.
 
 - **M4.1. Job-slot system + bot handover.** Status: CODE WRITTEN by Claude
   (d1ded08), UNVERIFIED. Ted's part: open the project, fix any compile error
