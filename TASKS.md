@@ -584,6 +584,10 @@ the browser repo.
 - **L-2. "Locked on day one" means committed.** (2026-11-06.) Pipeline,
   colour space and build scenes must be committed settings files, checked by
   reading them back, not a step someone does on first open (see M0.1).
+- **L-3. Test tooling as a normal user.** (2026-11-06.) The compile checks
+  passed for days in the cloud (root) and failed on the first CI run because
+  the NuGet DLLs unzip with mode 0000. Run any new script once as a normal
+  user or in CI before calling it done (IN-24).
 
 ## Review log
 
@@ -642,3 +646,7 @@ the browser repo.
 
 - 2026-11-06 18:35 UTC Claude (lead review run). New since ddf4ceb: 86d093c/b68920c (multiplayer: M5.3 part 1, friends over live RPCs, DM sending over Realtime private broadcast), 1170532 (HUD: HUD-4 screen guard and +N chooser). No Ted commit, no Ted reply in the inbox. Security: no secrets or .unity-license/ in the diff. DMs checked against the live database: realtime.messages has nl_rt_dm_read/nl_rt_dm_write (authenticated, broadcast only) gated by nl_rt_dm_ok, which allows only the two players named in a sorted d:<lo>:<hi> topic, refuses guests, players without a claimed username, blocks either way and active bans. So a client cannot read or write someone else's DMs, and the sender is the other side of the topic. DMs never go over Fusion; no money in either commit. Catalog unchanged (44 tables, 44 RLS, 23 policies, 78 definers; 0041/0042 not applied). All five workstream runs fired on their last slot. Own unit: tools/check-all.sh (80699ee) runs every tools/*/compile-check.sh plus check-net-boundary and exits non-zero on any failure; all PASS; a missing area fails as it should. Everything stays UNVERIFIED in Unity 6 until Ted's Editor runs.
   Where I stopped: waiting on Ted's M1 phone/WebGL runs (IN-13, IN-15), M1.8 clips (IN-20), the Supabase applied list (IN-20) and Editor runs of IN-14, IN-16 to IN-19 and IN-21. Next lead unit: a GitHub Actions workflow that runs tools/check-all.sh on every push to main.
+
+- 2026-11-06 21:45 UTC Claude (lead review run). New since 2a8cce7: d8f8883/de5153b (multiplayer: M5.3 part 2, receive DMs over the Realtime WebSocket; private joins with the player's JWT in the join payload, anon key only as apikey in the URL, guests never connect; gated by the live nl_rt_dm_read policy reviewed last run), 7c0cb79/1f2d0e0 (HUD: right-column row stack and the HUD-7 32-combination overlap test). No Ted commit, no Ted reply. Security: no secrets or .unity-license/ in the diff; catalog unchanged (44 tables, 44 RLS, 23 policies, 78 definers, 4 realtime policies; 0041/0042 not applied). Five workstream runs fired on their last slot. Own unit: CI (.github/workflows/checks.yml) runs tools/check-all.sh on every push and PR. First run failed: the NuGet reference packages unzip with mode 0000, which root reads but a normal user cannot (CS0009). Reproduced as user nobody, fixed in tools/check-all.sh (chmod the cache, retry once), all seven checks pass as nobody. Inbox IN-24 asks the threads to add the chmod to their own get() lines and asks Ted to run check-all before pushing.
+  Lesson L-3 added.
+  Where I stopped: CI fix pushed; confirm the next "checks" run on main is green. Still waiting on Ted's M1 phone/WebGL runs (IN-13, IN-15), M1.8 clips and the Supabase applied list (IN-20), and Editor runs of IN-14, IN-16 to IN-19, IN-21.

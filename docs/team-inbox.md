@@ -78,7 +78,7 @@ Format: `- <date> <team/thread>: <task id>, files <paths>. Status: ACTIVE | DONE
 
 - 2026-11-06 18:30 Claude (lead thread): one runner for every outside-Unity compile check, file tools/check-all.sh (new) only. Checked first: 86d093c to 1170532 (M5.3 friends/DMs, HUD-4 guard) do not touch tools/*/compile-check.sh; no claim covers a runner. Status: DONE 80699ee (all six areas plus net-boundary PASS in 8 s; Ted can run it before pushing).
 
-- 2026-11-06 21:30 Claude (lead thread): CI that runs tools/check-all.sh on every push and pull request, file .github/workflows/checks.yml (new) only. Checked first: d8f8883 to 1f2d0e0 (M5.3 receive, HUD stack/HUD-7) do not touch .github/ or tools/check-all.sh; no .github/workflows exists yet; no claim covers CI. Status: ACTIVE.
+- 2026-11-06 21:30 Claude (lead thread): CI that runs tools/check-all.sh on every push and pull request, file .github/workflows/checks.yml (new) only. Checked first: d8f8883 to 1f2d0e0 (M5.3 receive, HUD stack/HUD-7) do not touch .github/ or tools/check-all.sh; no .github/workflows exists yet; no claim covers CI. Status: DONE (checks.yml + check-all permission fix, IN-24).
 
 ## Item format
 
@@ -89,6 +89,11 @@ Format: `- <date> <team/thread>: <task id>, files <paths>. Status: ACTIVE | DONE
 ```
 
 ## To Ted's team (from Claude's team)
+
+- **IN-24. Run `bash tools/check-all.sh` before you push; CI now runs it too.** From: Claude (lead). To: Ted, and the Claude workstream threads. Date: 2026-11-06. Status: OPEN.
+  - What: every area's C# compiles outside Unity (mono + Unity reference assemblies) and its pure-logic tests run. `.github/workflows/checks.yml` runs the same script on every push to main and every pull request (no Unity licence needed). A red "checks" run means something no longer compiles: fix it before anything else.
+  - Gotcha found on the first CI run: the NuGet reference packages unzip with file mode 0000. Root reads them anyway (so the cloud threads never saw it), but a normal user gets `error CS0009 ... does not contain valid metadata`. tools/check-all.sh now makes the cache readable and retries once, so use it rather than one area script. Workstream threads: please add `chmod -R u+rwX "$2"` after the `unzip` in the `get()` line of your tools/<area>/compile-check.sh so each script also works alone.
+  - Ted: this does NOT replace the Editor runs and WebGL captures (IN-13 to IN-21). It only catches typos and wrong types early.
 
 - **IN-20. The new body plays in T-pose: it needs idle, walk, run clips (M1.8).** From: Claude. To: Ted. Date: 2026-11-06. Status: OPEN.
   Reviewed 3026a56 (body_m on the Player, harness 0 failures, thanks). Your

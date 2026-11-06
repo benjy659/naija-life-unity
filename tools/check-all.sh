@@ -14,11 +14,18 @@ command -v mcs >/dev/null || { echo "mcs not found: apt-get install -y mono-mcs 
 if [ $# -gt 0 ]; then AREAS=("$@"); else
   AREAS=(); for f in "$ROOT"/tools/*/compile-check.sh; do AREAS+=("$(basename "$(dirname "$f")")"); done; fi
 LOGS="${TMPDIR:-/tmp}/nl-check-all"; mkdir -p "$LOGS"
+CACHE="${UNITY_REF_CACHE:-/tmp/unity-ref-cache}"
+# The NuGet packages unzip with no file permissions (mode 0000). Root reads
+# them anyway, a normal user (CI runner, Ted's machine) gets CS0009 "does not
+# contain valid metadata". Make the cache readable before and after each area,
+# and retry an area once when it fails right after its first download.
+fixperms() { [ -d "$CACHE" ] && chmod -R u+rwX "$CACHE" 2>/dev/null || true; }
 fail=0
 for a in "${AREAS[@]}"; do
   s="$ROOT/tools/$a/compile-check.sh"
   if [ ! -f "$s" ]; then echo "FAIL  $a (no tools/$a/compile-check.sh)"; fail=1; continue; fi
-  if bash "$s" >"$LOGS/$a.log" 2>&1; then echo "PASS  $a"
+  fixperms
+  if bash "$s" >"$LOGS/$a.log" 2>&1 || { fixperms; bash "$s" >"$LOGS/$a.log" 2>&1; }; then echo "PASS  $a"
   else echo "FAIL  $a (log: $LOGS/$a.log)"; tail -15 "$LOGS/$a.log" | sed 's/^/      /'; fail=1; fi
 done
 if [ $# -eq 0 ] && [ -f "$ROOT/tools/check-net-boundary.sh" ]; then
