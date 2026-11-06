@@ -97,7 +97,10 @@ Format: `- <date> <team/thread>: <task id>, files <paths>. Status: ACTIVE | DONE
   sensing and bot drivers, damage and contact events, the lane check, 16
   EditMode tests, a scene builder and a self-check. It compiles against
   Unity reference assemblies and the 16 logic tests pass outside Unity, but
-  it has never run in the Editor. Please:
+  it has never run in the Editor. Update 2026-11-06 11:17 run: your
+  3026a56 ran the M1 harness with this code in the tree, so it looks like it
+  compiles (Unity will not enter Play mode otherwise); say so if it did not.
+  Please:
   1. Pull main and open the project. Paste any compile error here (files
      under Assets/Scripts/Vehicles, Assets/Scripts/Verification/M3*,
      Assets/Editor/Vehicles).
