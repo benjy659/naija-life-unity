@@ -1,0 +1,14 @@
+{
+    "name": "NaijaLife.Vehicles.Logic",
+    "rootNamespace": "NaijaLife.Vehicles",
+    "references": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": true
+}

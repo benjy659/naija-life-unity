@@ -203,43 +203,52 @@ acceptance on Oshodi when M2 lands. Start after M0.1 (URP, ugui).
   (re-align only rolling forward, hold when reversing, stopped, airborne or
   sliding), `SetDrivingMode(true, distance, pivot)` and
   `SetFollowTarget(target, snap: false)`. Spec §5.
-- **M3.1. Vehicle definitions + controller (Ted's team).** Status: READY
-  after M0.1. `VehicleDefinition` ScriptableObject, `DriveInput` struct,
-  `VehicleController` (WheelCollider arcade, implements
-  `IPlayerCameraTarget`), `Danfo.asset` and `TokunboSaloon.asset` with the
-  spec §4 numbers, greybox meshes with separate wheels, layers `Vehicle`,
-  `DrivenVehicle`, `Pedestrian`, `Road`, fixed timestep 0.02. Drive it from a
-  temporary debug script feeding `DriveInput` from the keyboard.
+- **M3.1. Vehicle definitions + controller.** Status: Claude, IN PROGRESS:
+  code DONE, UNVERIFIED (IN-19). Claude wrote `VehicleDefinition`
+  (danfo and saloon presets), `DriveInput`, `VehicleController`
+  (WheelCollider arcade, implements `IPlayerCameraTarget`), the pure logic
+  assembly `NaijaLife.Vehicles.Logic` with 16 EditMode tests, and layers
+  14 to 16 (`Vehicle`, `DrivenVehicle`, `Pedestrian`; roads use `Ground`).
+  Fixed step was already 0.02. **Ted's part (Editor only):** run the tests,
+  build the scene (M3.2), drive the danfo and saloon, capture.
   *Acceptance:* spec §11 lines 2, 3 (handling only), 5 (no falling through),
   8; danfo never rolls on the flat loop.
-- **M3.2. Greybox_M3 test scene (Ted's team).** Status: READY (can run in
-  parallel with M3.1). Road loop, crossing, bridge with piers outside the
-  lanes, narrow gate, two parked drivables, half-parked obstacle car,
-  pedestrians, per spec §2. *Acceptance:* top-down and street-level
-  screenshots in `qa/m3.2/`.
-- **M3.3. Enter and exit (Ted's team).** Status: READY after M3.1.
-  `VehicleSeat`, `DriveSession`, `VehiclePlayerDriver`, `Driving` action map
-  (keyboard + gamepad), walked entry, exit-point checks, layer swap and camera
-  calls exactly as spec §5.2, §5.3 and §7. *Acceptance:* spec §11 lines 1, 6,
-  7.
+- **M3.2. Greybox_M3 test scene.** Status: Claude, IN PROGRESS: builder
+  DONE, UNVERIFIED (IN-19). Menu Naija Streets > M3 > Build test scene makes
+  the vehicle assets, prefabs and `Assets/Scenes/Greybox_M3.unity` (loop,
+  crossing, bridge with piers outside the lanes, 3.2 m gate, lay-by with
+  two drivables, half-parked obstacle car, pedestrians, spawner).
+  **Ted's part:** run the menu, commit what it makes, top-down and
+  street-level screenshots in `qa/m3.2/`.
+- **M3.3. Enter and exit.** Status: Claude, IN PROGRESS: code DONE,
+  UNVERIFIED (IN-19). `VehicleSeat`, `DriveSession` (walked entry, exit
+  points, layer swap, camera calls), `VehiclePlayerDriver` (keyboard,
+  gamepad, one-stick touch pedals), `VehiclePromptBridge` (Drive / Get out
+  on the HUD's one prompt). **Ted's part:** play and capture.
+  *Acceptance:* spec §11 lines 1, 6, 7.
 - **M3.4. Touch driving controls (Ted's team).** Status: READY after M1.6
-  and M3.3. Steer slider, gas, brake, handbrake, exit, speedo, per spec §12.
+  and M3.3. Already in code: the HUD stick drives (X steers, up gas, down
+  brake) and Drive / Get out ride the HUD prompt. Left for Ted: a
+  handbrake button and the speedo in the HUD layout, per spec §12.
   *Acceptance:* spec §11 line 11 at 390x844 in WebGL; screenshot proving no
   control crosses the centre third.
-- **M3.5. Damage stub + contact events (Ted's team).** Status: READY after
-  M3.1. `VehicleDamage`, `VehicleContactReporter` (collision events only,
-  never a radius), debug overlay. Spec §10. *Acceptance:* clip of hitting a
-  wall at 20 and 60 km/h and a pedestrian capsule at 10 and 30 km/h with the
-  overlay showing the events.
-- **M3.6. Lane graph + TrafficSense + bot drivers (Ted's team).** Status:
-  READY after M3.1 and M3.2. `LaneGraph`, `LaneNode`, `TrafficSense`,
-  `TrafficDriver`, `TrafficSpawner`, per spec §8 (box-cast sensing at the
-  vehicle's own height, dynamic near / kinematic far, crossings, steer round
-  parked things, never pass through). *Acceptance:* spec §11 line 9 as a
-  3-minute clip with 12 bots, plus frame times in `qa/m3.6/REPORT.md`.
-- **M3.7. Lane validator (Ted's team).** Status: READY after M3.6. Editor
-  menu Naija > Validate Lanes and a PlayMode test, spec §8.7. *Acceptance:*
-  0 hits on Greybox_M3, and the test fails when a cube is dropped in a lane.
+- **M3.5. Damage stub + contact events.** Status: Claude, IN PROGRESS:
+  code DONE, UNVERIFIED (IN-19). `VehicleDamage`, `VehicleContactReporter`
+  (collision events only), `VehicleDebugOverlay` (F3). **Ted's part:**
+  clip of hitting a wall at 20 and 60 km/h and a pedestrian capsule at 10
+  and 30 km/h with the overlay showing the events, in `qa/m3.5/`.
+- **M3.6. Lane graph + TrafficSense + bot drivers.** Status: Claude, IN
+  PROGRESS: code DONE, UNVERIFIED (IN-19). `LaneGraph`, `LaneNode`,
+  `TrafficSense` (box casts at the vehicle's own height), `TrafficDriver`
+  (follow, crossings, honk and step-aside, overtake / wait / reverse /
+  reroute, dynamic near and kinematic far), `TrafficSpawner` (12 bots).
+  **Ted's part:** 3-minute clip with 12 bots plus frame times in
+  `qa/m3.6/REPORT.md` (the self-check writes most of it).
+- **M3.7. Lane validator.** Status: Claude, IN PROGRESS: code DONE,
+  UNVERIFIED (IN-19). `LaneGraph.FindBlockers()` runs in the scene builder
+  and in the self-check (Naija Streets > M3 > Run self-check). **Ted's
+  part:** 0 hits on Greybox_M3 in the report, then drop a cube in a lane
+  and show the check fails.
 - **M3.8. M3 review and play check (Claude).** Status: WAITING on M3.1 to
   M3.7. Claude reviews each commit as it lands and checks every `qa/m3.*`
   folder against spec §11.

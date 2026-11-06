@@ -49,7 +49,7 @@ Format: `- <date> <team/thread>: <task id>, files <paths>. Status: ACTIVE | DONE
 - 2026-11-06 Claude (Oshodi thread): M2.2 and M2.3 runtime code (TimeOfDay, lamp light pool, night emissives, DistrictTile, DistrictStreamer, FrameSpikeLogger, Bootstrap and Addressables setup script), files Assets/Scripts/World/*, Assets/Editor/World/OshodiBootstrapSetup.cs, Assets/Data/Oshodi/*, Assets/Settings/URP_Low|Medium|High.asset and the customRenderPipeline line of each level in ProjectSettings/QualitySettings.asset (spec 6.4 tier table). Checked first: nothing on main under Assets/Scripts/World/ but .gitkeep; no open claim on M2. Ted's part stays the Editor run and the evidence. Also touched: the LOD bias line of each quality level, the World test asmdef, DistrictStreamingTests.cs and two lines of OshodiGreyboxBuilder.cs (TimeOfDay and LampLightPool on the playtest root). Status: DONE 8d3f39c (never compiled; Ted runs it, IN-17).
 - 2026-11-06 Claude (multiplayer thread): M5.1d scene builder (-executeMethod, builds Assets/Scenes/Net_M5.unity and Assets/Prefabs/Network/RemotePlayer.prefab) and M5.4 online heartbeat (live nl_online_touch / nl_heartbeat_leave), files Assets/Editor/Network/*, Assets/Scripts/Network/Unity/OnlineHeartbeat.cs, FaceCamera.cs, SupabaseSession.cs, NetBootstrap.cs. Checked first: Ted's 74482c6 and the Oshodi/lead commits since 0905ce9 do not touch these; no other claim on M5. Status: DONE (this push; never compiled).
 - 2026-11-06 Claude (multiplayer thread): M5 code review of anything Ted pushes under Assets/Scripts/Network/ and supabase/. No new files claimed. Status: ACTIVE.
-- 2026-11-06 Claude (vehicles thread): M3.1, M3.3, M3.5, M3.6, M3.7 code (VehicleDefinition, VehicleController, DriveSession, VehiclePlayerDriver, TrafficSense, LaneGraph, TrafficDriver, TrafficSpawner, damage and contact events, lane validator) plus the M3.2 Greybox_M3 scene builder and an M3 check harness, files Assets/Scripts/Vehicles/*, Assets/Editor/Vehicles/*, Assets/Tests/EditMode/Vehicles/*, Assets/Scripts/Verification/M3*, ProjectSettings/TagManager.asset (layers 14 to 16: Vehicle, DrivenVehicle, Pedestrian; road surfaces use the Oshodi thread's Ground layer), ProjectSettings/TimeManager.asset (fixed step 0.02). Checked first: Ted's commits up to 74482c6 and other claims do not touch these; Assets/Scripts/Vehicles held only .gitkeep. Ted keeps M3.4 touch controls and every Editor run. Status: ACTIVE.
+- 2026-11-06 Claude (vehicles thread): M3.1, M3.3, M3.5, M3.6, M3.7 code (VehicleDefinition, VehicleController, DriveSession, VehiclePlayerDriver, VehiclePromptBridge, TrafficSense, LaneGraph, TrafficDriver, TrafficSpawner, damage and contact events, lane validator) plus the M3.2 Greybox_M3 scene builder and an M3 self-check, files Assets/Scripts/Vehicles/*, Assets/Editor/Vehicles/*, Assets/Tests/EditMode/Vehicles/*, Assets/Scripts/Verification/M3*, ProjectSettings/TagManager.asset (layers 14 to 16: Vehicle, DrivenVehicle, Pedestrian; road surfaces use the Oshodi thread's Ground layer). TimeManager not changed (fixed step was already 0.02). Checked first: Ted's commits up to 74482c6 and the other threads' commits up to 3b42af9 do not touch these; the bridge uses only NLPrompts.Offer/Withdraw from the HUD thread. Ted keeps M3.4 handbrake button and speedo and every Editor run. Status: DONE (this commit, IN-19), never run in the Editor.
 
 - 2026-11-06 Claude (jobs thread): M4.1, M4.2, M4.3 code (everything but the Editor steps) and the M4.4 migration DRAFT, files Assets/Scripts/Jobs/**, Assets/Scripts/Economy/*, Assets/Scripts/Player/PlayerNeeds.cs (new file only), Assets/Tests/EditMode/Jobs/*, Assets/Editor/Jobs/*, supabase/migrations/drafts/m4_job_shifts.sql, docs/specs/jobs-m4.md, tools/jobsim.js. Checked first: Ted's 44d8428 to 74482c6 touch settings, the M1 harness and Greybox materials only; no claim covers Jobs, Economy or these files. Ted keeps: running the tests and scene builder in the Editor, captures, applying the migration. Status: DONE d1ded08 + HUD hookup (see IN-18), UNVERIFIED until Ted's run.
 - 2026-11-06 Claude (HUD and phone thread): HUD-1 to HUD-6 code (UI root, scaler, safe area, touch stick and buttons, HUD, radar, prompts, toasts, phone shell, Bank, NLMoney + tests, Editor setup menu), files Assets/Scripts/UI/*, Assets/Scripts/UI/Core/*, Assets/UI/UXML/*, Assets/UI/Styles/*, Assets/UI/Sprites/nl-balance-card.png, Assets/Plugins/WebGL/NLDevice.jslib, Assets/Editor/UI/*, Assets/Tests/EditMode/UI/*, plus one new method PlayerInput.SetLocked (phone stops the player). Checked first: Ted's commits up to 74482c6 do not touch these; no other claim on HUD; the lead's M1.4 already does the right-half touch look drag, so the HUD has no look zone of its own. Status: DONE (this commit), never compiled; Ted runs it (IN-16).
@@ -65,6 +65,42 @@ Format: `- <date> <team/thread>: <task id>, files <paths>. Status: ACTIVE | DONE
 
 ## To Ted's team (from Claude's team)
 
+- **IN-19. M3 driving and traffic code is on main; please compile, test and play it (M3.1 to M3.7).** From: Claude (vehicles thread). To: Ted. Date: 2026-11-06. Status: OPEN.
+  Claude took every non-Editor part of M3 (see TASKS.md M3): the vehicle
+  controller and the danfo and saloon definitions, getting in and out, the
+  Drive / Get out prompt on the HUD, one-stick touch driving, traffic
+  sensing and bot drivers, damage and contact events, the lane check, 16
+  EditMode tests, a scene builder and a self-check. It compiles against
+  Unity reference assemblies and the 16 logic tests pass outside Unity, but
+  it has never run in the Editor. Please:
+  1. Pull main and open the project. Paste any compile error here (files
+     under Assets/Scripts/Vehicles, Assets/Scripts/Verification/M3*,
+     Assets/Editor/Vehicles).
+  2. Check Project Settings > Tags and Layers shows 14 Vehicle,
+     15 DrivenVehicle, 16 Pedestrian.
+  3. Test Runner > EditMode > NaijaLife.Vehicles.Tests > Run All. All 16
+     must pass. Screenshot to qa/m3.1/.
+  4. Menu Naija Streets > M3 > Build test scene (batch: -executeMethod
+     NaijaLife.Vehicles.EditorTools.M3SceneBuilder.BuildBatch). Commit what
+     it makes: Assets/Scenes/Greybox_M3.unity, Assets/Settings/Vehicles/*,
+     Assets/Prefabs/Vehicles/*, Assets/Art/Materials/M3/*,
+     Assets/Art/Models/M3/*. Screenshots to qa/m3.2/.
+  5. Menu Naija Streets > M3 > Run self-check (batch: -executeMethod
+     NaijaLife.Vehicles.EditorTools.M3VerifyRunner.RunBatch). It plays the
+     scene by itself (enter, loop drive over the bridge, reverse, spin,
+     exit, then 120 s of traffic) and writes qa/m3-selfcheck/<time>/REPORT.md
+     with screenshots. Commit that folder, pass or fail.
+  6. Then drive it yourself at 1280x800 and 390x844 (WebGL too): F walks you
+     to the door and in (or tap the prompt / E when the HUD is in the
+     scene), WASD or arrows drive, Space handbrake, F gets out under
+     2 m/s, F3 shows the debug overlay. Clips per TASKS.md to qa/m3.3/,
+     qa/m3.5/, qa/m3.6/.
+  Notes: the player body is hidden while seated (no sit pose yet). Gamepad
+  handbrake is RB because A/South accepts the HUD prompt. If the wheels feel
+  wrong, report what you saw; please do not retune in the scene, the numbers
+  live in VehicleDefinition presets so Claude can fix them in code.
+  Your M3 Editor part left after that: M3.4 handbrake button and speedo in
+  the HUD layout.
 - **IN-18. M4 jobs code is on main; please compile, test and play it (M4.1 to M4.4).** From: Claude. To: Ted. Date: 2026-11-06. Status: OPEN.
   Claude took all the non-Editor work of M4 so you only do Editor steps:
   job slots and bot handover, the danfo conductor shift, Pawa, the shift

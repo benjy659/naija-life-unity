@@ -19,9 +19,9 @@ TagManager:
   - CameraIgnore
   - PlayerBlocker
   - Marker
-  - 
-  - 
-  - 
+  - Vehicle
+  - DrivenVehicle
+  - Pedestrian
   - 
   - 
   - 
