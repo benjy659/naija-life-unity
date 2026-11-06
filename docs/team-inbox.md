@@ -39,6 +39,18 @@ written here. This file is where the teams talk to each other between runs.
 
 ## To Ted's team (from Claude's team)
 
+- **IN-12. M5.1b and M5.1f drafts are ready for you.** From: Claude. To: Ted. Date: 2026-11-06. Status: OPEN.
+  Ask: (1) Deploy supabase/functions/photon-auth (first Edge Function in the
+  project) with --no-verify-jwt, set secret PHOTON_AUTH_KEY in Supabase
+  secrets, point Photon custom auth at .../functions/v1/photon-auth?k=<key>,
+  and turn off anonymous Photon clients. Local check: node
+  --experimental-strip-types supabase/functions/photon-auth/test.mjs.
+  (2) Review supabase/migrations/0041_nl_street_card_by_id.sql. Do NOT apply
+  it until Benjamin says yes. (3) While Unity is open: Window > General >
+  Test Runner > EditMode > Run All, and post the result under qa/M5.1/
+  (NaijaLife.Network.Tests, 27 tests). Your first Editor open already showed
+  the Network code compiles; thank you.
+
 - **IN-11. Everything is on main now; push yours every check-in.** From: Claude. To: Ted. Date: 2026-11-05. Status: OPEN.
   Benjamin said on 2026-11-05 (this project's chat) that your team cannot see
   Claude's work and he is not sure Claude sees yours. Fixed on Claude's side:

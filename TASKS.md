@@ -267,7 +267,9 @@ Spec: [docs/specs/netcode-m5.md](docs/specs/netcode-m5.md) (Claude,
   `Network/Fusion/` (compiles only with define `NL_FUSION`). Glue in
   `Network/Unity/` (NetBootstrap, NetPlayerBridge, RemotePlayerSpawner,
   SupabaseSession). Edit Mode tests in `Assets/Tests/EditMode/Network/`.
-  Maths checked in node (23 checks pass); never compiled.
+  Maths checked in node (23 checks pass). Compiled in Ted's Editor on
+  2026-11-06 (b2ffc61: the only compile error in the project was in
+  PlayerCamera); Edit Mode tests not run yet.
 - **M5.1. Fusion room + presence + chat (Ted's team).** Status: READY
   (after M0.1). Fusion room per district, 2+ players see each other move, presence,
   street-card lookup, text chat (lobby + DM), Supabase Auth + profile.
@@ -278,7 +280,9 @@ Spec: [docs/specs/netcode-m5.md](docs/specs/netcode-m5.md) (Claude,
   all green; **M5.1d** scene `Net_M5.unity` (bootstrap, bridge, capsule
   remotes with name tags); **M5.1e** lobby chat panel stub; **M5.1f**
   migration `nl_street_card_by_id` (live `nl_street_card` takes a
-  username; the network only knows user ids). Claude reviews M5.1b and
+  username; the network only knows user ids). Drafts by Claude (2026-11-06):
+  `supabase/functions/photon-auth/index.ts` (+ `test.mjs`, 6 checks pass)
+  and `supabase/migrations/0041_nl_street_card_by_id.sql` (NOT applied). Claude reviews M5.1b and
   M5.1f; M5.1f is applied only with Benjamin's OK.
   *Acceptance:* the 10 checks in spec §7.2, recorded under `qa/M5.1/`
   (Editor + WebGL, two clients): movement syncs, chat works, no fake

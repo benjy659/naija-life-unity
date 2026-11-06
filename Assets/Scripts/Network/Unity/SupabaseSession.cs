@@ -30,8 +30,9 @@ namespace NaijaLife.NetworkGlue
         [Serializable] class TokenReply { public string access_token; public string refresh_token; public int expires_in; public UserReply user; }
         [Serializable] class UserReply { public string id; }
         [Serializable] class CardReq { public string p_uid; }
-        [Serializable] class CardReply { public bool ok; public string username; public string home_city; public CrewReply crew; public int rep_tier; }
-        [Serializable] class CrewReply { public string name; public string role; }
+        // Same jsonb as live nl_street_card: ok, username, avatar_ref, member_since, crew{name,type,emblem,city,role}, office, rep_tier (null for now).
+        [Serializable] class CardReply { public bool ok; public string username; public string avatar_ref; public string member_since; public CrewReply crew; }
+        [Serializable] class CrewReply { public string name; public string type; public string city; public string role; }
 
         readonly SupabaseConfig _cfg;
         string _access, _refresh;
@@ -92,10 +93,10 @@ namespace NaijaLife.NetworkGlue
                 return new StreetCard
                 {
                     Username = r.username,
-                    HomeCity = r.home_city,
+                    HomeCity = null, // the card has no home city yet
                     CrewName = r.crew != null && !string.IsNullOrEmpty(r.crew.name) ? r.crew.name : null,
                     CrewRole = r.crew != null && !string.IsNullOrEmpty(r.crew.role) ? r.crew.role : null,
-                    RepTier = r.rep_tier,
+                    RepTier = 0, // server sends null until rep tiers exist
                 };
             }
         }
