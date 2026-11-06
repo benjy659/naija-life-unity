@@ -417,7 +417,7 @@ on conflict (source) do update set max_amt = excluded.max_amt,
 -- nl_shift_trip(p_shift uuid, p_seats int, p_right int, p_total int, p_ref text) returns jsonb
 --   lock; lazy close; not_open unless open and owned; bad_input on range;
 --   too_many if trips = 6; too_fast if now() - (last trip at, or started_at) < 150 s;
---   no trip after started_at + 16 min; pay = nl_trip_pay(...) with the SERVER level;
+--   no trip after started_at + 20 min (a trip started by 15 min arrives by about 19); pay = nl_trip_pay(...) with the SERVER level;
 --   return {ok, trip_no, trip_pay, shift_pending}. Same p_ref = same answer.
 -- nl_shift_end(p_shift uuid, p_reason text) returns jsonb
 --   lock; nl_shift_close; return {ok, paid, voided, balance_after}.
