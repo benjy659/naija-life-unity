@@ -228,8 +228,9 @@ acceptance on Oshodi when M2 lands. Start after M0.1 (URP, ugui).
   *Acceptance:* spec §11 lines 1, 6, 7.
 - **M3.4. Touch driving controls (Ted's team).** Status: READY after M1.6
   and M3.3. Already in code: the HUD stick drives (X steers, up gas, down
-  brake) and Drive / Get out ride the HUD prompt. Left for Ted: a
-  handbrake button and the speedo in the HUD layout, per spec §12.
+  brake) and Drive / Get out ride the HUD prompt. Handbrake button
+  (<Gamepad>/rightShoulder) and speedo asked of the HUD thread 2026-11-06.
+  Left for Ted: the 390x844 WebGL check and captures, per spec §12.
   *Acceptance:* spec §11 line 11 at 390x844 in WebGL; screenshot proving no
   control crosses the centre third.
 - **M3.5. Damage stub + contact events.** Status: Claude, IN PROGRESS:
