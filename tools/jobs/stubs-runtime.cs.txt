@@ -1,0 +1,50 @@
+// Compile-check stubs for tools/jobs/compile-check.sh only (.txt so Unity
+// never compiles them). They mirror the signatures the M4 glue calls; keep
+// them in step with the real Input System, UI kit, NetBootstrap and Player.
+using System;
+using System.Threading.Tasks;
+using UnityEngine;
+namespace UnityEngine.InputSystem {
+  public class KeyControl { public bool wasPressedThisFrame; }
+  public class Keyboard {
+    public static Keyboard current;
+    public KeyControl eKey, enterKey, spaceKey, xKey, digit1Key, digit2Key, digit3Key, f6Key, f7Key;
+  }
+}
+namespace NaijaLife.Player {
+  public class PlayerController : MonoBehaviour {}
+  public class PlayerCamera : MonoBehaviour { public Transform followTarget; }
+}
+namespace NaijaLife.NetworkGlue {
+  public sealed class SupabaseConfig { public string Url = ""; public string AnonKey = ""; }
+  public sealed class SupabaseSession { public Task<string> GetAccessTokenAsync() { return Task.FromResult(""); } }
+  public sealed class NetBootstrap : MonoBehaviour {
+    public static SupabaseSession Supabase { get; private set; }
+    public static SupabaseConfig SupabaseCfg { get; private set; }
+  }
+}
+namespace NaijaLife.UI {
+  public enum NLPromptKind { Action = 1, Exit = 2, Other = 0 }
+  public enum NLToastKind { Money, Job, Police, People, City, System }
+  public sealed class NLPromptOffer {
+    public string Id; public NLPromptKind Kind = NLPromptKind.Action; public string Verb; public string Subject;
+    public string Icon = "spark"; public Transform Anchor; public Action OnAccept; public string Explain;
+  }
+  public sealed class NLPrompts : MonoBehaviour {
+    public static NLPrompts Instance { get; private set; }
+    public static void Offer(NLPromptOffer o) {} public static void Withdraw(string id) {}
+  }
+  public sealed class NLToasts : MonoBehaviour {
+    public static void Show(string key, NLToastKind kind, string title, string line, long addMoney = 0) {}
+  }
+  public static class NLWallet { public static void AdoptServerBalance(long balance, string reason = null) {} }
+  public sealed class NLJobHud : MonoBehaviour {
+    public static NLJobHud Instance { get; private set; }
+    public void ShiftChip(bool show, float secondsLeft, int trips, long pending, string note) {}
+    public void Busy(string text) {}
+    public void Shout(float ringScale, bool onBand, int seats, int seatsMax, float secondsLeft, string say, Action onShout) {}
+    public void HideShout() {}
+    public void Change(bool hide, int index, int of, int note, int fare, int[] options, float secondsLeft, string result, Action<int> onPick) {}
+    public void Summary(string title, string body, Action onClose) {}
+  }
+}
