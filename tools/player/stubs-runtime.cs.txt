@@ -1,0 +1,74 @@
+// Stubs for compiling the M1 player code outside Unity (tools/player/compile-check.sh).
+// Shapes follow Input System 1.x and Cinemachine 3.1 public APIs: only the
+// members the player code uses, with the real names and types, so a typo or a
+// CM2-era call still fails to compile. Not shipped; not a .cs file in Assets.
+using System;
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace UnityEngine.InputSystem.Controls {
+  public class InputControl<T> where T : struct { public T ReadValue() { return default(T); } }
+  public class ButtonControl : InputControl<float> { public bool isPressed; public bool wasPressedThisFrame; public bool wasReleasedThisFrame; }
+  public class KeyControl : ButtonControl {}
+  public class Vector2Control : InputControl<Vector2> {}
+  public class StickControl : Vector2Control {}
+  public class IntegerControl : InputControl<int> {}
+  public class TouchPhaseControl : InputControl<UnityEngine.InputSystem.TouchPhase> {}
+  public class TouchControl {
+    public IntegerControl touchId; public TouchPhaseControl phase;
+    public Vector2Control position; public Vector2Control startPosition; public Vector2Control delta;
+    public ButtonControl press; public bool isInProgress;
+  }
+}
+
+namespace UnityEngine.InputSystem {
+  using UnityEngine.InputSystem.Controls;
+  using UnityEngine.InputSystem.LowLevel;
+  public enum TouchPhase { None, Began, Moved, Ended, Canceled, Stationary }
+  public enum Key { None, Space, Enter, Tab, A, C, D, E, S, W, LeftShift, RightShift, LeftCtrl, F6, F7, UpArrow, DownArrow, LeftArrow, RightArrow, Escape }
+  public class InputDevice { }
+  public class Keyboard : InputDevice {
+    public static Keyboard current;
+    public KeyControl this[Key k] { get { return null; } }
+    public KeyControl wKey, aKey, sKey, dKey, cKey, eKey, tabKey, spaceKey, escapeKey, leftShiftKey, f6Key, f7Key;
+  }
+  public class Mouse : InputDevice { public static Mouse current; public ButtonControl leftButton, rightButton; public Vector2Control delta, position; }
+  public class Gamepad : InputDevice { public static Gamepad current; public StickControl leftStick, rightStick; public ButtonControl buttonSouth, buttonEast, leftShoulder, rightShoulder; }
+  public class Touchscreen : InputDevice { public static Touchscreen current; public TouchControl primaryTouch; public ReadOnlyArray<TouchControl> touches; }
+  public struct ReadOnlyArray<T> : IEnumerable<T> {
+    public int Count { get { return 0; } }
+    public T this[int i] { get { return default(T); } }
+    public IEnumerator<T> GetEnumerator() { yield break; }
+    System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() { return GetEnumerator(); }
+  }
+  public class InputAction { public TValue ReadValue<TValue>() where TValue : struct { return default(TValue); } public bool IsPressed() { return false; } public bool WasPressedThisFrame() { return false; } public void Enable() {} public void Disable() {} }
+  public class InputActionMap { public InputAction FindAction(string n, bool throwIfNotFound = false) { return null; } public void Enable() {} public void Disable() {} }
+  public class InputActionAsset : ScriptableObject { public InputActionMap FindActionMap(string n, bool throwIfNotFound = false) { return null; } }
+  public static class InputSystem {
+    public static TDevice AddDevice<TDevice>(string name = null) where TDevice : InputDevice { return null; }
+    public static void RemoveDevice(InputDevice d) {}
+    public static void QueueStateEvent<TState>(InputDevice d, TState s, double time = -1) where TState : struct, IInputStateTypeInfo {}
+    public static void Update() {}
+  }
+}
+
+namespace UnityEngine.InputSystem.LowLevel {
+  using UnityEngine.InputSystem;
+  public interface IInputStateTypeInfo {}
+  public struct GamepadState : IInputStateTypeInfo { public Vector2 leftStick, rightStick; public uint buttons; }
+  public struct KeyboardState : IInputStateTypeInfo { public KeyboardState(params Key[] pressedKeys) {} }
+}
+
+namespace Unity.Cinemachine {
+  public struct PrioritySettings { public bool Enabled; public int Value; public static implicit operator int(PrioritySettings p) { return p.Value; } public static implicit operator PrioritySettings(int v) { return new PrioritySettings { Enabled = true, Value = v }; } }
+  public struct LensSettings { public float FieldOfView, NearClipPlane, FarClipPlane, Dutch; }
+  public class CinemachineBrain : MonoBehaviour {}
+  public class CinemachineVirtualCameraBase : MonoBehaviour { public PrioritySettings Priority; public Transform Follow, LookAt; }
+  public class CinemachineCamera : CinemachineVirtualCameraBase { public LensSettings Lens; }
+  public class CinemachineComponentBase : MonoBehaviour {}
+  public class CinemachineThirdPersonFollow : CinemachineComponentBase {
+    public Vector3 Damping; public Vector3 ShoulderOffset; public float VerticalArmLength; public float CameraSide; public float CameraDistance;
+    public ObstacleSettings AvoidObstacles; public GameObject CurrentObstacle { get; set; }
+    [Serializable] public struct ObstacleSettings { public bool Enabled; public LayerMask CollisionFilter; public string IgnoreTag; public float CameraRadius; public float DampingIntoCollision; public float DampingFromCollision; }
+  }
+}
