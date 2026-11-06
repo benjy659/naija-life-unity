@@ -426,6 +426,11 @@ UNVERIFIED.
   tests for every example in §8.4. Send tab stays hidden (B-38 gate).
   *Acceptance:* each state captured at 390x844 and 1280x800 in
   `qa/hud-6/`; tests green.
+- **HUD-8. Job UI pieces in the HUD kit (Claude, IN PROGRESS).** For the jobs
+  thread (jobs-m4.md section 6.1, IJobUi): shift chip in the right column,
+  shout ring on the action button, change sheet (at most 35% of the screen
+  height), end-of-shift card; replace the IMGUI JobDebugUi parts in
+  NLJobUiBridge. Ted: captures at the 4 sizes once built.
 - **HUD-7. HUD QA pass (Ted's team, Claude reviews).** Status: TODO after
   HUD-2 to HUD-6. Spec §5.1, §6.3, §10. All 32 right-column combinations at
   the 4 sizes with no overlap (script it), two-thumb test on a real phone,

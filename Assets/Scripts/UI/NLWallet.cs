@@ -60,6 +60,11 @@ namespace NaijaLife.UI
         {
             long old = Balance;
             bool had = HasBalance;
+#if UNITY_EDITOR
+            // Another system (the M4 shift stub) told us the server balance: the Editor
+            // fake source follows it, so its next poll never overwrites real stub money.
+            NLEditorFakeWallet.Current?.Follow(balance, reason);
+#endif
             Balance = balance;
             HasBalance = true;
             LastSyncUtc = DateTime.UtcNow;
@@ -159,12 +164,23 @@ namespace NaijaLife.UI
                 done(WalletStatus.Ok, page);
             });
 
+        /// <summary>Keep in step with a balance adopted from elsewhere (adds one history row for the change).</summary>
+        internal void Follow(long balance, string reason)
+        {
+            if (_inEvent || balance == _balance) return;
+            long delta = balance - _balance;
+            _balance = balance;
+            _rows.Insert(0, Row(delta, delta > 0 ? "job" : "other", reason ?? (delta > 0 ? "Money in" : "Money out"), "", DateTime.UtcNow));
+        }
+
+        private bool _inEvent;
+
         /// <summary>Pretend the server paid or charged the player (Editor test only).</summary>
         public void ServerEvent(long amount, string source, string title, string place, string toastLine)
         {
             _balance += amount;
             _rows.Insert(0, Row(amount, source, title, place, DateTime.UtcNow));
-            Later(() => NLWallet.AdoptServerBalance(_balance, toastLine));
+            Later(() => { _inEvent = true; NLWallet.AdoptServerBalance(_balance, toastLine); _inEvent = false; });
         }
 
         private async void Later(Action a)
