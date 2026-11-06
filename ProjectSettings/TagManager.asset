@@ -13,12 +13,12 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Ground
+  - Building
+  - Prop
+  - CameraIgnore
+  - PlayerBlocker
+  - Marker
   - 
   - 
   - 

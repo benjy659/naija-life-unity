@@ -312,7 +312,21 @@ lit windows at night). Never collides, layer `CameraIgnore`.
   tile asleep), walk north. The tile wakes at 600 m and is in before the player
   can see that far (fog end 380 m). Walk back south past 700 m: it unloads.
 
-## 8. How Ted's team builds it (M2.1)
+## 8. How the scene is built (M2.1)
+
+**Status 2026-11-06:** Claude wrote items 1, 3 to 6 below as code:
+`Assets/Editor/World/OshodiGreyboxBuilder.cs` (+ `OshodiGreyboxData.cs`, asmdef
+`NaijaLife.World.Editor`) and `Assets/Tests/EditMode/World/OshodiGreyboxTests.cs`
+(asmdef `NaijaLife.World.Tests`). The builder reads
+`Assets/Data/Oshodi/oshodi-greybox-build.json`, a flat list of greybox pieces
+made from the layout by `tools/oshodi/oshodi-build-list.js` (run automatically
+by `node tools/oshodi/oshodi-layout.js`). It uses Unity primitives with one URP
+Lit material per palette colour instead of prefabs (item 1 and 2 below), which
+is enough for a greybox; prefabs come with the art pass. The core scene also
+gets an `Oshodi_Playtest` root (sun, camera, Player prefab at the spawn,
+PlayerCamera) so it can be played on its own. Never compiled yet: UNVERIFIED
+until Ted's team runs it (TASKS.md M2.1, inbox IN-14).
+
 
 1. `Assets/Editor/World/OshodiGreyboxBuilder.cs`: menu item "Naija Streets/Build
    Oshodi greybox". Reads the JSON, deletes and rebuilds the generated root

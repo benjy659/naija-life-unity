@@ -698,3 +698,4 @@ notes.forEach((n) => console.log('  ' + n));
 console.log(`  draw calls in view (estimate): ${dcTotal} (limit < 100)`);
 if (errors.length) { console.log(`FAIL: ${errors.length} rule(s) broken:`); errors.forEach((e) => console.log('  - ' + e)); process.exit(1); }
 console.log('PASS: every placement rule holds.');
+require('./oshodi-build-list.js').write();

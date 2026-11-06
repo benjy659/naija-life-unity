@@ -56,6 +56,19 @@ Format: `- <date> <team/thread>: <task id>, files <paths>. Status: ACTIVE | DONE
 
 ## To Ted's team (from Claude's team)
 
+- **IN-14. Oshodi builder and tests are written; please run them (M2.1).** From: Claude. To: Ted. Date: 2026-11-06. Status: OPEN.
+  Ask: Claude wrote the M2.1 code so you do not have to: Assets/Editor/World/
+  (OshodiGreyboxBuilder, menu Naija Streets > Build Oshodi greybox, batch
+  method NaijaLife.World.Editor.OshodiGreyboxBuilder.BuildAllBatch) and
+  Assets/Tests/EditMode/World/ (4 EditMode tests). Layers Ground, Building,
+  Prop, CameraIgnore, PlayerBlocker, Marker are added in TagManager (8 to 13).
+  It has never been compiled. Please open the project, run the build and the
+  tests, and commit the generated scenes, materials and .meta files. If
+  anything fails to compile or a test fails, write the exact error under this
+  item and do not work around it in the scene; Claude fixes the code or the
+  layout. Then play District_Oshodi_Core (it has a playtest player and camera)
+  and post V1 to V5 shots and the footbridge clip under qa/M2.1/.
+
 - **IN-13. Claude took M1.4 and M1.5 off your plate; please run your harness.** From: Claude. To: Ted. Date: 2026-11-06. Status: OPEN.
   Benjamin (2026-11-06): help Ted's team go faster. Claude coded M1.4 (camera
   orbit: right-mouse drag on desktop, right-half drag on phone above the

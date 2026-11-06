@@ -144,16 +144,25 @@ Spec: [docs/specs/oshodi-greybox.md](docs/specs/oshodi-greybox.md) (Claude,
 anything only in the scene; change the script, run it, commit the JSON with it.
 Evidence for every M2 task goes under `qa/M2.<n>/` (spec section 11).
 
-- **M2.1. Oshodi greybox scene (Ted's team).** Status: READY after M0.1
-  (needs URP settings committed). Build `OshodiGreyboxBuilder` (Editor menu,
-  reads the layout JSON, rebuilds `Oshodi_Generated`), the greybox prefabs per
-  prop type, layers and colliders (spec section 8), and the four edit-mode
-  tests (LanesAreClear, PavementsAreWalkable, FootbridgeIsWalkable,
-  SceneMatchesLayout). Scenes `District_Oshodi_Core` and `Approach_South`
-  (drop stop, roundabout; the M4 route needs them). *Acceptance:* the script
-  says PASS, all four tests pass, V1 to V5 screenshots at 390x844 and 1280x800
-  read every noun in spec section 1, a 30 s clip climbing and crossing the
-  footbridge at phone width, under 100 draw calls at every viewpoint.
+- **M2.1. Oshodi greybox scene (Ted's team runs it, Claude wrote it).**
+  Status: READY (M0.1 is in). Claude wrote the builder and tests on
+  2026-11-06; they have never been compiled or run (no Unity in the cloud),
+  so they are UNVERIFIED. Ted's team: (1) open the project, fix any compile
+  error and tell Claude what it was (inbox); (2) run Naija Streets > Build
+  Oshodi greybox, or batch mode `-executeMethod
+  NaijaLife.World.Editor.OshodiGreyboxBuilder.BuildAllBatch`; (3) run the
+  EditMode tests in `NaijaLife.World.Tests` (LanesAreClear,
+  PavementsAreWalkable, FootbridgeIsWalkable, SceneMatchesLayout); (4) commit
+  the two scenes under `Assets/Scenes/Districts/`, the materials under
+  `Assets/Art/Materials/Greybox/` and any .meta files Unity made; (5) play
+  `District_Oshodi_Core` and post the evidence. Files: `Assets/Editor/World/`
+  (builder, data classes), `Assets/Tests/EditMode/World/`,
+  `Assets/Data/Oshodi/oshodi-greybox-build.json` (made by
+  `node tools/oshodi/oshodi-layout.js`; never edit it by hand). *Acceptance:*
+  the script says PASS, all four tests pass (results XML in qa/M2.1/), V1 to
+  V5 screenshots at 390x844 and 1280x800 read every noun in spec section 1,
+  a 30 s clip climbing and crossing the footbridge at phone width, under 100
+  draw calls at every viewpoint.
 - **M2.2. Lighting, time of day, quality tiers (Ted's team).** Status: READY
   after M2.1. TimeOfDay on real WAT with QA presets, sun and fog, lamp light
   pool, night emissives, skyline shell, the Low/Medium/High table (spec
