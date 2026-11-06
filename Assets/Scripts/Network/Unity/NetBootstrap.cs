@@ -70,6 +70,10 @@ namespace NaijaLife.NetworkGlue
             if (!TryGetComponent(out OnlineHeartbeat hb)) hb = gameObject.AddComponent<OnlineHeartbeat>(); // not ??: Unity fake-null
             hb.Init(_sb);
 
+            // DMs in (M5.3): Realtime socket, only for real (non-guest) accounts.
+            if (!TryGetComponent(out SupabaseDmReceiver dmIn)) dmIn = gameObject.AddComponent<SupabaseDmReceiver>();
+            dmIn.Init(_sb, Session, dms);
+
             NetResult r = await Session.JoinAsync(new NetJoinRequest
             {
                 AccessToken = token,

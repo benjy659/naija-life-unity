@@ -9,9 +9,7 @@
 // the topic (DmTopic.TryOther), so it cannot be faked. Nothing private
 // (Game NIN, email, DOB, money) ever goes in a DM payload.
 //
-// Part 2 (next): RECEIVE over the Realtime WebSocket (WebGL .jslib bridge +
-// ClientWebSocket in the Editor), joining d:<me>:<other> topics and calling
-// ChatCore.OnDirect(other, text).
+// Receiving is SupabaseDmReceiver (Realtime WebSocket, part 2).
 // UNVERIFIED (2026-11-06): not compiled in Unity or run against the server yet.
 
 using System;
@@ -30,6 +28,9 @@ namespace NaijaLife.NetworkGlue
 
         readonly SupabaseSession _sb;
 
+        /// <summary>A DM went out to this player; the receiver then listens on that conversation.</summary>
+        public event Action<NetPlayerId> Sent;
+
         public SupabaseDirectMessages(SupabaseSession sb) { _sb = sb ?? throw new ArgumentNullException(nameof(sb)); }
 
         /// <summary>
@@ -40,7 +41,7 @@ namespace NaijaLife.NetworkGlue
         {
             if (string.IsNullOrEmpty(line)) return false;
             string token = await _sb.GetAccessTokenAsync(); // also fills UserId
-            if (token == null || cancel.IsCancellationRequested) return false;
+            if (token == null || _sb.IsAnonymous || cancel.IsCancellationRequested) return false; // guests cannot DM
             string topic = DmTopic.For(new NetPlayerId(_sb.UserId), to);
             if (topic == null) return false;
 
@@ -58,6 +59,7 @@ namespace NaijaLife.NetworkGlue
                 },
             });
             var r = await _sb.PostJsonAsync("/realtime/v1/api/broadcast", json);
+            if (r.ok) Sent?.Invoke(to);
             return r.ok && !cancel.IsCancellationRequested; // 202 Accepted
         }
     }

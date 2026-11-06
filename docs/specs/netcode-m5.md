@@ -333,12 +333,20 @@ All server pieces are already live (checked 2026-11-06); no migration is needed.
 - **No sender id in the payload.** The receiver takes the sender from the
   topic (`DmTopic.TryOther`); RLS guarantees only the two players can write
   it, so it cannot be faked. Nothing private ever goes in a DM.
-- **Receive** (part 2, next): Realtime WebSocket (Phoenix protocol, vsn
-  1.0.0): WebGL through a small `.jslib` bridge, Editor/desktop through
-  `System.Net.WebSockets.ClientWebSocket`. Join a `d:` topic with
-  `config.private = true` and the player's JWT, refresh the JWT on the socket
-  (`access_token` message) before it expires, heartbeat every 25 s, and call
-  `ChatCore.OnDirect(other, text)` for each `dm` broadcast.
+- **Receive** (part 2, done 2026-11-06, UNVERIFIED): `SupabaseDmReceiver`
+  (added by NetBootstrap after sign-in) runs Core `RealtimeDmClient` over one
+  `RealtimeSocket` (WebGL: `Assets/Plugins/WebGL/NLRealtime.jslib`; Editor and
+  desktop: `ClientWebSocket`). URL `wss://<ref>.supabase.co/realtime/v1/websocket?apikey=<anon>&vsn=1.0.0`.
+  Each `d:` topic is joined with `config.private = true` and the player's JWT;
+  a new JWT is pushed with `access_token`; heartbeat every 25 s, link closed
+  after 60 s without a reply, reconnect with full-jitter backoff. It listens to
+  every player in the room plus anyone you wrote to or heard from (kept open),
+  at most 60 topics. A refused join (guest, block, ban) waits 5 min before a
+  retry. Guests never connect. Each `dm` broadcast goes to
+  `ChatCore.OnDirect(other side of the topic, text)`.
+- **Known gap:** `nl_friends_list` returns no user ids, so a friend in another
+  district can only DM you once you have met in a room or written first. Fix
+  later with an RPC that returns friend ids (a migration for Ted, needs review).
 - **Ted's check** (once real sign-in exists): two non-anonymous test accounts
   with usernames DM each other both ways; an anonymous account's send is
   refused; a blocked pair cannot DM. Captures under `qa/M5.3/`.

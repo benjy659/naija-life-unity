@@ -28,7 +28,7 @@ namespace NaijaLife.NetworkGlue
         const string RefreshPref = "nl.sb.refresh";
 
         [Serializable] class TokenReply { public string access_token; public string refresh_token; public int expires_in; public UserReply user; }
-        [Serializable] class UserReply { public string id; }
+        [Serializable] class UserReply { public string id; public bool is_anonymous; }
         [Serializable] class CardReq { public string p_uid; }
         // Same jsonb as live nl_street_card: ok, username, avatar_ref, member_since, crew{name,type,emblem,city,role}, office, rep_tier (null for now).
         [Serializable] class CardReply { public bool ok; public string username; public string avatar_ref; public string member_since; public CrewReply crew; }
@@ -40,6 +40,10 @@ namespace NaijaLife.NetworkGlue
 
         public string UserId { get; private set; }
         public bool SignedIn => !string.IsNullOrEmpty(_access);
+        /// <summary>True for the M5.1 anonymous sign-in. Guests cannot DM (live RLS nl_rt_dm_ok).</summary>
+        public bool IsAnonymous { get; private set; }
+        /// <summary>Public project URL and anon key, for the Realtime socket address.</summary>
+        public SupabaseConfig Config => _cfg;
 
         public SupabaseSession(SupabaseConfig cfg) { _cfg = cfg; }
 
@@ -58,6 +62,7 @@ namespace NaijaLife.NetworkGlue
         public void SetSession(string access, string refresh, int expiresIn, string userId)
         {
             _access = access; _refresh = refresh; UserId = userId;
+            IsAnonymous = false; // the sign-in screens call this for real accounts; TokenCall sets it after
             _expiresAt = Time.realtimeSinceStartupAsDouble + expiresIn;
             PlayerPrefs.SetString(RefreshPref, refresh ?? "");
         }
@@ -71,6 +76,7 @@ namespace NaijaLife.NetworkGlue
                 TokenReply r = JsonUtility.FromJson<TokenReply>(req.downloadHandler.text);
                 if (r == null || string.IsNullOrEmpty(r.access_token)) return false;
                 SetSession(r.access_token, r.refresh_token, r.expires_in, r.user != null ? r.user.id : null);
+                IsAnonymous = r.user != null && r.user.is_anonymous;
                 return true;
             }
         }
