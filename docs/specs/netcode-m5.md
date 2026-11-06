@@ -306,3 +306,39 @@ M5.3 DMs over Supabase Realtime + friends; M5.4 presence across districts
 (Supabase `nl_online_touch` heartbeat, already live); M5.5 drivers in
 vehicles (4 Hz, vehicle model id); M5.6 Server Mode spike before the economy
 scales.
+
+### 8.1 M5.3 friends and DMs (Claude, part 1 written 2026-11-06)
+
+All server pieces are already live (checked 2026-11-06); no migration is needed.
+
+- **Friends** = live RPCs `nl_friends_list`, `nl_friend_request(p_username,
+  p_met_place, p_request_id)`, `nl_friend_respond(p_username, p_accept,
+  p_request_id)`, `nl_friend_remove(p_username, p_request_id)`. Client:
+  `Network/Unity/SupabaseFriends.cs`, reached as `NetBootstrap.Friends`.
+  Errors map to `FriendError` (Core) with a short toast line each
+  (`FriendErrors.Message`). The list has no user ids, only username,
+  avatar_ref, met_place, since. Pending requests are not listed by the server
+  yet (a later RPC).
+- **DM topic** = `d:<lo uuid>:<hi uuid>`, lowercase, sorted, never yourself
+  (`DmTopic.For`). Live RLS `nl_rt_dm_read` / `nl_rt_dm_write` (function
+  `nl_rt_dm_ok`) allow only the two players, both signed in, NOT anonymous,
+  both with a claimed username, no block either way, neither banned. So the
+  M5.1 anonymous sign-in cannot DM; DMs start once the UI workstream's real
+  sign-in exists.
+- **Send** (part 1, done): `SupabaseDirectMessages.SendAsync` posts to
+  `/realtime/v1/api/broadcast` with `private: true`, event `dm`, payload
+  `{text, ts}`. Plain HTTP, so WebGL needs no socket to send. Wired as
+  ChatCore's `sendDirect` through `FusionSessionHost.Create`. ChatCore still
+  normalizes, blocklists and rate limits (1 line/s, 200 characters) first.
+- **No sender id in the payload.** The receiver takes the sender from the
+  topic (`DmTopic.TryOther`); RLS guarantees only the two players can write
+  it, so it cannot be faked. Nothing private ever goes in a DM.
+- **Receive** (part 2, next): Realtime WebSocket (Phoenix protocol, vsn
+  1.0.0): WebGL through a small `.jslib` bridge, Editor/desktop through
+  `System.Net.WebSockets.ClientWebSocket`. Join a `d:` topic with
+  `config.private = true` and the player's JWT, refresh the JWT on the socket
+  (`access_token` message) before it expires, heartbeat every 25 s, and call
+  `ChatCore.OnDirect(other, text)` for each `dm` broadcast.
+- **Ted's check** (once real sign-in exists): two non-anonymous test accounts
+  with usernames DM each other both ways; an anonymous account's send is
+  refused; a blocked pair cannot DM. Captures under `qa/M5.3/`.

@@ -45,15 +45,17 @@ namespace NaijaLife.Network.Fusion
         public float InterestX { get; private set; }
         public float InterestZ { get; private set; }
 
+        /// <param name="sendDirect">DM sender over Supabase (SupabaseDirectMessages.SendAsync). Null: DMs refuse as Offline.</param>
         public FusionNetSession(GameObject host, NetworkPrefabRef avatarPrefab, Func<double> clock,
-                                ICollection<string> chatBlocklist)
+                                ICollection<string> chatBlocklist,
+                                Func<NetPlayerId, string, CancellationToken, Task<bool>> sendDirect = null)
         {
             _host = host;
             _avatarPrefab = avatarPrefab;
             _clock = clock;
             _players = new ReplicatorCore(SendPose, SendState);
             _events = new WorldEventsCore(SendEvent, clock);
-            _chat = new ChatCore(SendLobby, null, clock, chatBlocklist); // DMs over Supabase in M5.3
+            _chat = new ChatCore(SendLobby, sendDirect, clock, chatBlocklist); // DMs over Supabase, never Fusion (M5.3)
         }
 
         // ---------------- INetSession ----------------

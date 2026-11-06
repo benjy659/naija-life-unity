@@ -118,6 +118,22 @@ namespace NaijaLife.NetworkGlue
         }
 
         /// <summary>
+        /// POST JSON to any Supabase path (e.g. "/realtime/v1/api/broadcast") as the signed-in
+        /// player. Returns (ok, status, body). Never throws for network reasons.
+        /// </summary>
+        public async Task<(bool ok, long status, string body)> PostJsonAsync(string path, string json)
+        {
+            string token = await GetAccessTokenAsync();
+            if (token == null) return (false, 0, null);
+            using (var req = Post(path, string.IsNullOrEmpty(json) ? "{}" : json, token))
+            {
+                await req.SendWebRequest();
+                bool ok = req.result == UnityWebRequest.Result.Success;
+                return (ok, req.responseCode, ok ? req.downloadHandler.text : null);
+            }
+        }
+
+        /// <summary>
         /// GET a PostgREST path (e.g. "/rest/v1/economy_ledger?select=...") as the signed-in
         /// player. Row-level security limits it to the player's own rows. Never throws for
         /// network reasons.

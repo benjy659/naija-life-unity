@@ -351,6 +351,14 @@ Spec: [docs/specs/netcode-m5.md](docs/specs/netcode-m5.md) (Claude,
   *Acceptance:* the 10 checks in spec §7.2, recorded under `qa/M5.1/`
   (Editor + WebGL, two clients): movement syncs, chat works, no fake
   players.
+- **M5.3. Friends and DMs (Claude, IN PROGRESS 2026-11-06).** Spec
+  netcode-m5.md §8.1. Part 1 done (UNVERIFIED): `SupabaseFriends` over the live
+  friend RPCs (`NetBootstrap.Friends`), DM sending over Realtime private
+  broadcast (`SupabaseDirectMessages`, wired as ChatCore's sendDirect), Core
+  `DmTopic` / `FriendErrors` with 7 Edit Mode tests (34/34 under
+  tools/network/compile-check.sh). No migration needed. Part 2 (Claude, next):
+  receive DMs over the Realtime WebSocket. Ted: the two-account check in
+  §8.1 once the real sign-in exists; DMs need non-anonymous accounts.
 - **M5.4. Players-online count (Claude, IN PROGRESS 2026-11-06).** Code done:
   `Network/Unity/OnlineHeartbeat.cs` touches live `nl_online_touch` every 30 s
   while the game is in front, `nl_heartbeat_leave` on hide/quit; exposes

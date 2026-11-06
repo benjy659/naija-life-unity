@@ -3,7 +3,10 @@
 // SKELETON, UNVERIFIED (2026-11-05): compiled only with NL_FUSION.
 
 #if NL_FUSION
+using System;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using Fusion;
 using UnityEngine;
 
@@ -16,10 +19,11 @@ namespace NaijaLife.Network.Fusion
 
         public FusionNetSession Session { get; private set; }
 
-        public INetSession Create(ICollection<string> chatBlocklist)
+        public INetSession Create(ICollection<string> chatBlocklist,
+                                  Func<NetPlayerId, string, CancellationToken, Task<bool>> sendDirect = null)
         {
             Session = new FusionNetSession(gameObject, AvatarPrefab,
-                () => Time.realtimeSinceStartupAsDouble, chatBlocklist);
+                () => Time.realtimeSinceStartupAsDouble, chatBlocklist, sendDirect);
             return Session;
         }
 

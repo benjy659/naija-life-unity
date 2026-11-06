@@ -15,6 +15,9 @@ namespace NaijaLife.NetworkGlue
         public static INetSession Session { get; private set; }
         public static IStreetCardService StreetCards { get; private set; }
 
+        /// <summary>Friends over the live RPCs (M5.3). Set in Start; the server refuses anonymous players.</summary>
+        public static SupabaseFriends Friends { get; private set; }
+
         /// <summary>
         /// The ONE Supabase session for the whole game (auth token, RPC calls). Jobs,
         /// wallet and HUD use this instead of making their own, so the player is
@@ -47,10 +50,12 @@ namespace NaijaLife.NetworkGlue
             _cts = new CancellationTokenSource();
             StreetCards = new StreetCardCache(_sb.FetchStreetCardAsync, () => Time.realtimeSinceStartupAsDouble);
             var blocklist = LoadBlocklist();
+            Friends = new SupabaseFriends(_sb);
+            var dms = new SupabaseDirectMessages(_sb); // DMs go over Supabase, never Fusion
 
 #if NL_FUSION
             var host = GetComponent<NaijaLife.Network.Fusion.FusionSessionHost>();
-            Session = host != null ? host.Create(blocklist) : new OfflineSession(() => Time.realtimeSinceStartupAsDouble);
+            Session = host != null ? host.Create(blocklist, dms.SendAsync) : new OfflineSession(() => Time.realtimeSinceStartupAsDouble);
 #else
             Session = new OfflineSession(() => Time.realtimeSinceStartupAsDouble);
 #endif
