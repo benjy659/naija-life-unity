@@ -14,12 +14,15 @@ namespace NaijaLife.Economy
         public static bool IsTest { get; private set; }
         public static event Action<long> Changed;
 
-        public static void AdoptServerBalance(long balanceAfter, bool fromTestStub)
+        public static void AdoptServerBalance(long balanceAfter, bool fromTestStub, string reason = null)
         {
             Balance = balanceAfter;
             Known = true;
             IsTest = fromTestStub;
             Changed?.Invoke(balanceAfter);
+            // The HUD's wallet and Bank read NLWallet (HUD workstream); same rule there:
+            // the shown balance changes only from a server (or stub) reply.
+            NaijaLife.UI.NLWallet.AdoptServerBalance(balanceAfter, reason);
         }
 
         [UnityEngine.RuntimeInitializeOnLoadMethod(UnityEngine.RuntimeInitializeLoadType.SubsystemRegistration)]

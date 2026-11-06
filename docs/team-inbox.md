@@ -51,7 +51,7 @@ Format: `- <date> <team/thread>: <task id>, files <paths>. Status: ACTIVE | DONE
 - 2026-11-06 Claude (multiplayer thread): M5 code review of anything Ted pushes under Assets/Scripts/Network/ and supabase/. No new files claimed. Status: ACTIVE.
 - 2026-11-06 Claude (vehicles thread): M3.1, M3.3, M3.5, M3.6, M3.7 code (VehicleDefinition, VehicleController, DriveSession, VehiclePlayerDriver, TrafficSense, LaneGraph, TrafficDriver, TrafficSpawner, damage and contact events, lane validator) plus the M3.2 Greybox_M3 scene builder and an M3 check harness, files Assets/Scripts/Vehicles/*, Assets/Editor/Vehicles/*, Assets/Tests/EditMode/Vehicles/*, Assets/Scripts/Verification/M3*, ProjectSettings/TagManager.asset (layers 14 to 16: Vehicle, DrivenVehicle, Pedestrian; road surfaces use the Oshodi thread's Ground layer), ProjectSettings/TimeManager.asset (fixed step 0.02). Checked first: Ted's commits up to 74482c6 and other claims do not touch these; Assets/Scripts/Vehicles held only .gitkeep. Ted keeps M3.4 touch controls and every Editor run. Status: ACTIVE.
 
-- 2026-11-06 Claude (jobs thread): M4.1, M4.2, M4.3 code (everything but the Editor steps) and the M4.4 migration DRAFT, files Assets/Scripts/Jobs/**, Assets/Scripts/Economy/*, Assets/Scripts/Player/PlayerNeeds.cs (new file only), Assets/Tests/EditMode/Jobs/*, Assets/Editor/Jobs/*, supabase/migrations/drafts/m4_job_shifts.sql, docs/specs/jobs-m4.md, tools/jobsim.js. Checked first: Ted's 44d8428 to 74482c6 touch settings, the M1 harness and Greybox materials only; no claim covers Jobs, Economy or these files. Ted keeps: running the tests and scene builder in the Editor, captures, applying the migration. Status: ACTIVE.
+- 2026-11-06 Claude (jobs thread): M4.1, M4.2, M4.3 code (everything but the Editor steps) and the M4.4 migration DRAFT, files Assets/Scripts/Jobs/**, Assets/Scripts/Economy/*, Assets/Scripts/Player/PlayerNeeds.cs (new file only), Assets/Tests/EditMode/Jobs/*, Assets/Editor/Jobs/*, supabase/migrations/drafts/m4_job_shifts.sql, docs/specs/jobs-m4.md, tools/jobsim.js. Checked first: Ted's 44d8428 to 74482c6 touch settings, the M1 harness and Greybox materials only; no claim covers Jobs, Economy or these files. Ted keeps: running the tests and scene builder in the Editor, captures, applying the migration. Status: DONE d1ded08 + HUD hookup (see IN-18), UNVERIFIED until Ted's run.
 - 2026-11-06 Claude (HUD and phone thread): HUD-1 to HUD-6 code (UI root, scaler, safe area, touch stick and buttons, HUD, radar, prompts, toasts, phone shell, Bank, NLMoney + tests, Editor setup menu), files Assets/Scripts/UI/*, Assets/Scripts/UI/Core/*, Assets/UI/UXML/*, Assets/UI/Styles/*, Assets/UI/Sprites/nl-balance-card.png, Assets/Plugins/WebGL/NLDevice.jslib, Assets/Editor/UI/*, Assets/Tests/EditMode/UI/*, plus one new method PlayerInput.SetLocked (phone stops the player). Checked first: Ted's commits up to 74482c6 do not touch these; no other claim on HUD; the lead's M1.4 already does the right-half touch look drag, so the HUD has no look zone of its own. Status: DONE (this commit), never compiled; Ted runs it (IN-16).
 
 ## Item format
@@ -63,6 +63,38 @@ Format: `- <date> <team/thread>: <task id>, files <paths>. Status: ACTIVE | DONE
 ```
 
 ## To Ted's team (from Claude's team)
+
+- **IN-18. M4 jobs code is on main; please compile, test and play it (M4.1 to M4.4).** From: Claude. To: Ted. Date: 2026-11-06. Status: OPEN.
+  Claude took all the non-Editor work of M4 so you only do Editor steps:
+  job slots and bot handover, the danfo conductor shift, Pawa, the shift
+  service (Editor stub + Supabase client), 25 Edit Mode tests, a test scene
+  builder, and the migration draft 0042 (commit d1ded08 and the HUD hookup
+  after it). Nothing has been compiled. Please:
+  1. Open the project; paste any compile errors here (files under
+     Assets/Scripts/Jobs, Economy, Player/PlayerNeeds.cs, Editor/Jobs).
+  2. Test Runner > EditMode > NaijaLife.Jobs.Tests > Run All. All 25 must
+     pass. Screenshot to qa/m4.3/.
+  3. Menu Naija Streets > M4 > Build conductor test scene (batch:
+     -executeMethod NaijaLife.JobsGlue.EditorTools.M4ConductorSceneBuilder.BuildBatch).
+     It makes Assets/Scenes/M4_ConductorTest.unity: 3 bays, bot conductors,
+     loop route, your Player prefab with PlayerNeeds + PlayerJobs.
+  4. Play it at 1280x800 and 390x844 and capture (spec section 11): the
+     buses leaving on their own; walking up to a bot and pressing E (the bot
+     walks aside, never jumps); one full trip (Space to shout on gold, ride
+     at the door, 1/2/3 to give change); End shift (X) after 3 trips and 10
+     minutes (paid, wallet shows TEST); End shift after 2 trips (no pay);
+     F6 sets Pawa to 20 (clock in refused), F7 fills it; walk 9 m away (the
+     bot walks back). Clips to qa/m4.1/ and qa/m4.2/.
+  5. supabase/migrations/0042_nl_job_shifts.sql is a DRAFT: review it, apply
+     it when you are happy (it adds tables and functions only, no change to
+     live objects), run the checks at the bottom, post results to qa/m4.4/.
+     Claude does not apply migrations.
+  6. Add M4_ConductorTest to the build list for the WebGL check, or tell us
+     if you would rather keep it out of builds.
+  Known limits: greybox capsules for people; the shout ring, change sheet,
+  shift chip and summary card draw with a plain placeholder until the HUD
+  kit has them; prompts and toasts already use NLPrompts/NLToasts when the
+  HUD is in the scene. Sign-in is not wired, so play uses the Editor stub.
 
 - **IN-17. Oshodi lighting, quality tiers and streaming code is written; please run it (M2.2, M2.3).** From: Claude. To: Ted. Date: 2026-11-06. Status: OPEN.
   Ask: Claude took every M2.2 and M2.3 part that does not need the Editor

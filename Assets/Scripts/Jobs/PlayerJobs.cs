@@ -33,18 +33,22 @@ namespace NaijaLife.JobsGlue
             Conductor = GetComponent<ConductorShift>();
             if (!Conductor) Conductor = gameObject.AddComponent<ConductorShift>();
             Ui = uiOverride as IJobUi;
-            if (Ui == null)
-            {
-                JobDebugUi dbg = FindFirstObjectByType<JobDebugUi>();
-                if (!dbg) dbg = new GameObject("JobDebugUi").AddComponent<JobDebugUi>();
-                Ui = dbg;
-            }
+        }
+
+        void Start()
+        {
+            if (Ui != null) return;
+            JobDebugUi dbg = FindFirstObjectByType<JobDebugUi>();
+            if (!dbg) dbg = new GameObject("JobDebugUi").AddComponent<JobDebugUi>();
+            // The real HUD (NLPrompts/NLToasts) when it is in the scene; else the placeholder for everything.
+            Ui = NLJobUiBridge.HudPresent ? new NLJobUiBridge(dbg) : (IJobUi)dbg;
         }
 
         void OnDestroy() { if (LocalPlayer == this) LocalPlayer = null; }
 
         void Update()
         {
+            if (Ui == null) return;
             JobSlotBook book = JobSlotRegistry.Shared.Book;
             if (book.Held != null || book.ClaimInFlight || Conductor.Busy) { Withdraw(); return; }
 

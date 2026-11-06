@@ -96,7 +96,7 @@ namespace NaijaLife.JobsGlue
             float m = 16 * _s;
 
             // Wallet (top right).
-            if (WalletCache.Known)
+            if (WalletCache.Known && !NLJobUiBridge.HudPresent)
                 GUI.Label(new Rect(Screen.width - 220 * _s - m, m, 220 * _s, 24 * _s),
                     (WalletCache.IsTest ? "TEST  " : "") + "₦" + WalletCache.Balance.ToString("N0"), title);
 

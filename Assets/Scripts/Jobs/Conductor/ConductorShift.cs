@@ -283,7 +283,7 @@ namespace NaijaLife.JobsGlue
 
             if (e.Ok)
             {
-                WalletCache.AdoptServerBalance(e.BalanceAfter, _svc.IsTestStub);
+                WalletCache.AdoptServerBalance(e.BalanceAfter, _svc.IsTestStub, e.Voided ? null : "Conductor shift");
                 if (e.Voided)
                     ui.ShowSummary("No pay this time", _trips + " trips. A shift pays after 10 minutes and 3 trips. This one did not count toward your 3 shifts today.", null);
                 else

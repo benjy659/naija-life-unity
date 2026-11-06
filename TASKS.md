@@ -252,25 +252,34 @@ Pacing check: `node tools/jobsim.js`. Build in this order; each task needs its
 `LocalShiftStub` until M4.4 is applied, so M4.1 to M4.3 do not wait on the
 backend.
 
-- **M4.1. Job-slot system + bot handover (Ted's team).** Status: READY (after
-  M0.1 and M1 play). `JobSlot`, `JobSlotRegistry` (ScriptableObject),
+- **M4.1. Job-slot system + bot handover.** Status: CODE WRITTEN by Claude
+  (d1ded08), UNVERIFIED. Ted's part: open the project, fix any compile error
+  (tell Claude in the inbox), run Edit Mode tests, run Naija Streets > M4 >
+  Build conductor test scene, play it and post captures under qa/m4.1/. `JobSlot`, `JobSlotRegistry` (ScriptableObject),
   `BotWorker` (Working, SteppingAside, WaitingAside, WalkingBack; NavMeshAgent,
   never teleports), `PlayerJobs` (one job at a time, release triggers spec
   4.3, one prompt), `IJobSlotSync` + `LocalJobSlotSync`. Spec sections 3 to 5.
   *Acceptance:* spec 11 items 2 and 7 in Editor and WebGL at 390x844 and
   1280x800.
-- **M4.2. Danfo conductor shift, client (Ted's team).** Status: READY after
-  M4.1, needs the M2 bays + route and the M3 danfo prefab. `ConductorShift`,
+- **M4.2. Danfo conductor shift, client.** Status: CODE WRITTEN by Claude
+  (d1ded08), UNVERIFIED; plays in the M4 test scene now, moves onto the M2
+  Oshodi bays and the M3 danfo prefab when those land. Ted's part: play a full
+  shift and post captures under qa/m4.2/. UI is a placeholder (JobDebugUi)
+  until the HUD workstream implements IJobUi. `ConductorShift`,
   `ShoutMinigame`, `ChangeMinigame`, `DanfoRoute` (kinematic), `PassengerQueue`,
   shift chip and summary card, bot trips with no player. Spec sections 6 and
   10. *Acceptance:* spec 11 items 1, 3, 4, 5 and 8.
-- **M4.3. Pawa + shift service client (Ted's team).** Status: READY.
+- **M4.3. Pawa + shift service client.** Status: CODE WRITTEN by Claude
+  (d1ded08), UNVERIFIED. Ted's part: the 25 Edit Mode tests in
+  Assets/Tests/EditMode/Jobs pass (screenshot of the Test Runner in qa/m4.3/).
   `PlayerNeeds` (Pawa gate 25, drain 1.2/min, dev menu), `IShiftService`,
   `LocalShiftStub` (refused in release builds), `SupabaseShiftService`,
   `WalletCache.AdoptServerBalance`. Spec sections 7 and 8. *Acceptance:* spec
   11 item 6; the wallet changes only from a server or stub reply.
-- **M4.4. Shift RPCs migration (Ted's team, owns and applies).** Status:
-  READY. Write the migration from spec section 9 (`nl_job_shifts`,
+- **M4.4. Shift RPCs migration (Ted's team owns and applies).** Status:
+  DRAFT WRITTEN by Claude: supabase/migrations/0042_nl_job_shifts.sql, NOT
+  applied. Ted reviews, applies, runs the checks at the bottom of the file.
+  From spec section 9 (`nl_job_shifts`,
   `nl_job_trips`, `nl_shift_start`, `nl_shift_trip`, `nl_shift_end`, server
   only ledger source `job_shift`, explicit GRANTs). Post the SQL for Claude's
   review before applying. *Acceptance:* spec 11 item 9.
