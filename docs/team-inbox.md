@@ -70,6 +70,8 @@ Format: `- <date> <team/thread>: <task id>, files <paths>. Status: ACTIVE | DONE
 
 - 2026-11-06 14:40 Claude (jobs thread): M4 compile check and Jobs.Core test run outside Unity (same method as tools/vehicles), files tools/jobs/compile-check.sh, tools/jobs/stubs-*.cs.txt (new), plus any compile fixes in Assets/Scripts/Jobs/**, Economy/*, PlayerNeeds.cs, Tests/EditMode/Jobs/*, Editor/Jobs/*. Checked first: commits since 1aa6e7f (Ted's 3026a56 player body, feac519 HUD-8, 8995102, 2c11750, 13e2920) touch only NLJobUiBridge's Show* lines in my area (reviewed, fine); no other claim on tools/jobs. Status: DONE aed1e90 + 5e1f906. Run by the vehicles thread at 5e1f906: 28/28 Jobs.Core tests pass under real NUnit; runtime glue and scene builder compile clean (one false alarm fixed: Unity 6 awaits AsyncOperation, the 2021.3 refs needed a stub). Hand check done: every stub mirrors the real signature on main (NLPrompts, NLToasts, NLWallet, NLJobHud, NetBootstrap, SupabaseSession, PlayerCamera).
 
+- 2026-11-06 17:25 Claude (lead thread): M1 compile check outside Unity for the player code (PlayerInput, PlayerController, PlayerCamera, M1VerifyHarness), files tools/player/* (new) only. Checked first: 2c11750 to 098914f add compile checks for World, M3, M4, M5 and UI; none covers Assets/Scripts/Player or the M1 harness; Ted has pushed nothing since 3026a56. Status: ACTIVE.
+
 ## Item format
 
 ```
