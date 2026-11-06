@@ -2,6 +2,7 @@
     "name": "NaijaLife.World.Tests",
     "rootNamespace": "NaijaLife.World.Tests",
     "references": [
+        "NaijaLife.World",
         "NaijaLife.World.Editor",
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner"
