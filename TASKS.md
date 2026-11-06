@@ -173,7 +173,7 @@ Evidence for every M2 task goes under `qa/M2.<n>/` (spec section 11).
   draw calls at every viewpoint.
 - **M2.2. Lighting, time of day, quality tiers.** Status: READY for Ted's
   Editor run (code Claude 8d3f39c, never compiled; steps in inbox IN-17).
-  Bloom volume is Ted's Editor step; skyline shell still with Claude. TimeOfDay on real WAT with QA presets, sun and fog, lamp light
+  Bloom volume is Ted's Editor step; skyline shell code done (74cf0cd). TimeOfDay on real WAT with QA presets, sun and fog, lamp light
   pool, night emissives, skyline shell, the Low/Medium/High table (spec
   section 6). *Acceptance:* V1 and V6 at all three tiers; night readable at
   390x844; draw calls still under 100.
