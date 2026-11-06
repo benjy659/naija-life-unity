@@ -62,7 +62,7 @@ Format: `- <date> <team/thread>: <task id>, files <paths>. Status: ACTIVE | DONE
 - 2026-11-06 Claude (jobs thread, 08:37 run): M4 self-review fix in the test scene builder (asset folders made through AssetDatabase), files Assets/Editor/Jobs/M4ConductorSceneBuilder.cs. Checked first: commits since 79228ae (3b42af9 HUD wallet, bcb0293 M3, 74cf0cd skyline, d7bb77d drive HUD) do not touch jobs files; no Ted commit yet. Status: DONE (this run's commit "M4 scene builder: create asset folders through AssetDatabase").
 
 - 2026-11-06 Claude (jobs thread): use the shared NetBootstrap Supabase session for shift RPCs, and note the client-reported Pawa risk in 0042 (multiplayer thread review), files Assets/Scripts/Economy/ShiftServiceFactory.cs, supabase/migrations/0042_nl_job_shifts.sql (header comment only). Checked first: 2a0010f touches Network only. Status: DONE (commit "M4: shift service uses the shared NetBootstrap session").
-- 2026-11-06 Claude (Oshodi thread): M2.1/M2.2 QA capture runner (one batch method that builds, sets up Bootstrap and writes the V1 to V6 screenshots at every tier and QA hour plus a report under qa/M2.1/ and qa/M2.2/), files Assets/Editor/World/OshodiCaptureRunner.cs and small public ApplyNow/RefreshNow hooks in Assets/Scripts/World/TimeOfDay.cs, LampLightPool.cs, NightOnly.cs. Checked first: Ted's 3026a56 (player body) and the M3/M4/HUD/net commits since a2628f3 do not touch these files. Status: ACTIVE.
+- 2026-11-06 Claude (Oshodi thread): M2.1/M2.2 QA capture runner (one batch method that builds, sets up Bootstrap and writes the V1 to V6 screenshots at every tier and QA hour plus a report under qa/M2.1/ and qa/M2.2/), files Assets/Editor/World/OshodiCaptureRunner.cs and small public ApplyNow/RefreshNow hooks in Assets/Scripts/World/TimeOfDay.cs, LampLightPool.cs, NightOnly.cs. Checked first: Ted's 3026a56 (player body) and the M3/M4/HUD/net commits since a2628f3 do not touch these files. Status: DONE 1dac422 (never compiled; IN-17 updated).
 
 ## Item format
 
@@ -73,6 +73,22 @@ Format: `- <date> <team/thread>: <task id>, files <paths>. Status: ACTIVE | DONE
 ```
 
 ## To Ted's team (from Claude's team)
+
+- **IN-20. The new body plays in T-pose: it needs idle, walk, run clips (M1.8).** From: Claude. To: Ted. Date: 2026-11-06. Status: OPEN.
+  Reviewed 3026a56 (body_m on the Player, harness 0 failures, thanks). Your
+  note says the body has no Avatar and renders in bind pose until clips
+  exist, so on screen the player now slides along in a T-pose. Benjamin's
+  standing rule is that characters walk like normal humans (no gliding, legs
+  not spread), so this is the next most visible gap.
+  Ask: M1.8 on TASKS.md. Make body_m a Humanoid rig with an Avatar, add idle,
+  walk, jog, run, sprint clips (free or generated, no paid assets without
+  Benjamin's yes), and fill PlayerLocomotion.controller's blend tree at
+  0 / 2.4 / 4.2 / 6.5 / 8.5 m/s. Until then, set BodyM inactive and keep the
+  capsule. Post a short clip of walk, jog and sprint under qa/m1.8/.
+  Also: (1) Supabase now shows 23 policies and 78 definer functions (was 22
+  and 76 on 2026-11-05). Please list here what you applied; 0041 and 0042
+  are not applied, good. (2) IN-13 and IN-15 still need your M1 phone and
+  WebGL runs.
 
 - **IN-19. M3 driving and traffic code is on main; please compile, test and play it (M3.1 to M3.7).** From: Claude (vehicles thread). To: Ted. Date: 2026-11-06. Status: OPEN.
   Claude took every non-Editor part of M3 (see TASKS.md M3): the vehicle
@@ -167,6 +183,14 @@ Format: `- <date> <team/thread>: <task id>, files <paths>. Status: ACTIVE | DONE
   skyline shell (spec 6.5) is now in the layout and the builder (two merged
   meshes, Skyline group); step (2) builds it, so V1 and V6 should show it, with
   window lights at 21:00 only.
+  Update 2026-11-06 (1dac422): to save you time, one batch run now does steps (2),
+  (3) and a first pass of (6): `Unity -batchmode -projectPath . -executeMethod
+  NaijaLife.World.Editor.OshodiCaptureRunner.RunAllBatch -logFile -` (needs
+  the GPU, so no -nographics; menu Naija Streets > Capture Oshodi QA shots).
+  It writes camera-only frames of V1 to V5 at both sizes and V1/V6 on every
+  tier and QA hour, plus capture-report.md, under qa/M2.1/ and qa/M2.2/. Push
+  those and Claude reviews them straight away; the WebGL walk shots and the
+  M2.3 streaming walk still follow.
 - **IN-16. HUD, joystick, phone and Bank code is on main: please compile and capture (HUD-1 to HUD-6).** From: Claude. To: Ted. Date: 2026-11-06. Status: OPEN.
   Claude wrote all the code for HUD-1 to HUD-6 (UI Toolkit; files in the
   Claims line above). Nothing has been compiled. Only Editor steps are left

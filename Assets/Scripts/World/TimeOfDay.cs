@@ -73,6 +73,15 @@ namespace NaijaLife.World
             RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Trilight;
         }
 
+        /// <summary>Apply the current hour now. Also works in edit mode (QA capture runner),
+        /// where Awake and Update do not run.</summary>
+        public void ApplyNow()
+        {
+            if (_sun == null) Awake();
+            Hour = overrideHour >= 0f ? Mathf.Repeat(overrideHour, 24f) : WatHourNow();
+            Apply(Hour);
+        }
+
         public static float WatHourNow()
         {
             var wat = DateTime.UtcNow.AddHours(1);
@@ -81,8 +90,7 @@ namespace NaijaLife.World
 
         void Update()
         {
-            Hour = overrideHour >= 0f ? Mathf.Repeat(overrideHour, 24f) : WatHourNow();
-            Apply(Hour);
+            ApplyNow();
         }
 
         void Apply(float h)
